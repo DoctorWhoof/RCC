@@ -1,0 +1,270 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/gui/EnvelopeEditor.gd" type="Script" id=1]
+[ext_resource path="res://scripts/gui/EnvelopeScene.gd" type="Script" id=2]
+[ext_resource path="res://misc/SmallText.tres" type="DynamicFont" id=3]
+
+[node name="EnvelopeEditor" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer_Tools" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1600.0
+margin_bottom = 40.0
+
+[node name="presets" type="OptionButton" parent="VBoxContainer/HBoxContainer_Tools"]
+margin_right = 87.0
+margin_bottom = 40.0
+text = "Envelope"
+
+[node name="length" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+visible = false
+margin_left = 91.0
+margin_top = 13.0
+margin_right = 139.0
+margin_bottom = 27.0
+text = " length "
+
+[node name="length_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+visible = false
+margin_left = 91.0
+margin_right = 165.0
+margin_bottom = 24.0
+rect_pivot_offset = Vector2( 133.38, 60.7642 )
+rect_clip_content = true
+size_flags_horizontal = 13
+size_flags_vertical = 0
+min_value = 1.0
+max_value = 4096.0
+value = 16.0
+rounded = true
+
+[node name="min" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+margin_left = 91.0
+margin_top = 13.0
+margin_right = 124.0
+margin_bottom = 27.0
+text = " min "
+
+[node name="min_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+margin_left = 128.0
+margin_right = 202.0
+margin_bottom = 24.0
+rect_clip_content = true
+size_flags_horizontal = 13
+size_flags_vertical = 0
+min_value = -128.0
+max_value = 0.0
+value = -16.0
+rounded = true
+
+[node name="max" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+margin_left = 206.0
+margin_top = 13.0
+margin_right = 241.0
+margin_bottom = 27.0
+text = " max "
+
+[node name="max_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Dimensions",
+]]
+margin_left = 245.0
+margin_right = 319.0
+margin_bottom = 24.0
+rect_clip_content = true
+focus_next = NodePath("../../editor")
+size_flags_horizontal = 13
+size_flags_vertical = 0
+max_value = 128.0
+value = 16.0
+rounded = true
+
+[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer_Tools"]
+margin_left = 323.0
+margin_right = 1263.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="loop" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+margin_left = 1267.0
+margin_top = 13.0
+margin_right = 1303.0
+margin_bottom = 27.0
+text = " loop "
+
+[node name="loop_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+margin_left = 1307.0
+margin_right = 1383.0
+margin_bottom = 40.0
+
+[node name="in" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+visible = false
+margin_left = 1494.0
+margin_top = 13.0
+margin_right = 1514.0
+margin_bottom = 27.0
+text = " in "
+valign = 1
+
+[node name="in_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+visible = false
+margin_left = 1518.0
+margin_right = 1592.0
+margin_bottom = 40.0
+focus_next = NodePath("../../editor")
+
+[node name="out" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+visible = false
+margin_left = 1596.0
+margin_top = 13.0
+margin_right = 1625.0
+margin_bottom = 27.0
+text = " out "
+valign = 1
+
+[node name="out_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+visible = false
+margin_left = 1629.0
+margin_right = 1703.0
+margin_bottom = 40.0
+focus_next = NodePath("../../editor")
+focus_previous = NodePath("../../editor")
+focus_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="attack" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+"Editor_Envelope",
+]]
+margin_left = 1387.0
+margin_top = 13.0
+margin_right = 1412.0
+margin_bottom = 27.0
+text = " Atk"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="attack_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+margin_left = 1416.0
+margin_right = 1492.0
+margin_bottom = 40.0
+
+[node name="release" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+margin_left = 1496.0
+margin_top = 13.0
+margin_right = 1520.0
+margin_bottom = 27.0
+text = " Rel"
+
+[node name="release_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
+"Control_Loop",
+]]
+margin_left = 1524.0
+margin_right = 1600.0
+margin_bottom = 40.0
+
+[node name="Button_smooth" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
+visible = false
+margin_left = 1164.0
+margin_right = 1225.0
+margin_bottom = 24.0
+text = "smooth"
+
+[node name="Button_mirrorX" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
+visible = false
+margin_left = 1229.0
+margin_right = 1293.0
+margin_bottom = 24.0
+text = "mirror-x"
+
+[node name="Button_mirrorY" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
+visible = false
+margin_left = 1297.0
+margin_right = 1361.0
+margin_bottom = 24.0
+text = "mirror-y"
+
+[node name="Button_noise" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
+visible = false
+margin_left = 1365.0
+margin_right = 1439.0
+margin_bottom = 24.0
+text = "add noise"
+
+[node name="editor" type="Control" parent="VBoxContainer"]
+margin_top = 44.0
+margin_right = 1600.0
+margin_bottom = 1200.0
+rect_clip_content = true
+focus_mode = 2
+size_flags_horizontal = 11
+size_flags_vertical = 11
+script = ExtResource( 1 )
+font = ExtResource( 3 )
+
+[node name="HBoxContainer_Parameters" type="HBoxContainer" parent="VBoxContainer"]
+visible = false
+margin_top = 1180.0
+margin_right = 1920.0
+margin_bottom = 1200.0
+
+[node name="Button_copy" type="Button" parent="VBoxContainer/HBoxContainer_Parameters"]
+margin_right = 42.0
+margin_bottom = 20.0
+text = "copy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button_paste" type="Button" parent="VBoxContainer/HBoxContainer_Parameters"]
+margin_left = 46.0
+margin_right = 93.0
+margin_bottom = 20.0
+text = "paste"
+__meta__ = {
+"_edit_use_anchors_": false
+}

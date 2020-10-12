@@ -1,0 +1,433 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/gui/InstrumentInspector.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends OptionButton
+
+enum Resolution {
+	Full,
+	Half
+}
+
+func _ready():
+	add_item(\"16 Bit\", Resolution.Full)
+	add_item(\"8 Bit\", Resolution.Half)
+
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends OptionButton
+
+
+enum MixRate {
+	Full,
+	Half
+}
+
+func _ready():
+	add_item(\"44100 Hz\", MixRate.Full)
+	add_item(\"22050 Hz\", MixRate.Half)
+"
+
+[node name="InstrumentInspector" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer_Left" type="Control" parent="HBox"]
+margin_right = 12.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 12, 0 )
+
+[node name="VBox" type="VBoxContainer" parent="HBox"]
+margin_left = 16.0
+margin_right = 1584.0
+margin_bottom = 1200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox_Name" type="HBoxContainer" parent="HBox/VBox"]
+margin_right = 1568.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Name"]
+margin_right = 42.0
+margin_bottom = 24.0
+size_flags_vertical = 1
+text = "Name "
+valign = 1
+
+[node name="LineEdit_name" type="LineEdit" parent="HBox/VBox/HBox_Name"]
+margin_left = 46.0
+margin_right = 1568.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="HBox_Volume" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 32.0
+margin_right = 1568.0
+margin_bottom = 56.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Volume"]
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Volume "
+valign = 1
+
+[node name="SpinBox_volume" type="SpinBox" parent="HBox/VBox/HBox_Volume"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+grow_horizontal = 0
+max_value = 5.0
+step = 0.05
+value = 1.0
+
+[node name="HBox_Pan" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 64.0
+margin_right = 1568.0
+margin_bottom = 88.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Pan"]
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Pan"
+valign = 1
+
+[node name="SpinBox_pan" type="SpinBox" parent="HBox/VBox/HBox_Pan"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+min_value = -1.0
+max_value = 1.0
+step = 0.125
+
+[node name="HBox_Transpose" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 96.0
+margin_right = 1568.0
+margin_bottom = 120.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Transpose"]
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Transpose Octave"
+valign = 1
+
+[node name="SpinBox_transpose" type="SpinBox" parent="HBox/VBox/HBox_Transpose"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+min_value = -7.0
+max_value = 7.0
+rounded = true
+
+[node name="Envelopes" type="Label" parent="HBox/VBox"]
+margin_top = 128.0
+margin_right = 1568.0
+margin_bottom = 176.0
+text = "
+ Envelopes
+"
+align = 1
+
+[node name="HBox_Length" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 184.0
+margin_right = 1568.0
+margin_bottom = 208.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Length"]
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Length"
+valign = 1
+
+[node name="SpinBox_length" type="SpinBox" parent="HBox/VBox/HBox_Length"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 300.0
+value = 8.0
+rounded = true
+
+[node name="HBox_Loop" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 216.0
+margin_right = 1568.0
+margin_bottom = 240.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Loop"]
+margin_right = 31.0
+margin_bottom = 24.0
+size_flags_vertical = 1
+text = "Loop"
+valign = 1
+
+[node name="CheckBox_loop" type="CheckBox" parent="HBox/VBox/HBox_Loop"]
+visible = false
+margin_left = 39.0
+margin_right = 63.0
+margin_bottom = 24.0
+
+[node name="spacer" type="Control" parent="HBox/VBox/HBox_Loop"]
+margin_left = 35.0
+margin_right = 1359.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_in" type="Label" parent="HBox/VBox/HBox_Loop"]
+margin_left = 1363.0
+margin_right = 1380.0
+margin_bottom = 24.0
+size_flags_vertical = 1
+text = "In "
+valign = 1
+
+[node name="SpinBox_loop_in" type="SpinBox" parent="HBox/VBox/HBox_Loop"]
+margin_left = 1384.0
+margin_right = 1458.0
+margin_bottom = 24.0
+max_value = 7.0
+rounded = true
+
+[node name="Label_out" type="Label" parent="HBox/VBox/HBox_Loop"]
+margin_left = 1462.0
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_vertical = 1
+text = "Out "
+valign = 1
+
+[node name="SpinBox_loop_out" type="SpinBox" parent="HBox/VBox/HBox_Loop"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+max_value = 7.0
+value = 7.0
+rounded = true
+
+[node name="Export Settings2" type="Label" parent="HBox/VBox"]
+margin_top = 248.0
+margin_right = 1568.0
+margin_bottom = 296.0
+text = "
+ Export settings
+"
+align = 1
+
+[node name="HBox_Precision" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 304.0
+margin_right = 1568.0
+margin_bottom = 324.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Precision"]
+margin_right = 1535.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Precision"
+valign = 1
+
+[node name="OptionButton_precision" type="OptionButton" parent="HBox/VBox/HBox_Precision"]
+margin_left = 1539.0
+margin_right = 1568.0
+margin_bottom = 20.0
+script = SubResource( 1 )
+
+[node name="HBox_MixRate" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 332.0
+margin_right = 1568.0
+margin_bottom = 352.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_MixRate"]
+margin_right = 1535.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Mix Rate"
+valign = 1
+
+[node name="OptionButton_MixRate" type="OptionButton" parent="HBox/VBox/HBox_MixRate"]
+margin_left = 1539.0
+margin_right = 1568.0
+margin_bottom = 20.0
+script = SubResource( 2 )
+
+[node name="HBox_Multisample" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 360.0
+margin_right = 1568.0
+margin_bottom = 384.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Multisample"]
+margin_right = 1540.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Multi Sample"
+valign = 1
+
+[node name="CheckBox_Multisample" type="CheckBox" parent="HBox/VBox/HBox_Multisample"]
+margin_left = 1544.0
+margin_right = 1568.0
+margin_bottom = 24.0
+pressed = true
+
+[node name="HBox_Interval" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 392.0
+margin_right = 1568.0
+margin_bottom = 416.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Interval"]
+margin_right = 1490.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Sample interval"
+valign = 1
+
+[node name="SpinBox_Interval" type="SpinBox" parent="HBox/VBox/HBox_Interval"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+min_value = 1.0
+max_value = 12.0
+value = 1.0
+rounded = true
+
+[node name="HBox_OctaveRange" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 424.0
+margin_right = 1568.0
+margin_bottom = 448.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_OctaveRange"]
+margin_right = 1412.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Octave Range"
+valign = 1
+
+[node name="SpinBox_rangeMin" type="SpinBox" parent="HBox/VBox/HBox_OctaveRange"]
+margin_left = 1416.0
+margin_right = 1490.0
+margin_bottom = 24.0
+max_value = 7.0
+rounded = true
+
+[node name="SpinBox_rangeMax" type="SpinBox" parent="HBox/VBox/HBox_OctaveRange"]
+margin_left = 1494.0
+margin_right = 1568.0
+margin_bottom = 24.0
+max_value = 8.0
+value = 8.0
+rounded = true
+
+[node name="HBox_Total" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 456.0
+margin_right = 1568.0
+margin_bottom = 470.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_Total" type="Label" parent="HBox/VBox/HBox_Total"]
+margin_right = 1568.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Total samples"
+align = 2
+valign = 1
+
+[node name="Spacer_Right" type="Control" parent="HBox"]
+margin_left = 1588.0
+margin_right = 1600.0
+margin_bottom = 1200.0
+rect_min_size = Vector2( 12, 0 )
+[connection signal="text_changed" from="HBox/VBox/HBox_Name/LineEdit_name" to="." method="_on_LineEdit_name_text_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Volume/SpinBox_volume" to="." method="_on_SpinBox_volume_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Pan/SpinBox_pan" to="." method="_on_SpinBox_pan_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Transpose/SpinBox_transpose" to="." method="_on_SpinBox_transpose_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Length/SpinBox_length" to="." method="_on_SpinBox_length_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Loop/SpinBox_loop_in" to="." method="_on_SpinBox_loop_in_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Loop/SpinBox_loop_out" to="." method="_on_SpinBox_loop_out_value_changed"]
+[connection signal="item_selected" from="HBox/VBox/HBox_Precision/OptionButton_precision" to="." method="_on_OptionButton_precision_item_selected"]
+[connection signal="item_selected" from="HBox/VBox/HBox_MixRate/OptionButton_MixRate" to="." method="_on_OptionButton_MixRate_item_selected"]
+[connection signal="toggled" from="HBox/VBox/HBox_Multisample/CheckBox_Multisample" to="." method="_on_CheckBox_Multisample_toggled"]
+[connection signal="value_changed" from="HBox/VBox/HBox_Interval/SpinBox_Interval" to="." method="_on_SpinBox_Interval_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_OctaveRange/SpinBox_rangeMin" to="." method="_on_SpinBox_rangeMin_value_changed"]
+[connection signal="value_changed" from="HBox/VBox/HBox_OctaveRange/SpinBox_rangeMax" to="." method="_on_SpinBox_rangeMax_value_changed"]

@@ -1,0 +1,398 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://textures/plus.png" type="Texture" id=1]
+[ext_resource path="res://textures/minus.png" type="Texture" id=2]
+[ext_resource path="res://textures/up.png" type="Texture" id=3]
+[ext_resource path="res://scripts/gui/InstrumentList.gd" type="Script" id=4]
+[ext_resource path="res://scenes/PianoScene.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/InstrumentInspector.tscn" type="PackedScene" id=6]
+[ext_resource path="res://textures/down.png" type="Texture" id=7]
+[ext_resource path="res://scripts/Rcc.gd" type="Script" id=8]
+[ext_resource path="res://scripts/util/debug_record.gd" type="Script" id=9]
+[ext_resource path="res://scenes/EnvelopeEditor.tscn" type="PackedScene" id=10]
+[ext_resource path="res://textures/duplicate.png" type="Texture" id=11]
+[ext_resource path="res://scenes/PreviewButtons.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scripts/gui/RccConnections.gd" type="Script" id=13]
+[ext_resource path="res://scripts/gui/MainScene.gd" type="Script" id=14]
+[ext_resource path="res://scripts/gui/MenuExport.gd" type="Script" id=16]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.2, 0.190667, 0.186, 1 )
+
+[node name="MainUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer_UI" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer_UI"]
+margin_right = 1600.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 48 )
+
+[node name="Button_New" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_right = 48.0
+margin_bottom = 48.0
+text = " New "
+flat = true
+
+[node name="Button_Load" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 52.0
+margin_right = 102.0
+margin_bottom = 48.0
+text = " Load "
+flat = true
+
+[node name="Button_Save" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 106.0
+margin_right = 155.0
+margin_bottom = 48.0
+text = " Save "
+flat = true
+
+[node name="Menu_Project" type="MenuButton" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 159.0
+margin_right = 216.0
+margin_bottom = 48.0
+toggle_mode = false
+text = "Project"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu_Export" type="MenuButton" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 220.0
+margin_right = 272.0
+margin_bottom = 48.0
+toggle_mode = false
+text = "Export"
+script = ExtResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button_Undo" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 276.0
+margin_right = 330.0
+margin_bottom = 48.0
+text = " Undo "
+flat = true
+
+[node name="Button_Redo" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
+margin_left = 334.0
+margin_right = 386.0
+margin_bottom = 48.0
+text = " Redo "
+flat = true
+
+[node name="HBoxContainer_Panels" type="HBoxContainer" parent="VBoxContainer_UI"]
+margin_top = 52.0
+margin_right = 1600.0
+margin_bottom = 1005.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer_Instruments" type="VBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels"]
+margin_right = 700.0
+margin_bottom = 953.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments"]
+margin_right = 700.0
+margin_bottom = 953.0
+rect_min_size = Vector2( 700, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer_List" type="VBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 953.0
+rect_min_size = Vector2( 300, 0 )
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List"]
+margin_right = 300.0
+margin_bottom = 48.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InstrumentsLabel" type="Label" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_right = 119.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "
+     Instruments     
+"
+
+[node name="Button_add" type="Button" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_left = 119.0
+margin_right = 155.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+icon = ExtResource( 1 )
+flat = true
+expand_icon = true
+
+[node name="Button_remove" type="Button" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_left = 155.0
+margin_right = 191.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+icon = ExtResource( 2 )
+flat = true
+expand_icon = true
+
+[node name="Button_duplicate" type="Button" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_left = 191.0
+margin_right = 227.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+icon = ExtResource( 11 )
+flat = true
+expand_icon = true
+
+[node name="Button_raise" type="Button" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_left = 227.0
+margin_right = 263.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+icon = ExtResource( 3 )
+flat = true
+expand_icon = true
+
+[node name="Button_lower" type="Button" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
+margin_left = 263.0
+margin_right = 300.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+icon = ExtResource( 7 )
+flat = true
+expand_icon = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List"]
+margin_top = 48.0
+margin_right = 300.0
+margin_bottom = 953.0
+size_flags_vertical = 3
+
+[node name="InstrumentList" type="ItemList" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer"]
+margin_right = 300.0
+margin_bottom = 905.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 8
+allow_reselect = true
+same_column_width = true
+script = ExtResource( 4 )
+
+[node name="VBoxContainer_Inspector" type="VBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer"]
+margin_left = 304.0
+margin_right = 700.0
+margin_bottom = 953.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="InspectorLabel" type="Label" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector"]
+margin_right = 396.0
+margin_bottom = 48.0
+size_flags_vertical = 1
+text = "
+   Current Instrument
+"
+align = 1
+
+[node name="InstrumentInspector" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 48.0
+margin_right = 396.0
+margin_bottom = 953.0
+size_flags_stretch_ratio = 6.0
+
+[node name="WaveLabel" type="Label" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector"]
+visible = false
+margin_top = 621.0
+margin_right = 296.0
+margin_bottom = 696.0
+size_flags_vertical = 1
+text = "
+   Waveforms
+"
+
+[node name="WaveButtons" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector" instance=ExtResource( 12 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 677.0
+margin_right = 296.0
+margin_bottom = 777.0
+
+[node name="EnvelopesLabel" type="Label" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector"]
+visible = false
+margin_top = 763.0
+margin_right = 296.0
+margin_bottom = 838.0
+size_flags_vertical = 1
+text = "
+   Envelopes
+"
+
+[node name="EnvelopeButtons" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector" instance=ExtResource( 12 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 827.0
+margin_right = 296.0
+margin_bottom = 953.0
+
+[node name="VBoxContainer_Envelopes" type="VBoxContainer" parent="VBoxContainer_UI/HBoxContainer_Panels"]
+margin_left = 710.0
+margin_right = 1600.0
+margin_bottom = 953.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="Wavetable" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes" instance=ExtResource( 10 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 890.0
+margin_bottom = 470.0
+
+[node name="Spacer" type="Control" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes"]
+margin_top = 470.0
+margin_right = 890.0
+margin_bottom = 482.0
+rect_min_size = Vector2( 0, 12 )
+size_flags_horizontal = 3
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes"]
+margin_top = 482.0
+margin_right = 890.0
+margin_bottom = 953.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+drag_to_rearrange_enabled = true
+
+[node name="Volume" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+envelope_type = 1
+
+[node name="Pitch" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
+visible = false
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+envelope_type = 2
+
+[node name="Noise" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
+visible = false
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+envelope_type = 3
+
+[node name="Morph" parent="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
+visible = false
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+envelope_type = 4
+
+[node name="ScrollContainer_Piano" type="ScrollContainer" parent="VBoxContainer_UI"]
+margin_top = 1009.0
+margin_right = 1600.0
+margin_bottom = 1200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Piano" parent="VBoxContainer_UI/ScrollContainer_Piano" instance=ExtResource( 5 )]
+margin_bottom = 179.0
+
+[node name="RCC_Connections" type="Node" parent="."]
+script = ExtResource( 13 )
+rcc_path = NodePath("../../MainUI/Rcc")
+
+[node name="Rcc" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="DebugRecord" type="Node" parent="Rcc"]
+script = ExtResource( 9 )
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_New" to="RCC_Connections" method="_on_Button_New_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_Load" to="RCC_Connections" method="_on_Button_Load_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_Save" to="RCC_Connections" method="_on_Button_Save_pressed"]
+[connection signal="item_pressed" from="VBoxContainer_UI/HBoxContainer2/Menu_Export" to="RCC_Connections" method="_on_MenuButton_item_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="RCC_Connections" method="_on_Button_add_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_remove" to="RCC_Connections" method="_on_Button_remove_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_duplicate" to="RCC_Connections" method="_on_Button_duplicate_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_raise" to="RCC_Connections" method="_on_Button_raise_pressed"]
+[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_lower" to="RCC_Connections" method="_on_Button_lower_pressed"]
+[connection signal="item_selected" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" to="RCC_Connections" method="_on_InstrumentList_item_selected"]
+[connection signal="interval_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_interval_changed"]
+[connection signal="length_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_length_changed"]
+[connection signal="loop_in_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_loop_in_changed"]
+[connection signal="loop_out_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_loop_out_changed"]
+[connection signal="mixrate_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_mixrate_changed"]
+[connection signal="multisample_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_multisample_changed"]
+[connection signal="name_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_name_changed"]
+[connection signal="pan_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_pan_changed"]
+[connection signal="precision_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_precision_changed"]
+[connection signal="range_max_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_range_max_changed"]
+[connection signal="range_min_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_range_min_changed"]
+[connection signal="transpose_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_transpose_changed"]
+[connection signal="volume_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" to="RCC_Connections" method="_on_InstrumentInspector_volume_changed"]
+[connection signal="envelope_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" to="RCC_Connections" method="_on_Wavetable_envelope_changed"]
+[connection signal="envelope_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" to="RCC_Connections" method="_on_Volume_envelope_changed"]
+[connection signal="envelope_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" to="RCC_Connections" method="_on_Pitch_envelope_changed"]
+[connection signal="envelope_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" to="RCC_Connections" method="_on_Noise_envelope_changed"]
+[connection signal="envelope_changed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" to="RCC_Connections" method="_on_Morph_envelope_changed"]
+[connection signal="note_played" from="VBoxContainer_UI/ScrollContainer_Piano/Piano" to="RCC_Connections" method="_on_Piano_note_played"]
+[connection signal="note_stopped" from="VBoxContainer_UI/ScrollContainer_Piano/Piano" to="RCC_Connections" method="_on_Piano_note_stopped"]
+[connection signal="instrument_list_changed" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_RCC_Connections_instrument_list_changed"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_RCC_Connections_instrument_selected"]
