@@ -16,7 +16,7 @@ SOUNDFONT TO DO
 	[.] Loading and saving
 		[X] Session file, loaded and saved automatically
 		[/] Multi Instrument Export to single SFZ - Not doable!
-------->[ ] File open and save dialogue boxes. Needs "FileDialog" node
+--->	[ ] File open and save dialogue boxes. Needs "FileDialog" node
 
 	[ ] Escape Key Stops all playback
 
@@ -117,6 +117,7 @@ SOUNDFONT TO DO
 -------------------------------------------------------------------------------
 
 Keys:
+
 	[ ] Not started
 	[X] Done
 	[.] In progress
