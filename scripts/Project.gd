@@ -2,7 +2,7 @@ extends Resource
 class_name Project
 
 export var selected := 0
-export var list := []
+export var instruments := []
 
 export var wavetable_min := -127
 export var wavetable_max := 127
@@ -21,43 +21,43 @@ export var noise_max := 15
 export var noise_length := 8
 
 func clear():
-	list.clear()
+	instruments.clear()
 	selected=0
 
 
 func get_selected()->RccInstrument:
-	if not list.empty():
-		return list[selected]
+	if not instruments.empty():
+		return instruments[selected]
 	return null
 
 
 func size()->int:
-	return list.size()
+	return instruments.size()
 
 
 func empty()->bool:
-	return list.empty()
+	return instruments.empty()
 
 
 func remove(index):
-	list.remove(index)
+	instruments.remove(index)
 
 
 func insert(index, instrument):
-	list.insert(index, instrument)
+	instruments.insert(index, instrument)
 
 
 func swap_instrument(a:int, b:int):
-	var lower = list[a]
-	var higher = list[b]
-	list[b] = lower
-	list[a] = higher
+	var lower = instruments[a]
+	var higher = instruments[b]
+	instruments[b] = lower
+	instruments[a] = higher
 	selected=b
 	_validate_selection()
 
 
 func create_instrument(waveform:int, index:int):
-	var n := list.size()
+	var n := instruments.size()
 	var inst := RccInstrument.new()
 
 	inst.wave_envelope.min_value=wavetable_min
@@ -77,12 +77,12 @@ func create_instrument(waveform:int, index:int):
 	inst.noise_envelope.generate_preset(Envelope.Waveform.flat, noise_length)
 
 	inst.name = "Instrument "+str(n)
-	list.insert(index, inst)
+	instruments.insert(index, inst)
 	selected = index
 
 
 func _validate_selection():
 	if selected < 0:
 		selected = 0
-	elif selected > list.size()-1:
-		selected = list.size()-1
+	elif selected > instruments.size()-1:
+		selected = instruments.size()-1

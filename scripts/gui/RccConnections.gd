@@ -23,7 +23,7 @@ func _ready():
 		rcc.project = session
 	else:
 		rcc.project.create_instrument(Envelope.Waveform.square,0)
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 	_on_InstrumentList_item_selected(rcc.project.selected)
 
 
@@ -72,33 +72,33 @@ func _on_InstrumentList_item_selected(index):
 
 func _on_InstrumentInspector_name_changed(inst_name):
 	rcc.project.get_selected().name = inst_name
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_pan_changed(pan):
 	rcc.project.get_selected().pan = pan
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_transpose_changed(transpose):
 	rcc.project.get_selected().transpose = transpose
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_volume_changed(vol):
 	rcc.project.get_selected().volume = vol
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_mixrate_changed(rate):
 	rcc.project.get_selected().mix_rate = rate
 	rcc.tracks[key_jazz_track].reset_mix_rate()
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_precision_changed(is_half_precision):
 	rcc.project.get_selected().half_precision = is_half_precision
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_InstrumentInspector_length_changed(value):
@@ -143,14 +143,14 @@ func _on_Button_remove_pressed():
 	if rcc.project.size()>1:
 		rcc.project.remove(rcc.project.selected)
 		rcc.project._validate_selection()
-		emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 		_on_InstrumentList_item_selected(rcc.project.selected)
 
 
 func _on_Button_add_pressed():
 	rcc.project.create_instrument(Envelope.Waveform.square, rcc.project.size())
 	_on_InstrumentList_item_selected(rcc.project.size()-1)
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_duplicate_pressed():
@@ -180,51 +180,84 @@ func _on_Button_duplicate_pressed():
 	rcc.project.selected+=1
 	rcc.project.insert(rcc.project.selected, new_inst)
 	_on_InstrumentList_item_selected(rcc.project.selected)
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_raise_pressed():
 	if rcc.project.selected > 0:
 		rcc.project.swap_instrument(rcc.project.selected, rcc.project.selected-1)
 		_on_InstrumentList_item_selected(rcc.project.selected)
-		emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_lower_pressed():
 	if rcc.project.selected < rcc.project.size()-1:
 		rcc.project.swap_instrument(rcc.project.selected, rcc.project.selected+1)
 		_on_InstrumentList_item_selected(rcc.project.selected)
-		emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_New_pressed():
 	rcc.project.clear()
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_Load_pressed():
 	rcc.project = ResourceLoader.load("user://session.tres")
 	assert(rcc.project, "Error loading session file")
-	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Button_Save_pressed():
 	var err := ResourceSaver.save("user://session.tres", rcc.project)
 	if err: print("Error saving session file: ",err)
-#	emit_signal("instrument_list_changed", rcc.project.list, rcc.project.selected)
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+
+
+func _on_Menu_Project_item_pressed(index):
+	print(index)
+	match index:
+		0: #New
+			rcc.project.clear()
+			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+			print("Project Cleared")
+		1: #Load
+			rcc.project = ResourceLoader.load("user://session.tres")
+			assert(rcc.project, "Error loading session file")
+			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+			print("Project loaded")
+		2: #Save
+			var err := ResourceSaver.save("user://session.tres", rcc.project)
+			if err: print("Error saving session file: ",err)
+			print("Project Saved")
+		3: #Save As
+			var err := ResourceSaver.save("user://session.tres", rcc.project)
+			if err: print("Error saving session file: ",err)
+			print("Project Saved As")
+		4: #Quit
+			_on_Button_Save_pressed()
+			get_tree().quit()
+			print("Quit: Auto saving session")
 
 
 func _on_MenuButton_item_pressed(index):
 	match index:
 		0: #Selected to WAV
-			print("Exported selected to WAV")
 			Export.to_wave(rcc.project.get_selected(), "user://", 0, false)
+			print("Exported selected to WAV")
 		1: #Selected to SFZ
-			print("Exported selected to SFZ")
 			Export.to_sfz(rcc.project.get_selected())
+			print("Exported selected to SFZ")
 		2: #All to WAV
-			pass
+			for inst in rcc.project.instruments:
+				Export.to_wave(inst, "user://", 0, false)
+			print("Exported all instruments to WAV")
 		3: #All to SFZ
-			pass
+			for inst in rcc.project.instruments:
+				Export.to_sfz(inst)
+			print("Exported selected to SFZ")
+
+
+
 
 

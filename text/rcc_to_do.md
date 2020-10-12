@@ -18,6 +18,10 @@ SOUNDFONT TO DO
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
 
+	[ ] Escape Key Stops all playback
+
+	[ ] Export Settings: If single sample, pick the exported note
+
 	[ ] Undo system, probably keeping duplicates of the instrument resources
 
 	[ ] Visual feedback on piano keys (highlight and fade)
@@ -106,6 +110,7 @@ SOUNDFONT TO DO
 		[X] Multi Sample Export
 		[X] Selectable number of wave files. Too few and the macros will play weirdly, since they're baked in. I'm estimating 1 every 3 or 4 notes (3 or 4 per octave) should play OK and keep the SF2 file size under 500Kb.
 		[X] Export samples to a sub folder
+		[X] Export all instruments to .wav or .sfz
 
 	[X] Raise middle octave to C4 (to allow lower pitched notes)
 

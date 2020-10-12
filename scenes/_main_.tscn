@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://textures/plus.png" type="Texture" id=1]
 [ext_resource path="res://textures/minus.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://scenes/PreviewButtons.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/gui/RccConnections.gd" type="Script" id=13]
 [ext_resource path="res://scripts/gui/MainScene.gd" type="Script" id=14]
+[ext_resource path="res://scripts/gui/MenuProject.gd" type="Script" id=15]
 [ext_resource path="res://scripts/gui/MenuExport.gd" type="Script" id=16]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -49,39 +50,19 @@ margin_right = 1600.0
 margin_bottom = 48.0
 rect_min_size = Vector2( 0, 48 )
 
-[node name="Button_New" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_right = 48.0
-margin_bottom = 48.0
-text = " New "
-flat = true
-
-[node name="Button_Load" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 52.0
-margin_right = 102.0
-margin_bottom = 48.0
-text = " Load "
-flat = true
-
-[node name="Button_Save" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 106.0
-margin_right = 155.0
-margin_bottom = 48.0
-text = " Save "
-flat = true
-
 [node name="Menu_Project" type="MenuButton" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 159.0
-margin_right = 216.0
+margin_right = 57.0
 margin_bottom = 48.0
 toggle_mode = false
 text = "Project"
+script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Menu_Export" type="MenuButton" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 220.0
-margin_right = 272.0
+margin_left = 61.0
+margin_right = 113.0
 margin_bottom = 48.0
 toggle_mode = false
 text = "Export"
@@ -91,15 +72,15 @@ __meta__ = {
 }
 
 [node name="Button_Undo" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 276.0
-margin_right = 330.0
+margin_left = 117.0
+margin_right = 171.0
 margin_bottom = 48.0
 text = " Undo "
 flat = true
 
 [node name="Button_Redo" type="Button" parent="VBoxContainer_UI/HBoxContainer2"]
-margin_left = 334.0
-margin_right = 386.0
+margin_left = 175.0
+margin_right = 227.0
 margin_bottom = 48.0
 text = " Redo "
 flat = true
@@ -359,9 +340,7 @@ script = ExtResource( 8 )
 
 [node name="DebugRecord" type="Node" parent="Rcc"]
 script = ExtResource( 9 )
-[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_New" to="RCC_Connections" method="_on_Button_New_pressed"]
-[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_Load" to="RCC_Connections" method="_on_Button_Load_pressed"]
-[connection signal="pressed" from="VBoxContainer_UI/HBoxContainer2/Button_Save" to="RCC_Connections" method="_on_Button_Save_pressed"]
+[connection signal="item_pressed" from="VBoxContainer_UI/HBoxContainer2/Menu_Project" to="RCC_Connections" method="_on_Menu_Project_item_pressed"]
 [connection signal="item_pressed" from="VBoxContainer_UI/HBoxContainer2/Menu_Export" to="RCC_Connections" method="_on_MenuButton_item_pressed"]
 [connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="RCC_Connections" method="_on_Button_add_pressed"]
 [connection signal="pressed" from="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_remove" to="RCC_Connections" method="_on_Button_remove_pressed"]
@@ -390,9 +369,9 @@ script = ExtResource( 9 )
 [connection signal="note_played" from="VBoxContainer_UI/ScrollContainer_Piano/Piano" to="RCC_Connections" method="_on_Piano_note_played"]
 [connection signal="note_stopped" from="VBoxContainer_UI/ScrollContainer_Piano/Piano" to="RCC_Connections" method="_on_Piano_note_stopped"]
 [connection signal="instrument_list_changed" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_RCC_Connections_instrument_list_changed"]
-[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_RCC_Connections_instrument_selected"]
 [connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_RCC_Connections_instrument_selected"]
 [connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_RCC_Connections_instrument_selected"]
+[connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_RCC_Connections_instrument_selected"]
 [connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_RCC_Connections_instrument_selected"]
 [connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_RCC_Connections_instrument_selected"]
 [connection signal="instrument_selected" from="RCC_Connections" to="VBoxContainer_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_RCC_Connections_instrument_selected"]
