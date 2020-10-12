@@ -116,28 +116,11 @@ SOUNDFONT TO DO
 
 -------------------------------------------------------------------------------
 
-General Soundfont Goals
-
-[X]	Make one instrument per preset (unless I wish to re-use an instrument on a preset). Reason: Sforzando seems to ignore ADSR envelopes on presets, but not on instruments
-
-[?]	BEFORE MOVING FORWARD, confirm that the instrument envelope will play correctly on Godot. If it doesn't, simplify plans (no need for "midi-like" sounding instruments) and move forward
-
-[X] Remove general softness - too much "attack", make it more harsh. Compare with original SCC soundfont
-
-[X] Raise volume by 5 (remove attenuation from most instruments)
-
-[/]	Record samples from TT.	Instruments that need custom samples:
-	- Any bass, needs a proper pitch shift
-	- 044_Tremolo Strings, needs tremolo
-	- Orchestra hit
-
--------------------------------------------------------------------------------
-
 Key:
-[ ] : Not started
-[X] : Done
-[.] : In progress
-[/] : Abandoned
-[~] : Done, but could be better
-[?] : Unknown, needs review
---->: Priority
+	[ ] : Not started
+	[X] : Done
+	[.] : In progress
+	[/] : Abandoned
+	[~] : Done, but could be better
+	[?] : Unknown, needs review
+	--->: Priority
