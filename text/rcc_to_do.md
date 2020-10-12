@@ -6,17 +6,17 @@ SOUNDFONT TO DO
 
 -------------------------------------------------------------------------------
 
-	[.] Loading and saving
-		[X] Session file, loaded and saved automatically
-		[/] Multi Instrument Export to single SFZ - Not doable!
-------->[ ] File open and save dialogue boxes. Needs "FileDialog" node
-
 --->[ ] Functional Morph envelope
 		[ ] Multiple waveforms per instrument
 
 --->[ ] Separate Pitch envelope into:
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
+
+	[.] Loading and saving
+		[X] Session file, loaded and saved automatically
+		[/] Multi Instrument Export to single SFZ - Not doable!
+------->[ ] File open and save dialogue boxes. Needs "FileDialog" node
 
 	[ ] Escape Key Stops all playback
 
@@ -116,11 +116,11 @@ SOUNDFONT TO DO
 
 -------------------------------------------------------------------------------
 
-Key:
-	[ ] : Not started
-	[X] : Done
-	[.] : In progress
-	[/] : Abandoned
-	[~] : Done, but could be better
-	[?] : Unknown, needs review
-	--->: Priority
+Keys:
+	[ ] Not started
+	[X] Done
+	[.] In progress
+	[/] Abandoned
+	[~] Done, but could be better
+	[?] Unknown, needs review
+	--->Priority
