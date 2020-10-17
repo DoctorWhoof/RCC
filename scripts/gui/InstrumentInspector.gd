@@ -120,32 +120,55 @@ func _on_SpinBox_Interval_value_changed(value):
 	calculate_total_samples()
 
 
-func _on_RCC_Connections_instrument_selected(instrument):
-#	print(instrument.name,", ",instrument.loop_in,", ",instrument.loop_out)
-	suspend_signals = true
-
-	name_field.text = instrument.name
-	volume_field.value = instrument.volume
-	pan_field.value = instrument.pan
-	transpose_field.value = instrument.transpose
-	length_field.value=instrument.length
-	in_field.value=instrument.loop_in
-	out_field.value=instrument.loop_out
-	multisample_check.pressed=instrument.multi_sample
-	range_min_field.value=instrument.range_min
-	range_max_field.value=instrument.range_max
-	interval_field.value=instrument.sample_interval
-	calculate_total_samples()
-	match instrument.mix_rate:
-		44100: mixrate_button.selected = 0
-		_: mixrate_button.selected = 1
-	match instrument.half_precision:
-		false: precision_button.selected = 0
-		_: precision_button.selected = 1
-
-	suspend_signals=false
+#func _on_RCC_Connections_instrument_selected(instrument):
+##	print(instrument.name,", ",instrument.loop_in,", ",instrument.loop_out)
+#	suspend_signals = true
+#	name_field.text = instrument.name
+#	volume_field.value = instrument.volume
+#	pan_field.value = instrument.pan
+#	transpose_field.value = instrument.transpose
+#	length_field.value=instrument.length
+#	in_field.value=instrument.loop_in
+#	out_field.value=instrument.loop_out
+#	multisample_check.pressed=instrument.multi_sample
+#	range_min_field.value=instrument.range_min
+#	range_max_field.value=instrument.range_max
+#	interval_field.value=instrument.sample_interval
+#	calculate_total_samples()
+#	match instrument.mix_rate:
+#		44100: mixrate_button.selected = 0
+#		_: mixrate_button.selected = 1
+#	match instrument.half_precision:
+#		false: precision_button.selected = 0
+#		_: precision_button.selected = 1
+#	suspend_signals=false
 
 
 func calculate_total_samples():
 	var total:int= ((range_max_field.value-range_min_field.value+1)*12)/interval_field.value
 	total_label.text = "Total samples: "+str(total)
+
+
+func _on_main_instrument_selected(instrument):
+#	print(instrument.name,", ",instrument.loop_in,", ",instrument.loop_out)
+	if instrument:
+		suspend_signals = true
+		name_field.text = instrument.name
+		volume_field.value = instrument.volume
+		pan_field.value = instrument.pan
+		transpose_field.value = instrument.transpose
+		length_field.value=instrument.length
+		in_field.value=instrument.loop_in
+		out_field.value=instrument.loop_out
+		multisample_check.pressed=instrument.multi_sample
+		range_min_field.value=instrument.range_min
+		range_max_field.value=instrument.range_max
+		interval_field.value=instrument.sample_interval
+		calculate_total_samples()
+		match instrument.mix_rate:
+			44100: mixrate_button.selected = 0
+			_: mixrate_button.selected = 1
+		match instrument.half_precision:
+			false: precision_button.selected = 0
+			_: precision_button.selected = 1
+		suspend_signals=false

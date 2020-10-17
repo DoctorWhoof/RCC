@@ -36,30 +36,31 @@ func play_note(note_value:int, octave:int):
 
 
 func stop_note():
-	instrument.release()
+	if instrument:
+		instrument.release()
 #	is_playing = false
 
 
 func _physics_process(_delta):
-	var tick_rate := 60
-
-	var samples_per_tick := instrument.mix_rate/tick_rate
-	var buffer:Array
-	if playback.get_frames_available() > samples_per_tick:
-		if not instrument.at_end():
-			#Instrument being played, get waveform
-			buffer = Generator.rcc_fill_buffer(note, instrument, false, tick_rate)
-		else:
-			#Silence
-			buffer = []
-			for i in range(instrument.mix_rate/tick_rate):
-				buffer.append(Vector2())
-		playback.push_buffer(PoolVector2Array(buffer))
-	instrument.tick_forward()
+	if instrument:
+		var tick_rate := 60
+		var samples_per_tick := instrument.mix_rate/tick_rate
+		var buffer:Array
+		if playback.get_frames_available() > samples_per_tick:
+			if not instrument.at_end():
+				#Instrument being played, get waveform
+				buffer = Generator.rcc_fill_buffer(note, instrument, false, tick_rate)
+			else:
+				#Silence
+				buffer = []
+				for i in range(instrument.mix_rate/tick_rate):
+					buffer.append(Vector2())
+			playback.push_buffer(PoolVector2Array(buffer))
+		instrument.tick_forward()
 
 
 func reset_mix_rate(first_run:=false ):
-	if stream:
+	if stream and instrument:
 		stop()
 		stream.mix_rate = instrument.mix_rate
 		playback = get_stream_playback()

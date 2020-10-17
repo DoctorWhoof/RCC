@@ -3,6 +3,7 @@ class_name Project
 
 export var selected := 0
 export var instruments := []
+export var current_path:= ""
 
 export var wavetable_min := -127
 export var wavetable_max := 127

@@ -179,14 +179,24 @@ func _change_release(state:bool):
 	editor.refresh(false)
 
 
-func _on_RCC_Connections_instrument_selected(instrument):
-	match envelope_type:
-		Role.wave: editor.envelope = instrument.wave_envelope
-		Role.pitch: editor.envelope = instrument.pitch_envelope
-		Role.volume: editor.envelope = instrument.volume_envelope
-		Role.noise: editor.envelope = instrument.noise_envelope
-		Role.morph: editor.envelope = instrument.morph_envelope
-	editor.refresh(false)
-	_refresh_controls()
+#func _on_RCC_Connections_instrument_selected(instrument):
+#	match envelope_type:
+#		Role.wave: editor.envelope = instrument.wave_envelope
+#		Role.pitch: editor.envelope = instrument.pitch_envelope
+#		Role.volume: editor.envelope = instrument.volume_envelope
+#		Role.noise: editor.envelope = instrument.noise_envelope
+#		Role.morph: editor.envelope = instrument.morph_envelope
+#	editor.refresh(false)
+#	_refresh_controls()
 
 
+func _on_main_instrument_selected(instrument):
+	if instrument:
+		match envelope_type:
+			Role.wave: editor.envelope = instrument.wave_envelope
+			Role.pitch: editor.envelope = instrument.pitch_envelope
+			Role.volume: editor.envelope = instrument.volume_envelope
+			Role.noise: editor.envelope = instrument.noise_envelope
+			Role.morph: editor.envelope = instrument.morph_envelope
+		editor.refresh(false)
+		_refresh_controls()

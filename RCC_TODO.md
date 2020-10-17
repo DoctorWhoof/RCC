@@ -6,27 +6,28 @@ GUI based editor that provides similar controls as TriloTracker on the MSX, with
 
 To do:
 
---->[ ] Functional Morph envelope
-		[ ] Multiple waveforms per instrument
+--->[ ] Shortcuts
+
+--->[ ] Morph envelope (Multiple waveforms per instrument)
+		[ ] Maybe only two, with interpolation between?
+		[ ] Or 4 different waves with a 2 bit envelope?
 
 --->[ ] Separate Pitch envelope into:
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
 
-	[.] Loading and saving
-		[X] Session file, loaded and saved automatically
-		[/] Multi Instrument Export to single SFZ - Not doable!
---->	[ ] File open and save dialogue boxes. Needs "FileDialog" node
-
-	[ ] Escape Key Stops all playback
-
-	[ ] Export Settings: If single sample, pick the exported note
+	[ ] Bug: effective_in calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources
 
 	[ ] Visual feedback on piano keys (highlight and fade)
+		[ ] Visual feedback on current octave change
+	
+	[ ] Escape Key Stops all playback
 
-	[ ] Instrument instancing (SFZ preset with different name but same group(?))
+	[ ] Export Settings: If single sample, pick the exported note
+
+	[ ] Instrument instancing (SFZ file with different name but same samples)
 
 	[ ] Envelope processing:
 		[ ] Offset left, right
@@ -35,8 +36,13 @@ To do:
 		[ ] Volume + -
 		[ ] Smooth
 
-	[ ] Move RCC_Connections to root node, maybe remove outgoing signals (call nodes directly from the root)
-		[ ] While you're at it, Consider creating a Wave Editors scene, so that RCC_Connections will send fewer output signals
+	[X] Loading and saving
+		[X] Session file, loaded and saved automatically
+		[/] Multi Instrument Export to single SFZ - Not doable!
+		[X] File open and save dialogue boxes. Needs "FileDialog" nodes
+
+	[X] Move RCC_Connections to root node, maybe remove outgoing signals (call nodes directly from the root)
+		[?] While you're at it, Consider creating a "WaveEditors" scene, so that RCC_Connections will send fewer output signals
 
 	[X] Envelope Editing Improvements
 		[X] Preset waves

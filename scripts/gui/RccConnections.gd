@@ -13,7 +13,7 @@ func _enter_tree():
 
 func _notification(what):
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		_on_Button_Save_pressed()
+		_save_session()
 		print("Quit: Auto saving session")
 
 
@@ -197,21 +197,20 @@ func _on_Button_lower_pressed():
 		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
-func _on_Button_New_pressed():
-	rcc.project.clear()
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+#func _on_Button_New_pressed():
+#	rcc.project.clear()
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+#
+#
+#func _on_Button_Load_pressed():
+#	rcc.project = ResourceLoader.load("user://session.tres")
+#	assert(rcc.project, "Error loading session file")
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
-func _on_Button_Load_pressed():
-	rcc.project = ResourceLoader.load("user://session.tres")
-	assert(rcc.project, "Error loading session file")
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
-
-
-func _on_Button_Save_pressed():
+func _save_session():
 	var err := ResourceSaver.save("user://session.tres", rcc.project)
 	if err: print("Error saving session file: ",err)
-#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
 
 func _on_Menu_Project_item_pressed(index):
@@ -235,7 +234,7 @@ func _on_Menu_Project_item_pressed(index):
 			if err: print("Error saving session file: ",err)
 			print("Project Saved As")
 		4: #Quit
-			_on_Button_Save_pressed()
+			_save_session()
 			get_tree().quit()
 			print("Quit: Auto saving session")
 
