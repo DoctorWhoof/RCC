@@ -6,7 +6,10 @@ GUI based editor that provides similar controls as TriloTracker on the MSX, with
 
 To do:
 
+--->[ ] Implement line_edit focus fix for spinboxes 
+
 --->[ ] Shortcuts
+		[ ] Shortcut tooltips
 
 --->[ ] Morph envelope (Multiple waveforms per instrument)
 		[ ] Maybe only two, with interpolation between?
@@ -16,7 +19,9 @@ To do:
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
 
-	[ ] Bug: effective_in calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
+	[ ] Implement scalable UI
+
+	[ ] Bug: "effective_in" calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources
 
