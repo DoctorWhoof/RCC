@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/gui/EnvelopeEditor.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/EnvelopeScene.gd" type="Script" id=2]
 [ext_resource path="res://misc/SmallText.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scripts/gui/Fix_SpinBox.gd" type="Script" id=4]
 
 [node name="EnvelopeEditor" type="Control"]
 anchor_right = 1.0
@@ -57,6 +58,7 @@ min_value = 1.0
 max_value = 4096.0
 value = 16.0
 rounded = true
+script = ExtResource( 4 )
 
 [node name="min" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
@@ -80,6 +82,7 @@ min_value = -128.0
 max_value = 0.0
 value = -16.0
 rounded = true
+script = ExtResource( 4 )
 
 [node name="max" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
@@ -103,6 +106,7 @@ size_flags_vertical = 0
 max_value = 128.0
 value = 16.0
 rounded = true
+script = ExtResource( 4 )
 
 [node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer_Tools"]
 margin_left = 323.0
@@ -145,6 +149,7 @@ margin_left = 1518.0
 margin_right = 1592.0
 margin_bottom = 40.0
 focus_next = NodePath("../../editor")
+script = ExtResource( 4 )
 
 [node name="out" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
@@ -167,6 +172,7 @@ margin_bottom = 40.0
 focus_next = NodePath("../../editor")
 focus_previous = NodePath("../../editor")
 focus_mode = 1
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -99,12 +99,12 @@ func tick_forward():
 			if release:
 				if is_releasing:
 					pass
-#					if position >= data.size():
-#						is_done = true
 				else:
 					position = loop_in
 			else:
+				if position == loop_out: is_done = true
 				position = loop_in
+
 
 	if position >= data.size():
 		is_done = true
@@ -145,7 +145,6 @@ func effective_length()->int:
 	if loop:
 		if not attack: effective_in=loop_in
 		if not release: effective_out=loop_out+1
-#	print(name, effective_out-effective_in)
 	return effective_out-effective_in
 
 
@@ -167,21 +166,6 @@ func effective_end()->int:
 	else:
 		return length()-1
 	return loop_out
-
-
-func effective_loop_in()->int:
-	if attack:
-		return loop_in
-	else:
-		return 0
-
-
-#Is this right? Looks wrong to me.
-func effective_loop_out()->int:
-#	if attack:
-		return loop_out
-#	else:
-#		return loop_out - loop_in
 
 
 func set_length(value:int):

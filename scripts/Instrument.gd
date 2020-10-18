@@ -37,6 +37,8 @@ var previous_column := -1.0
 var previous_value:int = -1
 var previous_normalized_value:float = 1.0
 var out_level:= 1.0
+var current_wavelength := 1.0
+var current_sample := 0
 #var position:= -1
 
 #Sfz export looping helpers
@@ -45,12 +47,15 @@ var commit_out_offset:int=0
 var loop_in_offset:int=0
 var loop_out_offset:int=0
 
+var envelopes := []
+
 func _init():
 	wave_envelope = Envelope.new()
 	pitch_envelope = Envelope.new()
 	volume_envelope = Envelope.new()
 	noise_envelope = Envelope.new()
 	morph_envelope = Envelope.new()
+
 	wave_envelope.name = "Envelope Wave"
 	pitch_envelope.name = "Envelope Pitch"
 	volume_envelope.name = "Envelope Volume"
@@ -59,9 +64,14 @@ func _init():
 
 
 func reset():
-	column = 0
-#	previous_column = -1.0
-#	previous_value = -1
+	column = -1
+	previous_value = -1
+	current_sample = 0
+	current_wavelength = 0
+	commit_in_offset = 0
+	commit_out_offset = 0
+	loop_in_offset = 0
+	loop_out_offset = 0
 	wave_envelope.reset()
 	volume_envelope.reset()
 	pitch_envelope.reset()
@@ -84,12 +94,11 @@ func release():
 
 
 func at_end()->bool:
-	var completed:bool= (
-		volume_envelope.is_done and
-		pitch_envelope.is_done and
-		noise_envelope.is_done and
-		morph_envelope.is_done
-	)
+	var completed = true
+	if not volume_envelope.empty(): if not volume_envelope.is_done: completed = false
+	if not pitch_envelope.empty(): if not pitch_envelope.is_done: completed = false
+	if not noise_envelope.empty(): if not noise_envelope.is_done: completed = false
+	if not morph_envelope.empty(): if not morph_envelope.is_done: completed = false
 	return completed
 
 
@@ -132,12 +141,61 @@ func effective_end()->int:
 	if not pitch_envelope.empty(): e = max(e, pitch_envelope.effective_end())
 	if not noise_envelope.empty(): e = max(e, noise_envelope.effective_end())
 	if not morph_envelope.empty(): e = max(e, morph_envelope.effective_end())
-	return e
+	return e+preroll_length()
+
+
+func preroll_length()->int:
+	if will_loop():
+		#if it's a looping instrument, a single non-empty, non-looping envelope will cause pre-roll
+		if not volume_envelope.loop: if not volume_envelope.empty(): return length
+		if not pitch_envelope.loop: if not pitch_envelope.empty(): return length
+		if not noise_envelope.loop: if not noise_envelope.empty(): return length
+		if not morph_envelope.loop: if not morph_envelope.empty(): return length
+	return 0
+
+
+func attack_length()->int:
+	if volume_envelope.loop: if volume_envelope.attack: if not volume_envelope.empty(): return loop_in
+	if pitch_envelope.loop: if pitch_envelope.attack: if not pitch_envelope.empty(): return loop_in
+	if noise_envelope.loop: if noise_envelope.attack: if not noise_envelope.empty(): return loop_in
+	if morph_envelope.loop: if morph_envelope.attack: if not morph_envelope.empty(): return loop_in
+	return 0
+
+
+
+func release_length()->int:
+	var rel_length:= length-loop_out-1
+	if volume_envelope.loop: if volume_envelope.release: if not volume_envelope.empty(): return rel_length
+	if pitch_envelope.loop: if pitch_envelope.release: if not pitch_envelope.empty(): return rel_length
+	if noise_envelope.loop: if noise_envelope.release: if not noise_envelope.empty(): return rel_length
+	if morph_envelope.loop: if morph_envelope.release: if not morph_envelope.empty(): return rel_length
+	return 0
+
+
+func loop_length()->int:
+	if will_loop():
+		return loop_out+1-loop_in
+	return length
+
+
+func effective_length()->int:
+	return preroll_length()+attack_length()+loop_length()+release_length()
+
+
+func effective_loop_in()->int:
+	return preroll_length()+attack_length()
+
+
+func effective_loop_out()->int:
+	return preroll_length()+attack_length()+loop_length()-1
 
 
 func will_loop()->bool:
-	var result = pitch_envelope.loop or volume_envelope.loop or noise_envelope.loop or morph_envelope.loop
-	return result
+	if volume_envelope.loop: if not volume_envelope.empty(): return true
+	if pitch_envelope.loop: if not pitch_envelope.empty(): return true
+	if noise_envelope.loop: if not noise_envelope.empty(): return true
+	if morph_envelope.loop: if not morph_envelope.empty(): return true
+	return false
 
 #MATH
 

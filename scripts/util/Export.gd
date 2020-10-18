@@ -7,7 +7,7 @@ static func to_sfz(instrument:RccInstrument):
 	dir.make_dir(samples_path)
 
 	#Remove previously exported wav files
-	if dir.open("user://"+instrument.name) == OK:
+	if dir.open("user://"+samples_path) == OK:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
@@ -69,7 +69,7 @@ static func to_sfz(instrument:RccInstrument):
 	#Output file
 	file.store_line(text)
 	file.close()
-	print(text)
+#	print(text)
 
 
 static func to_wave(instrument:RccInstrument, path:String, note:int=0, append_note_number:bool=true)->String:
@@ -81,30 +81,28 @@ static func to_wave(instrument:RccInstrument, path:String, note:int=0, append_no
 	#main "fill buffer" loop
 	var n := instrument.effective_start()
 	var end := instrument.effective_end()
-	if end > instrument.length: end = instrument.length
+
 	while n <= end:
 		var buffer := Generator.rcc_fill_buffer(note, instrument, true, 60)
 		for frame in buffer: data.append(frame*0.9)
-		if n == instrument.loop_in:
+		if n == instrument.effective_loop_in():
 			instrument.loop_in_offset = instrument.commit_in_offset
-		if n == instrument.loop_out:
+		if n == instrument.effective_loop_out():
 			instrument.release()
 			instrument.loop_out_offset = instrument.commit_out_offset
 		instrument.tick_forward()
 		n += 1
+
+
 
 	# Create sample from generated data
 	var baked_wave
 	match instrument.half_precision:
 		true: baked_wave = AudioUtil.write_8bit_samples(data)
 		false: baked_wave = AudioUtil.write_16bit_samples(data)
-	baked_wave.loop_mode = AudioStreamSample.LOOP_FORWARD
-	baked_wave.loop_begin = 0
-	baked_wave.loop_end = instrument.length * samples_per_tick
 	baked_wave.mix_rate = instrument.mix_rate
 
 	# Export!
-#	var path := instrument.name + "/"
 	var filename := instrument.name
 	if append_note_number:
 		filename +="_" + str(note+48) + ".wav"
@@ -120,13 +118,16 @@ static func to_wave(instrument:RccInstrument, path:String, note:int=0, append_no
 static func sfz_region(instrument:RccInstrument, wave_filename:String, note:int, lo_key:int, hi_key:int)->String:
 
 	var samples_per_tick := instrument.mix_rate/60
-	var loop_in := ((instrument.loop_in-instrument.effective_start())*samples_per_tick)+instrument.loop_in_offset
-	var loop_out := ((instrument.loop_out-instrument.effective_start())*samples_per_tick)+instrument.loop_out_offset-1
-	var length := 1+instrument.effective_end()-instrument.effective_start()
+	var loop_in := instrument.loop_in_offset
+	var loop_out := instrument.loop_out_offset-1
+#	var loop_out := loop_in + instrument.current_wavelength - 1     #ALT METHOD
+	var length := (1+instrument.effective_end()-instrument.effective_start())*samples_per_tick
 
-#	#ALT METHOD, doesn't work well for loops with volume or pitch envelopes
-#	var wavelength := Generator.get_note_length(instrument,note)
-#	var loop_out := loop_in + wavelength
+	#Fix for very low pitch notes, which causes the flip detection to fail and
+	#loop in and loop out to be the same
+	if loop_out<=loop_in:
+		print("\nLow pitch fix")
+		loop_out=loop_in+instrument.current_wavelength-1
 
 	var text :="\n<region>\n"
 	text +="sample="+wave_filename+"\n"
@@ -135,32 +136,32 @@ static func sfz_region(instrument:RccInstrument, wave_filename:String, note:int,
 	text +="loop_start="+str(loop_in)+"\n"
 	text +="loop_end="+str(loop_out)+"\n"
 	text +="offset=0\n"
-	text +="end="+str(length*samples_per_tick)+"\n"
-#	print("effective in: ", instrument.effective_start())
-#	print("effective out: ",instrument.effective_end())
-#	print("effective length: ",length)
-#	print("loop in: ", loop_in)
-#	print("loop out: ",loop_out)
-#	print("end: ",length*samples_per_tick)
+	text +="end="+str(length)+"\n"
+
+	print("\nExporting note ",note_name(note))
+	print("effective length: ", instrument.effective_length(),", ",length)
+	print("loop in: ", instrument.effective_loop_in(),", ", loop_in)
+	print("loop out: ", instrument.effective_loop_out(),", ", loop_out)
+	print("end: ",length)
 	return text
 
 
-
-#static func note_name(note:int)->String:
-#	var oct :int= floor(note/12.0)
-#	note = note%12
-#	var text:=""
-#	match note:
-#		0: text = "C"
-#		1: text = "C#"
-#		2: text = "D"
-#		3: text = "D#"
-#		4: text = "E"
-#		5: text = "F"
-#		6: text = "F#"
-#		7: text = "G"
-#		8: text = "G#"
-#		9: text = "A"
-#		10: text = "A#"
-#		11: text = "B"
-#	return text+str(oct)
+static func note_name(note:int)->String:
+	note=note+48
+	var oct :int= floor(note/12.0)
+	note = note%12
+	var text:=""
+	match note:
+		0: text = "C"
+		1: text = "C#"
+		2: text = "D"
+		3: text = "D#"
+		4: text = "E"
+		5: text = "F"
+		6: text = "F#"
+		7: text = "G"
+		8: text = "G#"
+		9: text = "A"
+		10: text = "A#"
+		11: text = "B"
+	return text+str(oct)

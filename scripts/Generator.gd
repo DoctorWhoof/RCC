@@ -8,30 +8,28 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 	var normalized_value := instrument.previous_normalized_value
 	var buffer := []
 	var first_frame := true
-	var sample_index := 0
 	var value:int = instrument.previous_value
-
-	#Reset precise loop points counters for SFZ export
-	instrument.commit_in_offset = 0
-	instrument.commit_out_offset = 0
+	var first_flip := false
 
 	#This is the loop that fills in the array to be returned
 	while length > 0:
 		#Column advance and loop
 		instrument.column += increment
-		if instrument.column >= instrument.wave_envelope.length():
+		if instrument.column >= instrument.wave_envelope.length() or instrument.column < 0:
 			instrument.column = fmod(instrument.column, instrument.wave_envelope.length())
 
 		#Get value at the current column
 		var tentative_value:int = instrument.wave_envelope.data[instrument.column]
 
-		#Store precise loop points for SFZ export on waveform sign change
-		if sign(value) > sign(tentative_value):
-			#If this is the first commit in this tick, store how many samples it took to get here
-			if instrument.commit_in_offset==0:
-				instrument.commit_in_offset = sample_index
+		#Store precise loop points for SFZ export on waveform sign flip
+		if sign(tentative_value)>sign(instrument.previous_value):
+			#If this is the first flip in this tick, store how many samples it took to get here
+			if not first_flip:
+				instrument.commit_in_offset = instrument.current_sample
+				instrument.current_wavelength = get_note_length(instrument,note)
+				first_flip = true
 			#Always acquire commit_out_offset, since I just want to keep the latest
-			instrument.commit_out_offset = sample_index
+			instrument.commit_out_offset = instrument.current_sample
 
 		#New column detection. If column is the same, value gradually fades using analog_attentuation
 		if int(instrument.column) != int(instrument.previous_column):
@@ -71,7 +69,7 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 
 		#Counters
 		length -= 1
-		sample_index += 1
+		instrument.current_sample += 1
 		first_frame = false
 	return buffer
 

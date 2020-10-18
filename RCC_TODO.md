@@ -6,10 +6,8 @@ GUI based editor that provides similar controls as TriloTracker on the MSX, with
 
 To do:
 
---->[ ] Implement line_edit focus fix for spinboxes 
-
 --->[ ] Shortcuts
-		[ ] Shortcut tooltips
+		[ ] Shortcut tool tips
 
 --->[ ] Morph envelope (Multiple waveforms per instrument)
 		[ ] Maybe only two, with interpolation between?
@@ -19,9 +17,15 @@ To do:
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
 
+	[ ] Very low (F1 and lower) notes cause the loop points to fail, since the note frequency falls below 60Hz (tick rate).
+		- Solution: different method for calculating loop points, based on calculating how many samples each note frequency needs.
+		- Maybe only use the new method on lower octaves, but if it works really well then it can be used everywhere
+		- UPDATE: Seems good enough now for most cases, and the method mentioned above didn't quite work (doesn't account for the loop length, the fact that during a loop the last note may need to be cut off, etc)
+--->	[ ] New solution: increase length of export when note falls below 60Hz?
+
 	[ ] Implement scalable UI
 
-	[ ] Bug: "effective_in" calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
+	[ ] Progress bar for exporting (updates per note, per instrument)
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources
 
@@ -40,6 +44,14 @@ To do:
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+	[X] Bug: "effective_in" calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
+		[?] Warn user that a mix of looping and non-looping envelopes can lead to undesirable exports
+		[?] MAYBE: Try to calculate accurate loop_in when loops are in a mixed state and export pre-roll is used
+
+	[X] BUG: Square Lead loop points not export correctly below E2
+
+	[X] Implement line_edit focus fix for spinboxes 
 
 	[X] Loading and saving
 		[X] Session file, loaded and saved automatically
@@ -65,11 +77,6 @@ To do:
 
 	[X] BUG: Only Volume envelope dictates instrument looping
 		- Clue: Instrument.at_end(), and envelope "completed" behavior seems to be at fault here.
-
-	[?] Very low (F1 and lower) notes cause the loop points to fail, since the note frequency falls below 60Hz (tick rate).
-		- Solution: different method for calculating loop points, based on calculating how many samples each note frequency needs.
-		- Maybe only use the new method on lower octaves, but if it works really well then it can be used everywhere
-		- UPDATE: Seems good enough now for most cases, and the method mentioned above didn't quite work (doesn't account for the loop length, the fact that during a loop the last note may need to be cut off, etc)
 
 	[X] Triangle wave is very quiet. Possibly an issue committing the envelopes?
 
