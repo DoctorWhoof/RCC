@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "RccInstrument",
 "language": "GDScript",
-"path": "res://scripts/Instrument.gd"
+"path": "res://scripts/RccInstrument.gd"
 }, {
 "base": "Control",
 "class": "RccPiano",
