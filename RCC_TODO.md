@@ -3,8 +3,19 @@
 RCC, Godot SFZ Instrument editor 
 -------------------------------------------------------------------------------
 GUI based editor that provides similar controls as TriloTracker on the MSX, with editable wavetable and macro editors. Once the instrument set is created, it can be exported as SFZ (text files+wave files), and optionally converted to SF2 using Polyphone (works in Polyphone 2.2).
+-------------------------------------------------------------------------------
+Keys:
 
-To do:
+	[ ] Not started
+	[X] Done
+	[.] In progress
+	[/] Abandoned
+	[~] Done, but could be better
+	[?] Unknown, needs review
+	--->Priority
+-------------------------------------------------------------------------------
+
+--->[ ] Export multiple files dialog box that remembers last path
 
 --->[ ] Shortcuts
 		[ ] Shortcut tool tips
@@ -21,7 +32,7 @@ To do:
 		- Solution: different method for calculating loop points, based on calculating how many samples each note frequency needs.
 		- Maybe only use the new method on lower octaves, but if it works really well then it can be used everywhere
 		- UPDATE: Seems good enough now for most cases, and the method mentioned above didn't quite work (doesn't account for the loop length, the fact that during a loop the last note may need to be cut off, etc)
---->	[ ] New solution: increase length of export when note falls below 60Hz?
+		[ ] New solution: increase length of export when note falls below 60Hz?
 
 	[ ] Implement scalable UI
 
@@ -47,9 +58,9 @@ To do:
 
 	[X] Bug: "effective_in" calculation needs to take into account non-looping envelopes (effective_in will only happen after one full envelope length)
 		[?] Warn user that a mix of looping and non-looping envelopes can lead to undesirable exports
-		[?] MAYBE: Try to calculate accurate loop_in when loops are in a mixed state and export pre-roll is used
+		[?] MAYBE: Try to calculate accurate loop_in when loops are in a mixed state and export pre-roll is used. A bit of a corner case.
 
-	[X] BUG: Square Lead loop points not export correctly below E2
+	[X] BUG: "Square Lead" Test instrument loop points not export correctly below E2
 
 	[X] Implement line_edit focus fix for spinboxes 
 
@@ -90,7 +101,7 @@ To do:
 	[X] Fix exported loop points bug. Loop points must be consistent between real time playback and baked SFZ, down to the actual sample . May require returning precise in/out points (in samples, not ticks) from the generator function, probably based on the where "instrument.commit_envelopes" function runs.	
 		[X] Improve commit_envelopes, based on sign change? Threshold? Think about it.
 
-	[?] "Sleep" playback engine when nothing is played
+	[X] "Sleep" playback engine when nothing is played
 		(Seems to be working, needs more testing)
 
 	[X] Test wave output from Godot (using "AudioEffectRecord"). (Update: just use AudioStreamPlayer.save_to_wav() )
@@ -131,15 +142,3 @@ To do:
 		[X] Export all instruments to .wav or .sfz
 
 	[X] Raise middle octave to C4 (to allow lower pitched notes)
-
--------------------------------------------------------------------------------
-
-Keys:
-
-	[ ] Not started
-	[X] Done
-	[.] In progress
-	[/] Abandoned
-	[~] Done, but could be better
-	[?] Unknown, needs review
-	--->Priority

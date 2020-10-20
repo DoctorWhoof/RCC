@@ -79,12 +79,12 @@ func empty()->bool:
 	return not has_data
 
 
-static func replace_in_array(arr:Array, position:int, new_data:Array):
+static func replace_in_array(arr:Array, pos:int, new_data:Array):
 	var index := 0
-	while index < new_data.size() and position < arr.size():
-		arr[position]=new_data[index]
+	while index < new_data.size() and pos < arr.size():
+		arr[pos]=new_data[index]
 		index+=1
-		position+=1
+		pos+=1
 
 
 func tick_forward():
@@ -139,7 +139,6 @@ func length()->int:
 
 
 func effective_length()->int:
-	var loop_length:= loop_out-loop_in
 	var effective_in:= 0
 	var effective_out:= data.size()
 	if loop:
@@ -168,8 +167,8 @@ func effective_end()->int:
 	return loop_out
 
 
-func set_length(value:int):
-	data.resize(value)
+func set_length(size:int):
+	data.resize(size)
 	for n in range(data.size()):
 		if not data[n]:
 			data[n]=0.0

@@ -199,13 +199,13 @@ func will_loop()->bool:
 
 #MATH
 
-func least_common_factor(a:int, b:int)->int:
-	if a>b:
-		return (a/gcd(a,b))*b
-	return (b/gcd(a,b))*a
-
-
-func gcd(a:int, b:int)->int:
-	if b==0:
-		return a
-	return gcd(b, a%b)
+#func least_common_factor(a:int, b:int)->int:
+#	if a>b:
+#		return (a/gcd(a,b))*b
+#	return (b/gcd(a,b))*a
+#
+#
+#func gcd(a:int, b:int)->int:
+#	if b==0:
+#		return a
+#	return gcd(b, a%b)

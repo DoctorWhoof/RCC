@@ -1,14 +1,23 @@
 extends Control
 
+enum ExportMode { SingleWave, SingleSFZ, AllWaves, AllSFZs }
+
 signal instrument_list_changed(instrument_list, selected)
 signal instrument_selected(instrument)
+signal file_exported()
 
 export(NodePath) var rcc_path
 var rcc :Rcc
 var key_jazz_track:= 0
+var _export_mode = ExportMode.SingleWave
 
-onready var _save_dialog := $FileDialog_Save
-onready var _load_dialog := $FileDialog_Load
+onready var _save_dialog := $FileDialogs/FileDialog_Save
+onready var _load_dialog := $FileDialogs/FileDialog_Load
+onready var _export_dialog := $FileDialogs/FileDialog_Export
+onready var _progress_popup := $FileDialogs/Popup_Progress
+onready var _progress_bar := $FileDialogs/Popup_Progress/Bar
+onready var _progress_text := $FileDialogs/Popup_Progress/Label2
+
 
 func _enter_tree():
 	rcc = get_node(rcc_path) as Rcc
@@ -23,8 +32,9 @@ func _ready():
 	if session:
 		print("Loading session file.")
 		rcc.project = session
-		_load_dialog.current_dir = rcc.project.current_path.get_base_dir()
-		_save_dialog.current_dir = rcc.project.current_path.get_base_dir()
+		_load_dialog.current_dir = rcc.project.path.get_base_dir()
+		_save_dialog.current_dir = rcc.project.path.get_base_dir()
+		_export_dialog.current_dir = rcc.project.export_path
 	else:
 		print("Session file not found, creating new one.")
 		rcc.project.create_instrument(Envelope.Waveform.square,0)
@@ -213,20 +223,19 @@ func _on_Button_lower_pressed():
 
 
 func _on_Menu_Project_item_pressed(index):
-	print(index)
 	match index:
 		0: #New
 			rcc.project.clear()
-			rcc.project.current_path=""
+			rcc.project.path=""
 			_on_Button_add_pressed()
 			print("Project Cleared")
 		1: #Load
 			_load_dialog.popup()
 		2: #Save
-			if rcc.project.current_path:
-				var err := ResourceSaver.save(rcc.project.current_path, rcc.project)
+			if rcc.project.path:
+				var err := ResourceSaver.save(rcc.project.path, rcc.project)
 				if err: print("Error saving session file: ",err)
-				print("Project Saved")
+				print("Project Saved to ", rcc.project.path)
 			else:
 				_save_dialog.popup()
 		3: #Save As
@@ -240,19 +249,17 @@ func _on_Menu_Project_item_pressed(index):
 func _on_Menu_Export_item_pressed(index):
 	match index:
 		0: #Selected to WAV
-			Export.to_wave(rcc.project.get_selected(), "user://", 0, false)
-			print("Exported selected to WAV")
+			_export_mode = ExportMode.SingleWave
+			_export_dialog.popup()
 		1: #Selected to SFZ
-			Export.to_sfz(rcc.project.get_selected())
-			print("Exported selected to SFZ")
+			_export_mode = ExportMode.SingleSFZ
+			_export_dialog.popup()
 		2: #All to WAV
-			for inst in rcc.project.instruments:
-				Export.to_wave(inst, "user://", 0, false)
-			print("Exported all instruments to WAV")
+			_export_mode = ExportMode.AllWaves
+			_export_dialog.popup()
 		3: #All to SFZ
-			for inst in rcc.project.instruments:
-				Export.to_sfz(inst)
-			print("Exported selected to SFZ")
+			_export_mode = ExportMode.AllSFZs
+			_export_dialog.popup()
 
 
 func _on_FileDialog_Save_file_selected(path):
@@ -261,11 +268,10 @@ func _on_FileDialog_Save_file_selected(path):
 		if err:
 			print("Error saving session file: ",err)
 		else:
-			rcc.project.current_path = path
+			rcc.project.path = path
 			print("Project Saved at ", path)
-			_load_dialog.current_dir = rcc.project.current_path.get_base_dir()
+			_load_dialog.current_dir = rcc.project.path.get_base_dir()
 			print("load dir:", _load_dialog.current_dir)
-
 
 
 func _on_FileDialog_Load_file_selected(path):
@@ -274,9 +280,42 @@ func _on_FileDialog_Load_file_selected(path):
 		if not rcc.project:
 			print("Error Loading Project")
 		else:
-			rcc.project.current_path = path
+			rcc.project.path = path
 			print("Project loaded")
-			_save_dialog.current_dir = rcc.project.current_path.get_base_dir()
+			_save_dialog.current_dir = rcc.project.path.get_base_dir()
 			print("save dir:", _save_dialog.current_dir)
 			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
 
+
+func _on_FileDialog_Export_dir_selected(dir):
+	rcc.project.export_path = dir
+	yield(get_tree(),"idle_frame")
+	_progress_popup.popup()
+	_progress_bar.value = 0
+	_export_dialog.hide()
+	match _export_mode:
+		ExportMode.SingleWave:
+			Export.to_wave(rcc.project.get_selected(), dir, 0, false)
+			print("Exported selected to WAV at '", dir,"'")
+		ExportMode.SingleSFZ:
+			Export.to_sfz(rcc.project.get_selected(), dir)
+			print("Exported selected to SFZ at '", dir,"'")
+		ExportMode.AllWaves:
+			var n :float= 0
+			for inst in rcc.project.instruments:
+				yield(get_tree(),"idle_frame")
+				Export.to_wave(inst, dir, 0, false)
+				_progress_bar.value = (n/rcc.project.instruments.size())*100
+				_progress_text.text = inst.name
+				n+=1
+			print("Exported all instruments to single WAV files at ", dir)
+		ExportMode.AllSFZs:
+			var n :float= 0
+			for inst in rcc.project.instruments:
+				yield(get_tree(),"idle_frame")
+				Export.to_sfz(inst, dir)
+				_progress_bar.value = (n/rcc.project.instruments.size())*100
+				_progress_text.text = inst.name
+				n+=1
+			print("Exported all instruments to SFZ files at ", dir)
+	_progress_popup.hide()

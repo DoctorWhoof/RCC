@@ -1,21 +1,22 @@
 class_name Export
 
-static func to_sfz(instrument:RccInstrument):
-	var samples_path := instrument.name + "_samples/"
+static func to_sfz(instrument:RccInstrument, dir_path):
+	var samples_path := instrument.name + "_samples"
 	var dir := Directory.new()
-	dir.open("user://")
+	dir.open(dir_path)
 	dir.make_dir(samples_path)
 
 	#Remove previously exported wav files
-	if dir.open("user://"+samples_path) == OK:
+	if dir.open(dir_path+"/"+samples_path) == OK:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
 			if file_name.ends_with(".wav"):
 				dir.remove(file_name)
 			file_name = dir.get_next()
+		print("Clean up: Removed previously exported samples on ", samples_path)
 	else:
-		print("An error occurred when trying to access the path.")
+		print("Clean up: No previously exported samples found.")
 
 	#Prepare instrument variables
 	var file := File.new()
@@ -40,18 +41,18 @@ static func to_sfz(instrument:RccInstrument):
 				hi_key = note+48+inc-1
 				if n > 11-interval and oct==instrument.range_max: hi_key = 128
 				regions_text += sfz_region(	instrument,
-											to_wave(instrument,"user://"+samples_path, note),
+											to_wave(instrument,dir_path+"/"+samples_path, note),
 											note, lo_key, hi_key
 										)
 				lo_key = hi_key+1
 	else:
 		regions_text += sfz_region(	instrument,
-									to_wave(instrument, "user://"+samples_path, 0),
+									to_wave(instrument, dir_path+"/"+samples_path, 0),
 									0, 0, 128
 								)
 
 	#Then we generate the text for the SFZ file
-	file.open("user://"+filename, File.WRITE)
+	file.open(dir_path+"/"+filename, File.WRITE)
 	text+="\n<control>\n"
 	text+="default_path="+samples_path+"\n"
 
@@ -93,8 +94,6 @@ static func to_wave(instrument:RccInstrument, path:String, note:int=0, append_no
 		instrument.tick_forward()
 		n += 1
 
-
-
 	# Create sample from generated data
 	var baked_wave
 	match instrument.half_precision:
@@ -110,7 +109,8 @@ static func to_wave(instrument:RccInstrument, path:String, note:int=0, append_no
 		filename += ".wav"
 	var exporter := AudioStreamPlayer.new()
 	exporter.stream = baked_wave
-	exporter.stream.save_to_wav(path+filename)
+	exporter.stream.save_to_wav(path+"/"+filename)
+#	print("Wave file saved: "+path+"/"+filename)
 	exporter.queue_free()
 	return filename
 
@@ -133,16 +133,15 @@ static func sfz_region(instrument:RccInstrument, wave_filename:String, note:int,
 	text +="sample="+wave_filename+"\n"
 	text +="lokey="+str(lo_key)+" hikey="+str(hi_key)+"\n"
 	text +="pitch_keycenter="+str(note+48)+"\n"
-	text +="loop_start="+str(loop_in)+"\n"
-	text +="loop_end="+str(loop_out)+"\n"
-	text +="offset=0\n"
-	text +="end="+str(length)+"\n"
-
-	print("\nExporting note ",note_name(note))
-	print("effective length: ", instrument.effective_length(),", ",length)
-	print("loop in: ", instrument.effective_loop_in(),", ", loop_in)
-	print("loop out: ", instrument.effective_loop_out(),", ", loop_out)
-	print("end: ",length)
+	if instrument.will_loop():
+		text +="loop_start="+str(loop_in)+"\n"
+		text +="loop_end="+str(loop_out)+"\n"
+		text +="end="+str(length)+"\n"
+#	print("\nExporting note ",note_name(note))
+#	print("effective length: ", instrument.effective_length(),", ",length)
+#	print("loop in: ", instrument.effective_loop_in(),", ", loop_in)
+#	print("loop out: ", instrument.effective_loop_out(),", ", loop_out)
+#	print("end: ",length)
 	return text
 
 

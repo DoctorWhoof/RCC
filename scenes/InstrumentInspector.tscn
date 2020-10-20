@@ -422,7 +422,6 @@ margin_bottom = 14.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Total samples"
-align = 2
 valign = 1
 
 [node name="Spacer_Right" type="Control" parent="HBox"]

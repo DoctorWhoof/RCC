@@ -20,8 +20,8 @@
 bg_color = Color( 0.2, 0.190667, 0.186, 1 )
 
 [node name="main" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_right = 1600.0
+margin_bottom = 1200.0
 script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -339,34 +339,22 @@ size_flags_vertical = 3
 [node name="Piano" parent="VBox_UI/ScrollContainer_Piano" instance=ExtResource( 5 )]
 margin_bottom = 179.0
 
-[node name="FileDialog_Save" type="FileDialog" parent="."]
-anchor_left = -0.00124603
-anchor_top = -5.08626e-08
-anchor_right = -0.00124603
-anchor_bottom = -5.08626e-08
-margin_left = 371.509
-margin_top = 167.136
-margin_right = 1240.51
-margin_bottom = 892.136
-rect_min_size = Vector2( 250, 87.5 )
-window_title = "Save Project"
-resizable = true
-access = 2
-filters = PoolStringArray( "*.tres; RCC Project" )
-current_dir = "/Users/leo/Documents/Code/Godot/RCC"
-current_path = "/Users/leo/Documents/Code/Godot/RCC/"
+[node name="FileDialogs" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FileDialog_Load" type="FileDialog" parent="."]
+[node name="FileDialog_Load" type="FileDialog" parent="FileDialogs"]
 anchor_left = -0.00124603
 anchor_top = -5.08626e-08
 anchor_right = -0.00124603
 anchor_bottom = -5.08626e-08
-margin_left = 371.509
+margin_left = 369.565
 margin_top = 167.136
-margin_right = 1240.51
+margin_right = 1238.57
 margin_bottom = 892.136
 rect_min_size = Vector2( 250, 87.5 )
 window_title = "Open a File"
@@ -380,18 +368,102 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="FileDialog_Save" type="FileDialog" parent="FileDialogs"]
+anchor_left = -0.00124603
+anchor_top = -5.08626e-08
+anchor_right = -0.00124603
+anchor_bottom = -5.08626e-08
+margin_left = 369.565
+margin_top = 167.136
+margin_right = 1238.57
+margin_bottom = 892.136
+rect_min_size = Vector2( 250, 87.5 )
+window_title = "Save Project"
+resizable = true
+access = 2
+filters = PoolStringArray( "*.tres; RCC Project" )
+current_dir = "/Users/leo/Documents/Code/Godot/RCC"
+current_path = "/Users/leo/Documents/Code/Godot/RCC/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileDialog_Export" type="FileDialog" parent="FileDialogs"]
+anchor_left = -0.00124603
+anchor_top = -5.08626e-08
+anchor_right = -0.00124603
+anchor_bottom = -5.08626e-08
+margin_left = 369.565
+margin_top = 167.136
+margin_right = 1238.57
+margin_bottom = 892.136
+rect_min_size = Vector2( 250, 87.5 )
+window_title = "Open a Directory"
+resizable = true
+mode = 2
+access = 2
+current_dir = "/Users/leo/Documents/Code/Godot/RCC"
+current_path = "/Users/leo/Documents/Code/Godot/RCC/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Popup_Progress" type="PopupDialog" parent="FileDialogs"]
+margin_left = 424.0
+margin_top = 576.0
+margin_right = 1192.0
+margin_bottom = 704.0
+popup_exclusive = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="ProgressBar" parent="FileDialogs/Popup_Progress"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -64.0
+margin_right = -16.0
+margin_bottom = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="FileDialogs/Popup_Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 8.0
+margin_right = -24.0
+margin_bottom = -96.0
+text = "Exporting in progress. Please wait."
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="FileDialogs/Popup_Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 32.0
+margin_right = -24.0
+margin_bottom = -72.0
+align = 1
+valign = 1
+
 [node name="Rcc" type="Node" parent="."]
 script = ExtResource( 8 )
 
 [node name="DebugRecord" type="Node" parent="Rcc"]
 script = ExtResource( 9 )
 [connection signal="instrument_list_changed" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_main_instrument_list_changed"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_main_instrument_selected"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Project" to="." method="_on_Menu_Project_item_pressed"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Export" to="." method="_on_Menu_Export_item_pressed"]
 [connection signal="pressed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="." method="_on_Button_add_pressed"]
@@ -420,5 +492,6 @@ script = ExtResource( 9 )
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" to="." method="_on_Morph_envelope_changed"]
 [connection signal="note_played" from="VBox_UI/ScrollContainer_Piano/Piano" to="." method="_on_Piano_note_played"]
 [connection signal="note_stopped" from="VBox_UI/ScrollContainer_Piano/Piano" to="." method="_on_Piano_note_stopped"]
-[connection signal="file_selected" from="FileDialog_Save" to="." method="_on_FileDialog_Save_file_selected"]
-[connection signal="file_selected" from="FileDialog_Load" to="." method="_on_FileDialog_Load_file_selected"]
+[connection signal="file_selected" from="FileDialogs/FileDialog_Load" to="." method="_on_FileDialog_Load_file_selected"]
+[connection signal="file_selected" from="FileDialogs/FileDialog_Save" to="." method="_on_FileDialog_Save_file_selected"]
+[connection signal="dir_selected" from="FileDialogs/FileDialog_Export" to="." method="_on_FileDialog_Export_dir_selected"]
