@@ -15,20 +15,36 @@ Keys:
 	--->Priority
 -------------------------------------------------------------------------------
 
---->[ ] Add Instrument comment box
+Target: Release 1.0
 
---->[ ] Add Current note and octave box
 
---->[ ] Shortcuts
+	[ ] Escape Key Stops all playback
+
+	[ ] Export Settings: If single sample, pick the exported note
+
+	[ ] Instrument instancing (SFZ file with different name but same samples)
+
+	[ ] Shortcuts
 		[ ] Shortcut tool tips
 
---->[ ] Morph envelope (Multiple waveforms per instrument)
+	[ ] Morph envelope (Multiple waveforms per instrument)
 		[ ] Maybe only two, with interpolation between?
 		[ ] Or 4 different waves with a 2 bit envelope?
 
---->[ ] Separate Pitch envelope into:
+	[ ] Separate Pitch envelope into:
 		- Note (each step is a note, arbitrary range)
 		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
+
+	[ ] Instrument inspector improvements:
+		[ ] Add Instrument comment text box
+		[ ] Add Current note and octave box at the bottom for user feedback.
+		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI
+
+	[ ] Undo system, probably keeping duplicates of the instrument resources
+
+
+Target: Low priority or done.
+
 
 	[ ] Very low (F1 and lower) notes cause the loop points to fail, since the note frequency falls below 60Hz (tick rate).
 		- Solution: different method for calculating loop points, based on calculating how many samples each note frequency needs.
@@ -38,22 +54,14 @@ Keys:
 
 	[ ] Implement scalable UI
 
-	[ ] Progress bar for exporting (updates per note, per instrument)
-
-	[ ] Undo system, probably keeping duplicates of the instrument resources
-	
-	[ ] Escape Key Stops all playback
-
-	[ ] Export Settings: If single sample, pick the exported note
-
-	[ ] Instrument instancing (SFZ file with different name but same samples)
-
 	[ ] Envelope processing:
 		[ ] Offset left, right
 		[ ] Mirror H and V
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+	[X] Progress bar for exporting (updates per note, per instrument)
 
 	[X] Visual feedback on piano keys (highlight and fade). Timer based?
 		[X] Visual feedback on current octave change
