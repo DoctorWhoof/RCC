@@ -207,7 +207,7 @@ size_flags_vertical = 3
 
 [node name="InstrumentList" type="ItemList" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer"]
 margin_right = 300.0
-margin_bottom = 912.0
+margin_bottom = 902.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
@@ -224,7 +224,7 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="InspectorLabel" type="Label" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector"]
-margin_right = 396.0
+margin_right = 395.0
 margin_bottom = 58.0
 size_flags_vertical = 1
 text = "
@@ -236,7 +236,7 @@ align = 1
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 58.0
-margin_right = 396.0
+margin_right = 395.0
 margin_bottom = 960.0
 size_flags_stretch_ratio = 6.0
 
@@ -314,26 +314,26 @@ envelope_type = 1
 
 [node name="Pitch" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
 visible = false
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 33.0
+margin_right = -5.0
+margin_bottom = -5.0
 envelope_type = 2
 
 [node name="Noise" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
 visible = false
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 33.0
+margin_right = -5.0
+margin_bottom = -5.0
 envelope_type = 3
 
 [node name="Morph" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
 visible = false
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 33.0
+margin_right = -5.0
+margin_bottom = -5.0
 envelope_type = 4
 
 [node name="Piano" type="Control" parent="VBox_UI"]
@@ -506,12 +506,12 @@ script = ExtResource( 8 )
 [node name="DebugRecord" type="Node" parent="Rcc"]
 script = ExtResource( 9 )
 [connection signal="instrument_list_changed" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_main_instrument_list_changed"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_main_instrument_selected"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Project" to="." method="_on_Menu_Project_item_pressed"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Export" to="." method="_on_Menu_Export_item_pressed"]
 [connection signal="pressed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="." method="_on_Button_add_pressed"]
@@ -538,8 +538,8 @@ script = ExtResource( 9 )
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" to="." method="_on_Pitch_envelope_changed"]
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" to="." method="_on_Noise_envelope_changed"]
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" to="." method="_on_Morph_envelope_changed"]
-[connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="VBox_UI/Piano/ScrollContainer_Piano" method="_on_Piano_note_played"]
 [connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_played"]
+[connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="VBox_UI/Piano/ScrollContainer_Piano" method="_on_Piano_note_played"]
 [connection signal="note_stopped" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_stopped"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Load" to="." method="_on_FileDialog_Load_file_selected"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Save" to="." method="_on_FileDialog_Save_file_selected"]

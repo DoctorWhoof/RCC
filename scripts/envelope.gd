@@ -17,7 +17,7 @@ export var min_value := 0.0
 
 export var attack := true
 export var release := true
-export var loop := false
+export var loop := true
 export var loop_in := 0
 export var loop_out := 32
 
