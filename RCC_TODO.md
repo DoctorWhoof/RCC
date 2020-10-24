@@ -15,6 +15,10 @@ Keys:
 	--->Priority
 -------------------------------------------------------------------------------
 
+--->[ ] Add Instrument comment box
+
+--->[ ] Add Current note and octave box
+
 --->[ ] Shortcuts
 		[ ] Shortcut tool tips
 

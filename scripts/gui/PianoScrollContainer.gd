@@ -18,6 +18,8 @@ func _ready() -> void:
 	_timer.wait_time = 0.02
 	_timer.connect("timeout", self, "_on_timer_timeout")
 	add_child(_timer)
+	yield(get_tree(), "idle_frame")
+	_scrollbar.value = rect_size.x/2
 
 
 func _on_Piano_note_played(note, octave) -> void:

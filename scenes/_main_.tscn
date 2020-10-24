@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://textures/plus.png" type="Texture" id=1]
 [ext_resource path="res://textures/minus.png" type="Texture" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://scripts/gui/MenuExport.gd" type="Script" id=16]
 [ext_resource path="res://misc/LargeText.tres" type="DynamicFont" id=17]
 [ext_resource path="res://scripts/gui/Panel_Octave.gd" type="Script" id=18]
+[ext_resource path="res://misc/Editor_Theme.tres" type="Theme" id=19]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.2, 0.190667, 0.186, 1 )
@@ -26,6 +27,7 @@ bg_color = Color( 0.2, 0.190667, 0.186, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+theme = ExtResource( 19 )
 script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -61,8 +63,8 @@ margin_bottom = 48.0
 rect_min_size = Vector2( 12, 0 )
 
 [node name="Menu_Project" type="MenuButton" parent="VBox_UI/HBoxContainer2"]
-margin_left = 16.0
-margin_right = 73.0
+margin_left = 17.0
+margin_right = 79.5
 margin_bottom = 48.0
 toggle_mode = false
 text = "Project"
@@ -73,8 +75,8 @@ __meta__ = {
 item_separation = 24
 
 [node name="Menu_Export" type="MenuButton" parent="VBox_UI/HBoxContainer2"]
-margin_left = 77.0
-margin_right = 129.0
+margin_left = 84.0
+margin_right = 141.5
 margin_bottom = 48.0
 toggle_mode = false
 text = "Export"
@@ -85,15 +87,15 @@ __meta__ = {
 item_separation = 24
 
 [node name="Button_Undo" type="Button" parent="VBox_UI/HBoxContainer2"]
-margin_left = 133.0
-margin_right = 187.0
+margin_left = 146.0
+margin_right = 205.5
 margin_bottom = 48.0
 text = " Undo "
 flat = true
 
 [node name="Button_Redo" type="Button" parent="VBox_UI/HBoxContainer2"]
-margin_left = 191.0
-margin_right = 243.0
+margin_left = 210.0
+margin_right = 267.5
 margin_bottom = 48.0
 text = " Redo "
 flat = true
@@ -132,15 +134,15 @@ custom_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List"]
 margin_right = 300.0
-margin_bottom = 48.0
+margin_bottom = 58.0
 custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="InstrumentsLabel" type="Label" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_right = 119.0
-margin_bottom = 48.0
+margin_right = 129.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "
@@ -148,9 +150,9 @@ text = "
 "
 
 [node name="Button_add" type="Button" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_left = 119.0
-margin_right = 155.0
-margin_bottom = 48.0
+margin_left = 129.0
+margin_right = 163.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 icon = ExtResource( 1 )
@@ -158,9 +160,9 @@ flat = true
 expand_icon = true
 
 [node name="Button_remove" type="Button" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_left = 155.0
-margin_right = 191.0
-margin_bottom = 48.0
+margin_left = 163.0
+margin_right = 197.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 icon = ExtResource( 2 )
@@ -168,9 +170,9 @@ flat = true
 expand_icon = true
 
 [node name="Button_duplicate" type="Button" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_left = 191.0
-margin_right = 227.0
-margin_bottom = 48.0
+margin_left = 197.0
+margin_right = 231.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 icon = ExtResource( 11 )
@@ -178,9 +180,9 @@ flat = true
 expand_icon = true
 
 [node name="Button_raise" type="Button" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_left = 227.0
-margin_right = 263.0
-margin_bottom = 48.0
+margin_left = 231.0
+margin_right = 265.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 icon = ExtResource( 3 )
@@ -188,9 +190,9 @@ flat = true
 expand_icon = true
 
 [node name="Button_lower" type="Button" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer"]
-margin_left = 263.0
+margin_left = 265.0
 margin_right = 300.0
-margin_bottom = 48.0
+margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 icon = ExtResource( 7 )
@@ -198,7 +200,7 @@ flat = true
 expand_icon = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List"]
-margin_top = 48.0
+margin_top = 58.0
 margin_right = 300.0
 margin_bottom = 960.0
 size_flags_vertical = 3
@@ -214,7 +216,7 @@ same_column_width = true
 script = ExtResource( 4 )
 
 [node name="VBoxContainer_Inspector" type="VBoxContainer" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer"]
-margin_left = 304.0
+margin_left = 305.0
 margin_right = 700.0
 margin_bottom = 960.0
 size_flags_horizontal = 3
@@ -304,10 +306,10 @@ size_flags_vertical = 3
 drag_to_rearrange_enabled = true
 
 [node name="Volume" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 33.0
+margin_right = -5.0
+margin_bottom = -5.0
 envelope_type = 1
 
 [node name="Pitch" parent="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer" instance=ExtResource( 10 )]
@@ -504,12 +506,12 @@ script = ExtResource( 8 )
 [node name="DebugRecord" type="Node" parent="Rcc"]
 script = ExtResource( 9 )
 [connection signal="instrument_list_changed" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_main_instrument_list_changed"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Project" to="." method="_on_Menu_Project_item_pressed"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Export" to="." method="_on_Menu_Export_item_pressed"]
 [connection signal="pressed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="." method="_on_Button_add_pressed"]
