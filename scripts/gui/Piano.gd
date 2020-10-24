@@ -5,12 +5,13 @@ signal note_played(note, octave)
 signal note_stopped()	#May need to specify the "channel" (track)
 
 export var first_octave := 0
-export var last_octave := 7
+export var last_octave := 8
 
 export var margin := 2
 export var black_key_ratio := 0.5
+export var max_hilight_alpha := 0.5
 
-var _octave_rects := []		#one rect for each octave
+var _octave_rects := []			#one rect for each octave
 var _white_rects := {}			#index:octave, value:array containing the key rects
 var _black_rects := {}			#index:octave, value:array containing the key rects
 var _pressed := false
@@ -19,9 +20,25 @@ var _octave := 4
 var _safe_rect:Rect2
 var _current_rect :Rect2
 var _current_note:= -1
-#var _current_event := ""
+
+var _key_timer:Timer
+var _hilight_color := Color.orange
+var _highlight_alpha := 1.0
+
+func _enter_tree() -> void:
+	rect_min_size.x = OS.get_screen_size().x
+
+
 func _ready():
 	connect("resized", self, "_on_resized")
+	connect("note_played", self, "_on_note_played")
+	connect("note_stopped", self, "_on_note_stopped")
+
+	_key_timer = Timer.new()
+	_key_timer.name = "key_timer"
+	_key_timer.wait_time = 0.05
+	_key_timer.connect("timeout", self, "_on_key_timer_timeout")
+	add_child(_key_timer)
 
 	var margins := margin*2
 	var octaves := (last_octave - first_octave)+1
@@ -55,12 +72,13 @@ func _draw():
 			draw_rect(r, Color.white )
 		for r in _black_rects[n]:
 			draw_rect(r, Color.black )
-	if _current_note > -1:
-		draw_rect(_current_rect, Color.red, false )
+#	if _current_note > -1:
+	var hilight_color = Color( _hilight_color.r, _hilight_color.g, _hilight_color.b, _highlight_alpha)
+	draw_rect(_current_rect, hilight_color )
 
 
 func _gui_input(event:InputEvent):
-#	var octave_width := rect_size.x/_octave_rects.size()
+
 	var oct :int = (event.position.x/rect_size.x)*_octave_rects.size()
 
 	if event is InputEventMouseButton:
@@ -132,6 +150,7 @@ func play_note_mouse(mouse:Vector2, oct:int):
 
 
 func _input(event:InputEvent):
+
 	if event.is_action_type():
 		if event.is_action_pressed("octave_down"):
 			_octave -= 1
@@ -142,28 +161,40 @@ func _input(event:InputEvent):
 
 		if event.is_action("note_c"):
 			_play_keyboard(0, event)
+			_current_rect = _white_rects[_octave][0]
 		elif event.is_action("note_c#"):
 			_play_keyboard(1, event)
+			_current_rect = _black_rects[_octave][0]
 		elif event.is_action("note_d"):
 			_play_keyboard(2, event)
+			_current_rect = _white_rects[_octave][1]
 		elif event.is_action("note_d#"):
 			_play_keyboard(3, event)
+			_current_rect = _black_rects[_octave][1]
 		elif event.is_action("note_e"):
 			_play_keyboard(4, event)
+			_current_rect = _white_rects[_octave][2]
 		elif event.is_action("note_f"):
 			_play_keyboard(5, event)
+			_current_rect = _white_rects[_octave][3]
 		elif event.is_action("note_f#"):
 			_play_keyboard(6, event)
+			_current_rect = _black_rects[_octave][2]
 		elif event.is_action("note_g"):
 			_play_keyboard(7, event)
+			_current_rect = _white_rects[_octave][4]
 		elif event.is_action("note_g#"):
 			_play_keyboard(8, event)
+			_current_rect = _black_rects[_octave][3]
 		elif event.is_action("note_a"):
 			_play_keyboard(9, event)
+			_current_rect = _white_rects[_octave][5]
 		elif event.is_action("note_a#"):
 			_play_keyboard(10, event)
+			_current_rect = _black_rects[_octave][4]
 		elif event.is_action("note_b"):
 			_play_keyboard(11, event)
+			_current_rect = _white_rects[_octave][6]
 
 
 func _play_keyboard(note:int, event:InputEventKey):
@@ -183,3 +214,20 @@ func _on_resized():
 			_white_rects[n][r].size.y = rect_size.y
 		for r in range(_black_rects[n].size()):
 			_black_rects[n][r].size.y = rect_size.y/2
+
+
+func _on_note_played(note, octave):
+	_key_timer.stop()
+	_highlight_alpha = max_hilight_alpha
+
+
+func _on_note_stopped():
+	_key_timer.start()
+
+
+func _on_key_timer_timeout():
+	_highlight_alpha -= _key_timer.wait_time
+	update()
+	if _highlight_alpha <= 0:
+		_key_timer.stop()
+

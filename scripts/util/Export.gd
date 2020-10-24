@@ -126,7 +126,7 @@ static func sfz_region(instrument:RccInstrument, wave_filename:String, note:int,
 	#Fix for very low pitch notes, which causes the flip detection to fail and
 	#loop in and loop out to be the same
 	if loop_out<=loop_in:
-		print("\nLow pitch fix")
+		print(instrument.name,": Required low pitch fix")
 		loop_out=loop_in+instrument.current_wavelength-1
 
 	var text :="\n<region>\n"

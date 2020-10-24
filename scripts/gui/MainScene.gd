@@ -288,8 +288,10 @@ func _on_FileDialog_Load_file_selected(path):
 
 
 func _on_FileDialog_Export_dir_selected(dir):
-	rcc.project.export_path = dir
+	#Without these "yield" lines, I can't actually see the File window disappear and the progress bar
+	#appear BEFORE the files have actually been exported. They introduce a 1 frame delay between each action.
 	yield(get_tree(),"idle_frame")
+	rcc.project.export_path = dir
 	_progress_popup.popup()
 	_progress_bar.value = 0
 	_export_dialog.hide()
