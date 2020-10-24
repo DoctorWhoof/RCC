@@ -47,13 +47,15 @@ Target: Release 1.0
 Target: Low priority or done.
 
 
+	[ ] Implement scalable UI (Cmd+Plus, Cmd+Minus)
+
+	[ ] Replace piano keys timers with Tween nodes?
+
 	[ ] Very low (F1 and lower) notes cause the loop points to fail, since the note frequency falls below 60Hz (tick rate).
 		- Solution: different method for calculating loop points, based on calculating how many samples each note frequency needs.
 		- Maybe only use the new method on lower octaves, but if it works really well then it can be used everywhere
 		- UPDATE: Seems good enough now for most cases, and the method mentioned above didn't quite work (doesn't account for the loop length, the fact that during a loop the last note may need to be cut off, etc)
 		[ ] New solution: increase length of loop section when note falls below 60Hz? +1 tick should do the trick!
-
-	[ ] Implement scalable UI
 
 	[ ] Envelope processing:
 		[ ] Offset left, right
