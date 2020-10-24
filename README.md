@@ -7,4 +7,4 @@ Retro Creative Chip
 
 Check out the rcc_todo.txt file for a comprehensive list of needed features.
 
-<img src="./_screenshots/Screen Shot 2020-10-10 at 3.58.06 PM.png" width="1824" />
+<img src="./_screenshots/Screen Shot 2020-10-23 at 9.23.22 PM" width="1824" />
