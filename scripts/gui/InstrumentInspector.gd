@@ -121,7 +121,10 @@ func _on_SpinBox_Interval_value_changed(value):
 
 
 func calculate_total_samples():
-	var total:int= ((range_max_field.value-range_min_field.value+1)*12)/interval_field.value
+	var total:= 1
+	if multisample_check.pressed:
+		total = ((range_max_field.value-range_min_field.value+1)*12)/interval_field.value
+
 	total_label.text = "Total samples: "+str(total)
 
 
