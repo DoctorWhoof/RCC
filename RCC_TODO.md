@@ -3,6 +3,7 @@
 RCC, Godot SFZ Instrument editor 
 -------------------------------------------------------------------------------
 GUI based editor that provides similar controls as TriloTracker on the MSX, with editable wavetable and macro editors. Once the instrument set is created, it can be exported as SFZ (text files+wave files), and optionally converted to SF2 using Polyphone (works in Polyphone 2.2).
+
 -------------------------------------------------------------------------------
 Keys:
 
