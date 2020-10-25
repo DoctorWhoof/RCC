@@ -43,6 +43,8 @@ Target: Release 1.0
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources
 
+	[ ] Prepend numbers to exported files so that sorting order matches your project
+
 
 Target: Low priority or done.
 
