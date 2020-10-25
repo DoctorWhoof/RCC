@@ -27,6 +27,7 @@ export var filter_size := 2
 
 export(Resource) var wave_envelope
 export(Resource) var pitch_envelope
+export(Resource) var note_envelope
 export(Resource) var volume_envelope
 export(Resource) var noise_envelope
 export(Resource) var morph_envelope
@@ -52,12 +53,14 @@ var envelopes := []
 func _init():
 	wave_envelope = Envelope.new()
 	pitch_envelope = Envelope.new()
+	note_envelope = Envelope.new()
 	volume_envelope = Envelope.new()
 	noise_envelope = Envelope.new()
 	morph_envelope = Envelope.new()
 
 	wave_envelope.name = "Envelope Wave"
 	pitch_envelope.name = "Envelope Pitch"
+	note_envelope.name = "Envelope Note"
 	volume_envelope.name = "Envelope Volume"
 	noise_envelope.name = "Envelope Noise"
 	morph_envelope.name = "Envelope Morph"
@@ -75,6 +78,7 @@ func reset():
 	wave_envelope.reset()
 	volume_envelope.reset()
 	pitch_envelope.reset()
+	note_envelope.reset()
 	noise_envelope.reset()
 	morph_envelope.reset()
 
@@ -82,6 +86,7 @@ func reset():
 func tick_forward():
 	volume_envelope.tick_forward()
 	pitch_envelope.tick_forward()
+	note_envelope.tick_forward()
 	noise_envelope.tick_forward()
 	morph_envelope.tick_forward()
 
@@ -89,6 +94,7 @@ func tick_forward():
 func release():
 	volume_envelope.is_releasing = true
 	pitch_envelope.is_releasing = true
+	note_envelope.is_releasing = true
 	noise_envelope.is_releasing = true
 	morph_envelope.is_releasing = true
 
@@ -97,6 +103,7 @@ func at_end()->bool:
 	var completed = true
 	if not volume_envelope.empty(): if not volume_envelope.is_done: completed = false
 	if not pitch_envelope.empty(): if not pitch_envelope.is_done: completed = false
+	if not note_envelope.empty(): if not note_envelope.is_done: completed = false
 	if not noise_envelope.empty(): if not noise_envelope.is_done: completed = false
 	if not morph_envelope.empty(): if not morph_envelope.is_done: completed = false
 	return completed
@@ -105,6 +112,7 @@ func at_end()->bool:
 func cut_off():
 	volume_envelope.cut_off()
 	pitch_envelope.cut_off()
+	note_envelope.cut_off()
 	noise_envelope.cut_off()
 	morph_envelope.cut_off()
 
@@ -112,6 +120,7 @@ func cut_off():
 func commit_envelopes():
 	volume_envelope.commit_value()
 	pitch_envelope.commit_value()
+	note_envelope.commit_value()
 	noise_envelope.commit_value()
 	morph_envelope.commit_value()
 
@@ -122,6 +131,7 @@ func set_envelope_size(new_length:int, new_loop_in:int, new_loop_out:int):
 	loop_out = new_loop_out
 	volume_envelope.set_envelope_size(length, loop_in, loop_out)
 	pitch_envelope.set_envelope_size(length, loop_in, loop_out)
+	note_envelope.set_envelope_size(length, loop_in, loop_out)
 	noise_envelope.set_envelope_size(length, loop_in, loop_out)
 	morph_envelope.set_envelope_size(length, loop_in, loop_out)
 
@@ -130,6 +140,7 @@ func effective_start()->int:
 	var e := loop_in
 	if not volume_envelope.empty(): e = min(e, volume_envelope.effective_start())
 	if not pitch_envelope.empty(): e = min(e, pitch_envelope.effective_start())
+	if not note_envelope.empty(): e = min(e, note_envelope.effective_start())
 	if not noise_envelope.empty(): e = min(e, noise_envelope.effective_start())
 	if not morph_envelope.empty(): e = min(e, morph_envelope.effective_start())
 	return e
@@ -139,6 +150,7 @@ func effective_end()->int:
 	var e := 0
 	if not volume_envelope.empty(): e = max(e, volume_envelope.effective_end())
 	if not pitch_envelope.empty(): e = max(e, pitch_envelope.effective_end())
+	if not note_envelope.empty(): e = max(e, note_envelope.effective_end())
 	if not noise_envelope.empty(): e = max(e, noise_envelope.effective_end())
 	if not morph_envelope.empty(): e = max(e, morph_envelope.effective_end())
 	return e+preroll_length()
@@ -149,6 +161,7 @@ func preroll_length()->int:
 		#if it's a looping instrument, a single non-empty, non-looping envelope will cause pre-roll
 		if not volume_envelope.loop: if not volume_envelope.empty(): return length
 		if not pitch_envelope.loop: if not pitch_envelope.empty(): return length
+		if not note_envelope.loop: if not note_envelope.empty(): return length
 		if not noise_envelope.loop: if not noise_envelope.empty(): return length
 		if not morph_envelope.loop: if not morph_envelope.empty(): return length
 	return 0
@@ -157,6 +170,7 @@ func preroll_length()->int:
 func attack_length()->int:
 	if volume_envelope.loop: if volume_envelope.attack: if not volume_envelope.empty(): return loop_in
 	if pitch_envelope.loop: if pitch_envelope.attack: if not pitch_envelope.empty(): return loop_in
+	if note_envelope.loop: if note_envelope.attack: if not note_envelope.empty(): return loop_in
 	if noise_envelope.loop: if noise_envelope.attack: if not noise_envelope.empty(): return loop_in
 	if morph_envelope.loop: if morph_envelope.attack: if not morph_envelope.empty(): return loop_in
 	return 0
@@ -167,6 +181,7 @@ func release_length()->int:
 	var rel_length:= length-loop_out-1
 	if volume_envelope.loop: if volume_envelope.release: if not volume_envelope.empty(): return rel_length
 	if pitch_envelope.loop: if pitch_envelope.release: if not pitch_envelope.empty(): return rel_length
+	if note_envelope.loop: if note_envelope.release: if not note_envelope.empty(): return rel_length
 	if noise_envelope.loop: if noise_envelope.release: if not noise_envelope.empty(): return rel_length
 	if morph_envelope.loop: if morph_envelope.release: if not morph_envelope.empty(): return rel_length
 	return 0
@@ -193,6 +208,7 @@ func effective_loop_out()->int:
 func will_loop()->bool:
 	if volume_envelope.loop: if not volume_envelope.empty(): return true
 	if pitch_envelope.loop: if not pitch_envelope.empty(): return true
+	if note_envelope.loop: if not note_envelope.empty(): return true
 	if noise_envelope.loop: if not noise_envelope.empty(): return true
 	if morph_envelope.loop: if not morph_envelope.empty(): return true
 	return false

@@ -63,6 +63,11 @@ func _on_Pitch_envelope_changed(env):
 		rcc.project.get_selected().pitch_envelope = env
 
 
+func _on_Note_envelope_changed(env):
+	if not rcc.project.empty():
+		rcc.project.get_selected().note_envelope = env
+
+
 func _on_Volume_envelope_changed(env):
 	if not rcc.project.empty():
 		rcc.project.get_selected().volume_envelope = env
@@ -321,3 +326,4 @@ func _on_FileDialog_Export_dir_selected(dir):
 				n+=1
 			print("Exported all instruments to SFZ files at ", dir)
 	_progress_popup.hide()
+

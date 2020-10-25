@@ -1,17 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/gui/EnvelopeEditor.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/EnvelopeScene.gd" type="Script" id=2]
 [ext_resource path="res://misc/SmallText.tres" type="DynamicFont" id=3]
 [ext_resource path="res://scripts/gui/Fix_SpinBox.gd" type="Script" id=4]
-[ext_resource path="res://misc/Editor_Theme.tres" type="Theme" id=5]
 
 [node name="EnvelopeEditor" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 5 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -28,11 +26,11 @@ __meta__ = {
 
 [node name="HBoxContainer_Tools" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1600.0
-margin_bottom = 32.0
+margin_bottom = 40.0
 
 [node name="presets" type="OptionButton" parent="VBoxContainer/HBoxContainer_Tools"]
-margin_right = 95.5
-margin_bottom = 32.0
+margin_right = 87.0
+margin_bottom = 40.0
 text = "Envelope"
 
 [node name="length" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
@@ -65,18 +63,18 @@ script = ExtResource( 4 )
 [node name="min" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
 ]]
-margin_left = 100.0
-margin_top = 4.0
-margin_right = 143.0
-margin_bottom = 28.0
+margin_left = 91.0
+margin_top = 13.0
+margin_right = 124.0
+margin_bottom = 27.0
 text = " min "
 
 [node name="min_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
 ]]
-margin_left = 148.0
-margin_right = 233.5
-margin_bottom = 26.5
+margin_left = 128.0
+margin_right = 202.0
+margin_bottom = 24.0
 rect_clip_content = true
 size_flags_horizontal = 13
 size_flags_vertical = 0
@@ -89,18 +87,18 @@ script = ExtResource( 4 )
 [node name="max" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
 ]]
-margin_left = 238.0
-margin_top = 4.0
-margin_right = 283.0
-margin_bottom = 28.0
+margin_left = 206.0
+margin_top = 13.0
+margin_right = 241.0
+margin_bottom = 27.0
 text = " max "
 
 [node name="max_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
 ]]
-margin_left = 288.0
-margin_right = 373.5
-margin_bottom = 26.5
+margin_left = 245.0
+margin_right = 319.0
+margin_bottom = 24.0
 rect_clip_content = true
 focus_next = NodePath("../../editor")
 size_flags_horizontal = 13
@@ -111,26 +109,26 @@ rounded = true
 script = ExtResource( 4 )
 
 [node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer_Tools"]
-margin_left = 378.0
+margin_left = 323.0
 margin_right = 1263.0
-margin_bottom = 32.0
+margin_bottom = 40.0
 size_flags_horizontal = 3
 
 [node name="loop" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 ]]
-margin_left = 1268.0
-margin_top = 4.0
-margin_right = 1314.0
-margin_bottom = 28.0
+margin_left = 1267.0
+margin_top = 13.0
+margin_right = 1303.0
+margin_bottom = 27.0
 text = " loop "
 
 [node name="loop_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 ]]
-margin_left = 1319.0
-margin_right = 1383.5
-margin_bottom = 32.5
+margin_left = 1307.0
+margin_right = 1383.0
+margin_bottom = 40.0
 
 [node name="in" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
@@ -183,10 +181,10 @@ __meta__ = {
 "Control_Loop",
 "Editor_Envelope",
 ]]
-margin_left = 1388.0
-margin_top = 4.0
-margin_right = 1423.0
-margin_bottom = 28.0
+margin_left = 1387.0
+margin_top = 13.0
+margin_right = 1412.0
+margin_bottom = 27.0
 text = " Atk"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -195,25 +193,25 @@ __meta__ = {
 [node name="attack_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 ]]
-margin_left = 1428.0
-margin_right = 1492.5
-margin_bottom = 32.5
+margin_left = 1416.0
+margin_right = 1492.0
+margin_bottom = 40.0
 
 [node name="release" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 ]]
-margin_left = 1497.0
-margin_top = 4.0
-margin_right = 1531.0
-margin_bottom = 28.0
+margin_left = 1496.0
+margin_top = 13.0
+margin_right = 1520.0
+margin_bottom = 27.0
 text = " Rel"
 
 [node name="release_Checkbox" type="CheckButton" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 ]]
-margin_left = 1536.0
-margin_right = 1600.5
-margin_bottom = 32.5
+margin_left = 1524.0
+margin_right = 1600.0
+margin_bottom = 40.0
 
 [node name="Button_smooth" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
 visible = false
@@ -244,7 +242,7 @@ margin_bottom = 24.0
 text = "add noise"
 
 [node name="editor" type="Control" parent="VBoxContainer"]
-margin_top = 37.0
+margin_top = 44.0
 margin_right = 1600.0
 margin_bottom = 1200.0
 rect_clip_content = true

@@ -82,7 +82,8 @@ static func get_pitch_increment(instrument:RccInstrument, note:int)->int:
 
 #number of samples for current note
 static func get_note_length(instrument:RccInstrument, note:int)->float:
-	var note_offset:int = instrument.pitch_envelope.current() + (instrument.transpose*12)
+	var pitch_offset:float = instrument.pitch_envelope.normalized()
+	var note_offset:float = instrument.note_envelope.current() + (instrument.transpose*12) + pitch_offset
 	var multiplier:= pow(1.059463094359, note+note_offset-1)
 	var frequency:= (261.625565300 * multiplier) #C4 times multiplier
 	return( (1.0/frequency)*instrument.mix_rate )

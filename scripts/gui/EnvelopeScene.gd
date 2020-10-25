@@ -2,7 +2,7 @@ extends Control
 class_name EnvelopeScene, "res://textures/envelope.png"
 
 enum Role {
-	wave, volume, pitch, noise, morph
+	wave, volume, pitch, note, noise, morph
 }
 
 signal envelope_changed(env)
@@ -24,7 +24,7 @@ onready var release := $VBoxContainer/HBoxContainer_Tools/release_Checkbox
 func _ready():
 	match envelope_type:
 		Role.wave:
-			editor.envelope = preload("res://envelopes/envelope_wavetable.tres")
+#			editor.envelope = preload("res://envelopes/envelope_wavetable.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Pulse 50", Envelope.Waveform.square)
 			presets.add_item("Pulse 25", Envelope.Waveform.pulse25)
@@ -40,7 +40,7 @@ func _ready():
 			for node in get_children_in_group(self,"Control_Dimensions"):
 				node.visible=false
 		Role.volume:
-			editor.envelope = preload("res://envelopes/envelope_volume.tres")
+#			editor.envelope = preload("res://envelopes/envelope_volume.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			presets.add_item("Falloff", Envelope.Waveform.falloff)
@@ -49,7 +49,16 @@ func _ready():
 			presets.add_item("Noise", Envelope.Waveform.noise)
 			presets.add_item("Hit/Sustain", Envelope.Waveform.hit_sustain)
 		Role.pitch:
-			editor.envelope = preload("res://envelopes/envelope_pitch.tres")
+#			editor.envelope = preload("res://envelopes/envelope_pitch.tres")
+			presets.add_item("Custom", Envelope.Waveform.custom)
+			presets.add_item("Flat", Envelope.Waveform.flat)
+			presets.add_item("Sine", Envelope.Waveform.sine)
+			presets.add_item("Triangle", Envelope.Waveform.triangle)
+			presets.add_item("Sawtooth", Envelope.Waveform.sawtooth)
+			presets.add_item("Slide", Envelope.Waveform.slide)
+			presets.add_item("Noise", Envelope.Waveform.noise)
+		Role.note:
+#			editor.envelope = preload("res://envelopes/envelope_note.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			presets.add_item("Arpeggio 12/-12", Envelope.Waveform.arpeggio)
@@ -61,11 +70,11 @@ func _ready():
 			presets.add_item("Noise", Envelope.Waveform.noise)
 			presets.add_item("Bass", Envelope.Waveform.bass)
 		Role.noise:
-			editor.envelope = preload("res://envelopes/envelope_noise.tres")
+#			editor.envelope = preload("res://envelopes/envelope_noise.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 		Role.morph:
-			editor.envelope = preload("res://envelopes/envelope_morph.tres")
+#			editor.envelope = preload("res://envelopes/envelope_morph.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 
@@ -184,6 +193,7 @@ func _on_main_instrument_selected(instrument):
 		match envelope_type:
 			Role.wave: editor.envelope = instrument.wave_envelope
 			Role.pitch: editor.envelope = instrument.pitch_envelope
+			Role.note: editor.envelope = instrument.note_envelope
 			Role.volume: editor.envelope = instrument.volume_envelope
 			Role.noise: editor.envelope = instrument.noise_envelope
 			Role.morph: editor.envelope = instrument.morph_envelope

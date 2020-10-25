@@ -12,15 +12,18 @@ export var wavetable_length = 32
 
 export var volume_min := 0
 export var volume_max := 15
-export var volume_length := 8
 
-export var pitch_min := -12
-export var pitch_max := 12
-export var pitch_length := 8
+export var note_min := -12
+export var note_max := 12
+
+export var pitch_min := -15
+export var pitch_max := 15
 
 export var noise_min := 0
 export var noise_max := 15
-export var noise_length := 8
+
+export var morph_min := 0
+export var morph_max := 15
 
 func clear():
 	instruments.clear()
@@ -68,15 +71,23 @@ func create_instrument(waveform:int, index:int):
 
 	inst.volume_envelope.min_value=volume_min
 	inst.volume_envelope.max_value=volume_max
-	inst.volume_envelope.generate_preset(Envelope.Waveform.hit_sustain, volume_length)
+	inst.volume_envelope.generate_preset(Envelope.Waveform.hit_sustain, inst.length)
 
 	inst.pitch_envelope.min_value=pitch_min
 	inst.pitch_envelope.max_value=pitch_max
-	inst.pitch_envelope.generate_preset(Envelope.Waveform.flat, pitch_length)
+	inst.pitch_envelope.generate_preset(Envelope.Waveform.flat, inst.length)
+
+	inst.note_envelope.min_value=note_min
+	inst.note_envelope.max_value=note_max
+	inst.note_envelope.generate_preset(Envelope.Waveform.flat, inst.length)
 
 	inst.noise_envelope.min_value=noise_min
 	inst.noise_envelope.max_value=noise_max
-	inst.noise_envelope.generate_preset(Envelope.Waveform.flat, noise_length)
+	inst.noise_envelope.generate_preset(Envelope.Waveform.flat, inst.length)
+
+	inst.morph_envelope.min_value=morph_min
+	inst.morph_envelope.max_value=morph_max
+	inst.morph_envelope.generate_preset(Envelope.Waveform.flat, inst.length)
 
 	inst.name = "Instrument "+str(n)
 	instruments.insert(index, inst)
