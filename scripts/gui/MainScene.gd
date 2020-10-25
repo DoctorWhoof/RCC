@@ -320,7 +320,7 @@ func _on_FileDialog_Export_dir_selected(dir):
 			var n :float= 0
 			for inst in rcc.project.instruments:
 				yield(get_tree(),"idle_frame")
-				Export.to_sfz(inst, dir)
+				Export.to_sfz(inst, dir, n)
 				_progress_bar.value = (n/rcc.project.instruments.size())*100
 				_progress_text.text = inst.name
 				n+=1

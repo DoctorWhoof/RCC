@@ -38,11 +38,15 @@ Target: Release 1.0
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources in memory
 
-	[ ] Prepend numbers to exported files so that sorting order matches your project
-
 
 Target: Low priority or done.
 
+	[ ] Export Options dialog
+		[ ] File numbers: digits, prepend, append
+		[ ] Remove old files?
+		[ ] Convert spaces to "_"
+
+	[ ] Export multiple selected
 
 	[ ] Implement scalable UI (Cmd+Plus, Cmd+Minus)
 
@@ -60,6 +64,8 @@ Target: Low priority or done.
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+	[X] Prepend numbers to exported files so that sorting order matches your project
 
 	[X] Separate Pitch envelope into:
 		- Note (each step is a note, arbitrary range)
@@ -163,3 +169,14 @@ Target: Low priority or done.
 		[X] Export all instruments to .wav or .sfz
 
 	[X] Raise middle octave to C4 (to allow lower pitched notes)
+
+-------------------------------------------------------------------------------
+
+Extra:
+
+	Test import in Open MPT
+		[ ] Loop not working in on-shot?
+
+	Needs instruments:
+		[ ] Bass 
+

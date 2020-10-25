@@ -1,6 +1,6 @@
 class_name Export
 
-static func to_sfz(instrument:RccInstrument, dir_path):
+static func to_sfz(instrument:RccInstrument, dir_path, index:=-1):
 	var samples_path := instrument.name + "_samples"
 	var dir := Directory.new()
 	dir.open(dir_path)
@@ -22,6 +22,7 @@ static func to_sfz(instrument:RccInstrument, dir_path):
 	var file := File.new()
 
 	var filename := instrument.name + ".sfz"
+	if index >-1: filename = str(index).pad_zeros(3)+" "+filename
 	var text := "//Sfz test export from RCC\n\n"
 	var loop_mode = "one_shot"
 	if instrument.will_loop(): loop_mode = "loop_sustain"
@@ -54,7 +55,7 @@ static func to_sfz(instrument:RccInstrument, dir_path):
 	#Then we generate the text for the SFZ file
 	file.open(dir_path+"/"+filename, File.WRITE)
 	text+="\n<control>\n"
-	text+="default_path="+samples_path+"\n"
+	text+="default_path="+samples_path+"/\n"
 
 	#SFZ Group
 	text+="\n<group>\n"

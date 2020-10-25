@@ -443,14 +443,12 @@ __meta__ = {
 }
 
 [node name="FileDialog_Export" type="FileDialog" parent="FileDialogs"]
-anchor_left = -0.00124603
-anchor_top = -5.08626e-08
-anchor_right = -0.00124603
-anchor_bottom = -5.08626e-08
-margin_left = 369.565
-margin_top = 167.136
-margin_right = 1238.57
-margin_bottom = 892.136
+anchor_left = -0.00124741
+anchor_right = -0.00125122
+margin_left = 370.01
+margin_top = 160.0
+margin_right = 1240.01
+margin_bottom = 892.0
 rect_min_size = Vector2( 250, 87.5 )
 window_title = "Open a Directory"
 resizable = true
@@ -512,13 +510,13 @@ script = ExtResource( 8 )
 [node name="DebugRecord" type="Node" parent="Rcc"]
 script = ExtResource( 9 )
 [connection signal="instrument_list_changed" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/ScrollContainer/InstrumentList" method="_on_main_instrument_list_changed"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
-[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Note" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_Inspector/InstrumentInspector" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/Wavetable" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Volume" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Note" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" method="_on_main_instrument_selected"]
 [connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" method="_on_main_instrument_selected"]
+[connection signal="instrument_selected" from="." to="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" method="_on_main_instrument_selected"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Project" to="." method="_on_Menu_Project_item_pressed"]
 [connection signal="item_pressed" from="VBox_UI/HBoxContainer2/Menu_Export" to="." method="_on_Menu_Export_item_pressed"]
 [connection signal="pressed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Instruments/HBoxContainer/VBoxContainer_List/HBoxContainer/Button_add" to="." method="_on_Button_add_pressed"]
@@ -546,8 +544,8 @@ script = ExtResource( 9 )
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Pitch" to="." method="_on_Pitch_envelope_changed"]
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Noise" to="." method="_on_Noise_envelope_changed"]
 [connection signal="envelope_changed" from="VBox_UI/HBoxContainer_Panels/VBoxContainer_Envelopes/TabContainer/Morph" to="." method="_on_Morph_envelope_changed"]
-[connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="VBox_UI/Piano/ScrollContainer_Piano" method="_on_Piano_note_played"]
 [connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_played"]
+[connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="VBox_UI/Piano/ScrollContainer_Piano" method="_on_Piano_note_played"]
 [connection signal="note_stopped" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_stopped"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Load" to="." method="_on_FileDialog_Load_file_selected"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Save" to="." method="_on_FileDialog_Save_file_selected"]
