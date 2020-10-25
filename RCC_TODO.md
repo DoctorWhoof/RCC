@@ -18,7 +18,6 @@ Keys:
 
 Target: Release 1.0
 
-
 	[ ] Escape Key Stops all playback
 
 	[ ] Export Settings: If single sample, pick the exported note
@@ -32,16 +31,12 @@ Target: Release 1.0
 		[ ] Maybe only two, with interpolation between?
 		[ ] Or 4 different waves with a 2 bit envelope?
 
-	[ ] Separate Pitch envelope into:
-		- Note (each step is a note, arbitrary range)
-		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
-
 	[ ] Instrument inspector improvements:
 		[ ] Add Instrument comment text box
 		[ ] Add Current note and octave box at the bottom for user feedback.
 		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI
 
-	[ ] Undo system, probably keeping duplicates of the instrument resources
+	[ ] Undo system, probably keeping duplicates of the instrument resources in memory
 
 	[ ] Prepend numbers to exported files so that sorting order matches your project
 
@@ -65,6 +60,10 @@ Target: Low priority or done.
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+	[X] Separate Pitch envelope into:
+		- Note (each step is a note, arbitrary range)
+		- Pitch (frequency shift, -1.0 to +1.0 with 8 or 16 steps each way)
 
 	[X] Progress bar for exporting (updates per note, per instrument)
 
