@@ -44,6 +44,8 @@ Target: Release 1.0
 
 	[ ] Undo system, probably keeping duplicates of the instrument resources in memory
 
+	[ ] App Icon
+
 
 Target: Low priority or done.
 
