@@ -11,6 +11,9 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 	var value:int = instrument.previous_value
 	var first_flip := false
 
+#	instrument.commit_envelopes()
+#	increment=get_pitch_increment(instrument, note)
+
 	#This is the loop that fills in the array to be returned
 	while length > 0:
 		#Column advance and loop

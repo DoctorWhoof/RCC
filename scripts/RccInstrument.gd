@@ -68,6 +68,7 @@ func _init():
 
 func reset():
 	column = -1
+	out_level = 1.0
 	previous_value = -1
 	current_sample = 0
 	current_wavelength = 0

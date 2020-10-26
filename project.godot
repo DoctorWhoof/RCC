@@ -99,6 +99,7 @@ default_bus_layout=""
 
 AudioUtil="*res://scripts/util/AudioUtil.gd"
 Generator="*res://scripts/Generator.gd"
+Clipboard="*res://scenes/Singletons/Clipboard.tscn"
 
 [display]
 

@@ -25,6 +25,8 @@ export var noise_max := 15
 export var morph_min := 0
 export var morph_max := 15
 
+#var _clipboard_envelope:Envelope
+
 func clear():
 	instruments.clear()
 	selected=0

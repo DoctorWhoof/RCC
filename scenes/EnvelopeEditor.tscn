@@ -108,8 +108,17 @@ value = 16.0
 rounded = true
 script = ExtResource( 4 )
 
-[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer_Tools"]
+[node name="Menu_Edit" type="MenuButton" parent="VBoxContainer/HBoxContainer_Tools"]
 margin_left = 323.0
+margin_right = 359.0
+margin_bottom = 40.0
+text = "Edit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spacer" type="Control" parent="VBoxContainer/HBoxContainer_Tools"]
+margin_left = 363.0
 margin_right = 1263.0
 margin_bottom = 40.0
 size_flags_horizontal = 3

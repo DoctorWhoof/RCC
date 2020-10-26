@@ -19,12 +19,11 @@ onready var loop_in := $VBoxContainer/HBoxContainer_Tools/in_SpinBox
 onready var loop_out := $VBoxContainer/HBoxContainer_Tools/out_SpinBox
 onready var attack := $VBoxContainer/HBoxContainer_Tools/attack_Checkbox
 onready var release := $VBoxContainer/HBoxContainer_Tools/release_Checkbox
-
+onready var edit_menu := $VBoxContainer/HBoxContainer_Tools/Menu_Edit
 
 func _ready():
 	match envelope_type:
 		Role.wave:
-#			editor.envelope = preload("res://envelopes/envelope_wavetable.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Pulse 50", Envelope.Waveform.square)
 			presets.add_item("Pulse 25", Envelope.Waveform.pulse25)
@@ -40,7 +39,6 @@ func _ready():
 			for node in get_children_in_group(self,"Control_Dimensions"):
 				node.visible=false
 		Role.volume:
-#			editor.envelope = preload("res://envelopes/envelope_volume.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			presets.add_item("Falloff", Envelope.Waveform.falloff)
@@ -49,7 +47,6 @@ func _ready():
 			presets.add_item("Noise", Envelope.Waveform.noise)
 			presets.add_item("Hit/Sustain", Envelope.Waveform.hit_sustain)
 		Role.pitch:
-#			editor.envelope = preload("res://envelopes/envelope_pitch.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			presets.add_item("Sine", Envelope.Waveform.sine)
@@ -58,7 +55,6 @@ func _ready():
 			presets.add_item("Slide", Envelope.Waveform.slide)
 			presets.add_item("Noise", Envelope.Waveform.noise)
 		Role.note:
-#			editor.envelope = preload("res://envelopes/envelope_note.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			presets.add_item("Arpeggio 12/-12", Envelope.Waveform.arpeggio)
@@ -70,11 +66,9 @@ func _ready():
 			presets.add_item("Noise", Envelope.Waveform.noise)
 			presets.add_item("Bass", Envelope.Waveform.bass)
 		Role.noise:
-#			editor.envelope = preload("res://envelopes/envelope_noise.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 		Role.morph:
-#			editor.envelope = preload("res://envelopes/envelope_morph.tres")
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 
@@ -93,6 +87,12 @@ func _ready():
 	loop_out.connect("value_changed", self, "_change_loop_out" )
 	attack.connect("toggled", self, "_change_attack" )
 	release.connect("toggled", self, "_change_release" )
+
+	edit_menu.get_popup().add_item("Copy     ")
+	edit_menu.get_popup().add_item("Paste    ")
+	edit_menu.get_popup().connect("index_pressed", self, "_on_edit_menu_pressed")
+
+	edit_menu.get_popup().set("custom_constants/vseparation", 12)
 
 	_refresh_controls()
 
@@ -199,3 +199,18 @@ func _on_main_instrument_selected(instrument):
 			Role.morph: editor.envelope = instrument.morph_envelope
 		editor.refresh(false)
 		_refresh_controls()
+
+
+func _on_edit_menu_pressed(index:int):
+	match index:
+		0:	#Copy
+			Clipboard.envelope = editor.envelope.duplicate()
+			editor.refresh(false)
+			_refresh_controls()
+		1:	#Paste
+			if Clipboard.envelope:
+				editor.envelope = Clipboard.envelope.duplicate()
+				editor.refresh(false)
+				_refresh_controls()
+
+

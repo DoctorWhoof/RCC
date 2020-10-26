@@ -18,6 +18,12 @@ Keys:
 
 Target: Release 1.0
 
+	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
+
+	[ ] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading
+
+	[ ] Envelope Edit: Copy and Paste
+
 	[ ] Escape Key Stops all playback
 
 	[ ] Export Settings: If single sample, pick the exported note
@@ -41,8 +47,10 @@ Target: Release 1.0
 
 Target: Low priority or done.
 
+	[ ] PSG noise "Click" artifact, useful for punchy percussion
+
 	[ ] Export Options dialog
-		[ ] File numbers: digits, prepend, append
+		[ ] File numbering: digit count, prepend, append
 		[ ] Remove old files?
 		[ ] Convert spaces to "_"
 
@@ -64,6 +72,8 @@ Target: Low priority or done.
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+	[X] Non-Linear wavetable volume
 
 	[X] Prepend numbers to exported files so that sorting order matches your project
 

@@ -130,8 +130,11 @@ func current()->float:
 	return value
 
 
-func normalized()->float:
-	return value/max_value
+func normalized(linear:=false, power:=2.0)->float:
+	var result:= value/max_value
+	if not linear:
+		result = pow(result, power)
+	return result
 
 
 func length()->int:
