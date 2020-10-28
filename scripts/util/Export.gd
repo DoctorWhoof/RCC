@@ -59,11 +59,14 @@ static func to_sfz(instrument:RccInstrument, dir_path, index:=-1):
 
 	#SFZ Group
 	text+="\n<group>\n"
+	text+="group="+str(abs(index))+"\n"
+	text+="off_by="+str(abs(index))+"\n"
 	text+="pan="+str(int(instrument.pan*50))+"\n"
 	text+="volume="+str((1-instrument.volume)*-50)+"\n"    #TO DO: Use db scale (non linear). This is a quick hack.
 	text+="loop_mode="+loop_mode+"\n"
 	text+="ampeg_release=5\n"
 	text+="ampeg_attack=0.001\n"
+	text+="note_polyphony=1\n"
 
 	#SFZ Regions
 	text+=regions_text
