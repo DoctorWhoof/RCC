@@ -11,12 +11,9 @@ export(Role) var envelope_type
 
 onready var presets := $VBoxContainer/HBoxContainer_Tools/presets
 onready var editor := $VBoxContainer/editor
-onready var length := $VBoxContainer/HBoxContainer_Tools/length_SpinBox
 onready var min_value := $VBoxContainer/HBoxContainer_Tools/min_SpinBox
 onready var max_value := $VBoxContainer/HBoxContainer_Tools/max_SpinBox
 onready var loop := $VBoxContainer/HBoxContainer_Tools/loop_Checkbox
-onready var loop_in := $VBoxContainer/HBoxContainer_Tools/in_SpinBox
-onready var loop_out := $VBoxContainer/HBoxContainer_Tools/out_SpinBox
 onready var attack := $VBoxContainer/HBoxContainer_Tools/attack_Checkbox
 onready var release := $VBoxContainer/HBoxContainer_Tools/release_Checkbox
 onready var edit_menu := $VBoxContainer/HBoxContainer_Tools/Menu_Edit
@@ -81,10 +78,7 @@ func _ready():
 	presets.connect("item_selected", self, "_preset_selected" )
 	min_value.connect("value_changed", self, "_change_min" )
 	max_value.connect("value_changed", self, "_change_max" )
-	length.connect("value_changed", self, "_change_length" )
 	loop.connect("toggled", self, "_change_loop" )
-	loop_in.connect("value_changed", self, "_change_loop_in" )
-	loop_out.connect("value_changed", self, "_change_loop_out" )
 	attack.connect("toggled", self, "_change_attack" )
 	release.connect("toggled", self, "_change_release" )
 
@@ -115,12 +109,6 @@ func _refresh_controls():
 	loop.pressed = editor.envelope.loop
 	attack.pressed = editor.envelope.attack
 	release.pressed = editor.envelope.release
-	#MAY cause loop out to be length-1. Moving it below here seems to have fixed the problem?
-	length.value = editor.envelope.length()
-	loop_in.value = editor.envelope.loop_in
-	loop_out.value = editor.envelope.loop_out
-#	editor.envelope.loop_in = instrument.loop_in
-#	editor.envelope.loop_out = instrument.loop_out
 	editor.refresh(false)
 
 
@@ -132,12 +120,9 @@ func _envelope_changed(env):
 
 func _preset_selected(index:int):
 	editor.envelope.generate_preset( presets.get_item_id(index), editor.envelope.length() )
-	length.value =editor.envelope.length()
 	min_value.value = editor.envelope.min_value
 	max_value.value = editor.envelope.max_value
 	loop.pressed = editor.envelope.loop
-	loop_in.value = editor.envelope.loop_in
-	loop_out.value = editor.envelope.loop_out
 	editor.refresh(false)
 	presets.selected = index
 
@@ -154,29 +139,10 @@ func _change_max(value:float):
 	editor.refresh(false)
 
 
-func _change_length(value:float):
-	editor.envelope.set_length(value)
-	loop_in.max_value=value-1
-	loop_out.max_value=value-1
-	editor.refresh(false)
-
-
 func _change_loop(value:bool):
 	editor.envelope.loop=value
-	loop_in.editable = value
-	loop_out.editable = value
 	release.disabled = not value
 	attack.disabled = not value
-	editor.refresh(false)
-
-
-func _change_loop_in(value:int):
-	editor.envelope.loop_in=value
-	editor.refresh(false)
-
-
-func _change_loop_out(value:int):
-	editor.envelope.loop_out=value
 	editor.refresh(false)
 
 

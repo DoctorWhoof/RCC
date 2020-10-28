@@ -33,33 +33,6 @@ margin_right = 87.0
 margin_bottom = 40.0
 text = "Envelope"
 
-[node name="length" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Dimensions",
-]]
-visible = false
-margin_left = 91.0
-margin_top = 13.0
-margin_right = 139.0
-margin_bottom = 27.0
-text = " length "
-
-[node name="length_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Dimensions",
-]]
-visible = false
-margin_left = 91.0
-margin_right = 165.0
-margin_bottom = 24.0
-rect_pivot_offset = Vector2( 133.38, 60.7642 )
-rect_clip_content = true
-size_flags_horizontal = 13
-size_flags_vertical = 0
-min_value = 1.0
-max_value = 4096.0
-value = 16.0
-rounded = true
-script = ExtResource( 4 )
-
 [node name="min" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Dimensions",
 ]]
@@ -139,53 +112,6 @@ margin_left = 1307.0
 margin_right = 1383.0
 margin_bottom = 40.0
 
-[node name="in" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Loop",
-]]
-visible = false
-margin_left = 1494.0
-margin_top = 13.0
-margin_right = 1514.0
-margin_bottom = 27.0
-text = " in "
-valign = 1
-
-[node name="in_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Loop",
-]]
-visible = false
-margin_left = 1518.0
-margin_right = 1592.0
-margin_bottom = 40.0
-focus_next = NodePath("../../editor")
-script = ExtResource( 4 )
-
-[node name="out" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Loop",
-]]
-visible = false
-margin_left = 1596.0
-margin_top = 13.0
-margin_right = 1625.0
-margin_bottom = 27.0
-text = " out "
-valign = 1
-
-[node name="out_SpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer_Tools" groups=[
-"Control_Loop",
-]]
-visible = false
-margin_left = 1629.0
-margin_right = 1703.0
-margin_bottom = 40.0
-focus_next = NodePath("../../editor")
-focus_previous = NodePath("../../editor")
-focus_mode = 1
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="attack" type="Label" parent="VBoxContainer/HBoxContainer_Tools" groups=[
 "Control_Loop",
 "Editor_Envelope",
@@ -222,34 +148,6 @@ margin_left = 1524.0
 margin_right = 1600.0
 margin_bottom = 40.0
 
-[node name="Button_smooth" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
-visible = false
-margin_left = 1164.0
-margin_right = 1225.0
-margin_bottom = 24.0
-text = "smooth"
-
-[node name="Button_mirrorX" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
-visible = false
-margin_left = 1229.0
-margin_right = 1293.0
-margin_bottom = 24.0
-text = "mirror-x"
-
-[node name="Button_mirrorY" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
-visible = false
-margin_left = 1297.0
-margin_right = 1361.0
-margin_bottom = 24.0
-text = "mirror-y"
-
-[node name="Button_noise" type="Button" parent="VBoxContainer/HBoxContainer_Tools"]
-visible = false
-margin_left = 1365.0
-margin_right = 1439.0
-margin_bottom = 24.0
-text = "add noise"
-
 [node name="editor" type="Control" parent="VBoxContainer"]
 margin_top = 44.0
 margin_right = 1600.0
@@ -264,7 +162,7 @@ font = ExtResource( 3 )
 [node name="HBoxContainer_Parameters" type="HBoxContainer" parent="VBoxContainer"]
 visible = false
 margin_top = 1180.0
-margin_right = 1920.0
+margin_right = 1600.0
 margin_bottom = 1200.0
 
 [node name="Button_copy" type="Button" parent="VBoxContainer/HBoxContainer_Parameters"]
