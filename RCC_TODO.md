@@ -24,9 +24,6 @@ Target: 1.0 Release
 
 	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
 
-	[ ] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading.
--------> Possible solution: Remove envelope loop points, keep only instrument points
-
 	[.] Envelope Edit: Copy and Paste
 
 	[ ] Escape Key Stops all playback
@@ -82,6 +79,9 @@ Target: Low priority
 		[ ] Smooth
 
 Done:
+
+	[X] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading.
+		[X] Possible solution: Remove envelope loop points, keep only instrument points. (removing variables from envelopes didn't work, but removing UI controls for them seems to have done the trick)
 
 	[X] Create New instrument "in place" (not at bottom)
 
