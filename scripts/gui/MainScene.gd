@@ -38,8 +38,8 @@ func _ready():
 	else:
 		print("Session file not found, creating new one.")
 		rcc.project.create_instrument(Envelope.Waveform.square,0)
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
-	_on_InstrumentList_item_selected(rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+	_on_InstrumentList_item_selected(rcc.project.selected_index)
 
 
 func _notification(what):
@@ -94,7 +94,7 @@ func _on_Piano_note_stopped():
 
 
 func _on_InstrumentList_item_selected(index):
-	rcc.project.selected = index
+	rcc.project.selected_index = index
 	rcc.tracks[key_jazz_track].instrument = rcc.project.get_selected()
 	rcc.tracks[key_jazz_track].stop_note()
 	rcc.tracks[key_jazz_track].reset_mix_rate()
@@ -103,33 +103,33 @@ func _on_InstrumentList_item_selected(index):
 
 func _on_InstrumentInspector_name_changed(inst_name):
 	rcc.project.get_selected().name = inst_name
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_pan_changed(pan):
 	rcc.project.get_selected().pan = pan
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_transpose_changed(transpose):
 	rcc.project.get_selected().transpose = transpose
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_volume_changed(vol):
 	rcc.project.get_selected().volume = vol
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_mixrate_changed(rate):
 	rcc.project.get_selected().mix_rate = rate
 	rcc.tracks[key_jazz_track].reset_mix_rate()
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_precision_changed(is_half_precision):
 	rcc.project.get_selected().half_precision = is_half_precision
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_length_changed(value):
@@ -172,16 +172,16 @@ func _on_InstrumentInspector_interval_changed(value):
 
 func _on_Button_remove_pressed():
 	if rcc.project.size()>1:
-		rcc.project.remove(rcc.project.selected)
+		rcc.project.remove(rcc.project.selected_index)
 		rcc.project._validate_selection()
-		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
-		_on_InstrumentList_item_selected(rcc.project.selected)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+		_on_InstrumentList_item_selected(rcc.project.selected_index)
 
 
 func _on_Button_add_pressed():
-	rcc.project.create_instrument(Envelope.Waveform.square, rcc.project.size())
-	_on_InstrumentList_item_selected(rcc.project.size()-1)
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	rcc.project.create_instrument(Envelope.Waveform.square, rcc.project.selected_index+1)
+	_on_InstrumentList_item_selected(rcc.project.selected_index)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_Button_duplicate_pressed():
@@ -207,24 +207,24 @@ func _on_Button_duplicate_pressed():
 	new_inst.noise_envelope = inst.noise_envelope.duplicate()
 	new_inst.morph_envelope = inst.morph_envelope.duplicate()
 
-	rcc.project.selected+=1
-	rcc.project.insert(rcc.project.selected, new_inst)
-	_on_InstrumentList_item_selected(rcc.project.selected)
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	rcc.project.selected_index+=1
+	rcc.project.insert(rcc.project.selected_index, new_inst)
+	_on_InstrumentList_item_selected(rcc.project.selected_index)
+	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_Button_raise_pressed():
-	if rcc.project.selected > 0:
-		rcc.project.swap_instrument(rcc.project.selected, rcc.project.selected-1)
-		_on_InstrumentList_item_selected(rcc.project.selected)
-		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	if rcc.project.selected_index > 0:
+		rcc.project.swap_instrument(rcc.project.selected_index, rcc.project.selected_index-1)
+		_on_InstrumentList_item_selected(rcc.project.selected_index)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_Button_lower_pressed():
-	if rcc.project.selected < rcc.project.size()-1:
-		rcc.project.swap_instrument(rcc.project.selected, rcc.project.selected+1)
-		_on_InstrumentList_item_selected(rcc.project.selected)
-		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+	if rcc.project.selected_index < rcc.project.size()-1:
+		rcc.project.swap_instrument(rcc.project.selected_index, rcc.project.selected_index+1)
+		_on_InstrumentList_item_selected(rcc.project.selected_index)
+		emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_Menu_Project_item_pressed(index):
@@ -289,7 +289,7 @@ func _on_FileDialog_Load_file_selected(path):
 			print("Project loaded")
 			_save_dialog.current_dir = rcc.project.path.get_base_dir()
 			print("save dir:", _save_dialog.current_dir)
-			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected)
+			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_FileDialog_Export_dir_selected(dir):

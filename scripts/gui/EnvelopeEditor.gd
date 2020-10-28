@@ -76,6 +76,7 @@ func refresh(is_custom_edit:bool):
 			envelope.shape=Envelope.Waveform.custom
 		envelope.is_edited = is_custom_edit
 		yield(get_tree(), "idle_frame")
+#		print(envelope.name,": loop out: ", envelope.loop_out)
 		update()
 
 

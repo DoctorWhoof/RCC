@@ -175,6 +175,8 @@ func set_length(size:int):
 	for n in range(data.size()):
 		if not data[n]:
 			data[n]=0.0
+	loop_in = clamp(loop_in, 0, size-1)
+	loop_out = clamp(loop_out, 0, size-1)
 
 
 func set_envelope_size(new_length:int, new_loop_in:int, new_loop_out:int):

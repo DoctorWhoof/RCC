@@ -1,7 +1,7 @@
 extends Resource
 class_name Project
 
-export var selected := 0
+export var selected_index := 0
 export var instruments := []
 export var path:= ""
 export var export_path:=""
@@ -29,12 +29,12 @@ export var morph_max := 15
 
 func clear():
 	instruments.clear()
-	selected=0
+	selected_index=0
 
 
 func get_selected()->RccInstrument:
 	if not instruments.empty():
-		return instruments[selected]
+		return instruments[selected_index]
 	return null
 
 
@@ -59,7 +59,7 @@ func swap_instrument(a:int, b:int):
 	var higher = instruments[b]
 	instruments[b] = lower
 	instruments[a] = higher
-	selected=b
+	selected_index=b
 	_validate_selection()
 
 
@@ -93,11 +93,11 @@ func create_instrument(waveform:int, index:int):
 
 	inst.name = "Instrument "+str(n)
 	instruments.insert(index, inst)
-	selected = index
+	selected_index = index
 
 
 func _validate_selection():
-	if selected < 0:
-		selected = 0
-	elif selected > instruments.size()-1:
-		selected = instruments.size()-1
+	if selected_index < 0:
+		selected_index = 0
+	elif selected_index > instruments.size()-1:
+		selected_index = instruments.size()-1

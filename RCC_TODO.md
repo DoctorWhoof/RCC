@@ -16,26 +16,25 @@ Keys:
 	--->Priority
 -------------------------------------------------------------------------------
 
-Target: Release 1.0
+Target: 1.0 Release
+
+	[ ] Allow multiple instrument selection
+		[ ] Multi instrument inspection
+		[ ] Multi Instrument export
 
 	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
 
-	[ ] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading
+	[ ] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading.
+-------> Possible solution: Remove envelope loop points, keep only instrument points
 
-	[ ] Envelope Edit: Copy and Paste
+	[.] Envelope Edit: Copy and Paste
 
 	[ ] Escape Key Stops all playback
-
-	[ ] Export Settings: If single sample, pick the exported note
 
 	[ ] Instrument instancing (SFZ file with different name but same samples)
 
 	[ ] Shortcuts
 		[ ] Shortcut tool tips
-
-	[ ] Morph envelope (Multiple waveforms per instrument)
-		[ ] Maybe only two, with interpolation between?
-		[ ] Or 4 different waves with a 2 bit envelope?
 
 	[ ] Instrument inspector improvements:
 		[ ] Add Instrument comment text box
@@ -47,16 +46,22 @@ Target: Release 1.0
 	[ ] App Icon
 
 
-Target: Low priority or done.
+Target: Low priority
 
-	[ ] PSG noise "Click" artifact, useful for punchy percussion
+	[ ] Export Settings: If single sample, pick the exported note
+
+	[ ] Analogue emulation
+		[ ] PSG noise "Click" artifact, useful for punchy percussion
+		[ ] Fuzzy artifacts like overshoot and noise
 
 	[ ] Export Options dialog
 		[ ] File numbering: digit count, prepend, append
 		[ ] Remove old files?
 		[ ] Convert spaces to "_"
 
-	[ ] Export multiple selected
+	[ ] Morph envelope (Multiple waveforms per instrument)
+		[ ] Maybe only two, with interpolation between?
+		[ ] Or 4 different waves with a 2 bit envelope?
 
 	[ ] Implement scalable UI (Cmd+Plus, Cmd+Minus)
 
@@ -68,12 +73,17 @@ Target: Low priority or done.
 		- UPDATE: Seems good enough now for most cases, and the method mentioned above didn't quite work (doesn't account for the loop length, the fact that during a loop the last note may need to be cut off, etc)
 		[ ] New solution: increase length of loop section when note falls below 60Hz? +1 tick should do the trick!
 
-	[ ] Envelope processing:
+	[ ] Envelope processing toolbar (each one can be a button on a floating toolbar over the envelope, or a toolbar that is docked and can be toggled):
+		[ ] Selection, filters affect selection only unless nothing is selected
 		[ ] Offset left, right
 		[ ] Mirror H and V
 		[ ] Add Noise
 		[ ] Volume + -
 		[ ] Smooth
+
+Done:
+
+	[X] Create New instrument "in place" (not at bottom)
 
 	[X] Non-Linear wavetable volume
 
@@ -135,7 +145,7 @@ Target: Low priority or done.
 	[X] Better defaults:
 		[X] Range 2 to 7, interval 3
 		[X] No loop for envelopes
-		[ ] BUG? Ensure 4 bit envelopes have max_value=15, not 16
+		[?] BUG? Ensure 4 bit envelopes have max_value=15, not 16
 
 	[X] Fix exported loop points bug. Loop points must be consistent between real time playback and baked SFZ, down to the actual sample . May require returning precise in/out points (in samples, not ticks) from the generator function, probably based on the where "instrument.commit_envelopes" function runs.	
 		[X] Improve commit_envelopes, based on sign change? Threshold? Think about it.

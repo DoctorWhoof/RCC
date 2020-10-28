@@ -113,12 +113,14 @@ func _refresh_controls():
 	min_value.value = editor.envelope.min_value
 	max_value.value = editor.envelope.max_value
 	loop.pressed = editor.envelope.loop
-	loop_in.value = editor.envelope.loop_in
-	loop_out.value = editor.envelope.loop_out
 	attack.pressed = editor.envelope.attack
 	release.pressed = editor.envelope.release
 	#MAY cause loop out to be length-1. Moving it below here seems to have fixed the problem?
 	length.value = editor.envelope.length()
+	loop_in.value = editor.envelope.loop_in
+	loop_out.value = editor.envelope.loop_out
+#	editor.envelope.loop_in = instrument.loop_in
+#	editor.envelope.loop_out = instrument.loop_out
 	editor.refresh(false)
 
 
@@ -197,8 +199,8 @@ func _on_main_instrument_selected(instrument):
 			Role.volume: editor.envelope = instrument.volume_envelope
 			Role.noise: editor.envelope = instrument.noise_envelope
 			Role.morph: editor.envelope = instrument.morph_envelope
-		editor.refresh(false)
 		_refresh_controls()
+#		editor.refresh(false)
 
 
 func _on_edit_menu_pressed(index:int):
