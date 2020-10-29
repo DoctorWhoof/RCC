@@ -3,6 +3,7 @@ class_name RccPiano, "res://textures/piano.png"
 
 signal note_played(note, octave)
 signal note_stopped()	#May need to specify the "channel" (track)
+signal playback_stopped()
 
 export var first_octave := 0
 export var last_octave := 8
@@ -150,6 +151,9 @@ func play_note_mouse(mouse:Vector2, oct:int):
 
 
 func _input(event:InputEvent):
+
+	if event.is_action_pressed("stop_all_playback"):
+		emit_signal("playback_stopped")
 
 	if event.is_action_type():
 		if event.is_action_pressed("octave_down"):

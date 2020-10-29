@@ -6,8 +6,8 @@ export var latency := 0.5
 var instrument:RccInstrument
 var playback: AudioStreamPlayback
 var note:int						#Current note's numerical value
-#var is_playing:bool
 
+var _is_playing:=false
 
 func _ready():
 	volume_db = -4.0
@@ -20,25 +20,26 @@ func _ready():
 func play(from_position:float=0.0):
 	.play(from_position)
 	set_physics_process(true)
+	_is_playing=true
 
 
 func stop():
 	.stop()
 	set_physics_process(false)
 	stop_note()
+	_is_playing=false
 
 
-#Note value is from 1 to 12
 func play_note(note_value:int, octave:int):
 	note = (note_value+(octave*12))-48
-#	is_playing = true
 	instrument.reset()
+	if not _is_playing:
+		play()
 
 
 func stop_note():
 	if instrument:
 		instrument.release()
-#	is_playing = false
 
 
 func _physics_process(_delta):

@@ -93,6 +93,10 @@ func _on_Piano_note_stopped():
 		key_jazz_track=0
 
 
+func _on_Piano_playback_stopped() -> void:
+	rcc.tracks[key_jazz_track].stop()
+
+
 func _on_InstrumentList_item_selected(index):
 	rcc.project.selected_index = index
 	rcc.tracks[key_jazz_track].instrument = rcc.project.get_selected()
@@ -326,4 +330,5 @@ func _on_FileDialog_Export_dir_selected(dir):
 				n+=1
 			print("Exported all instruments to SFZ files at ", dir)
 	_progress_popup.hide()
+
 

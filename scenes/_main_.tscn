@@ -547,6 +547,7 @@ script = ExtResource( 9 )
 [connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_played"]
 [connection signal="note_played" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="VBox_UI/Piano/ScrollContainer_Piano" method="_on_Piano_note_played"]
 [connection signal="note_stopped" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_note_stopped"]
+[connection signal="playback_stopped" from="VBox_UI/Piano/ScrollContainer_Piano/Piano_Keys" to="." method="_on_Piano_playback_stopped"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Load" to="." method="_on_FileDialog_Load_file_selected"]
 [connection signal="file_selected" from="FileDialogs/FileDialog_Save" to="." method="_on_FileDialog_Save_file_selected"]
 [connection signal="dir_selected" from="FileDialogs/FileDialog_Export" to="." method="_on_FileDialog_Export_dir_selected"]

@@ -18,6 +18,20 @@ Keys:
 
 Target: 1.0 Release
 
+	[ ] Export Options dialog
+			[ ] File numbering: digit count, prepend, append
+			[ ] Remove old files?
+			[ ] Convert spaces to "_"
+			[ ] Override precision and sample rate
+			[ ] Override min/max sample interval
+
+	[ ] SFZ Export modes:
+		[X] Full: RCC Envelopes are baked into the output wave files for maximum accuracy, at the expense of file sizes.
+		[ ] Minimal: Tiny, single loop, single wave files with sfz envelopes. RCC Envelopes need to be represented in the UI with lines connecting the start of each column, i.e. each point will be separated by at least one column. Only the first column in noise envelopes is used (i.e. The entire sample is either noise or tone). Not accurate, but results in much smaller file sizes.
+			- Using arbitrary envelopes may be an OpenMPT specific feature, since Renoise or Polyphone didn't seem to work with it.
+			- Update: egN opcodes are in SFZ V2, which not all apps support. OpenMPT's implementation seems correct?
+		[ ] Maybe an export option in the inspector? If not, separate export menu entries.
+
 	[ ] Allow multiple instrument selection
 		[ ] Multi instrument inspection
 		[ ] Multi Instrument export
@@ -25,10 +39,8 @@ Target: 1.0 Release
 	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
 
 	[.] Envelope Edit: Copy and Paste
-
-	[ ] Escape Key Stops all playback
-
-	[ ] Instrument instancing (SFZ file with different name but same samples)
+	
+	[ ] SFZ Remapping - Each RCC instrument can be exported as multiple SFZ files with different indices and names (all copies point to the same wave files, which stay named as the original). This will be useful when creating a General Midi library.
 
 	[ ] Shortcuts
 		[ ] Shortcut tool tips
@@ -42,7 +54,6 @@ Target: 1.0 Release
 
 	[ ] App Icon
 
-
 Target: Low priority
 
 	[ ] Export Settings: If single sample, pick the exported note
@@ -50,11 +61,6 @@ Target: Low priority
 	[ ] Analogue emulation
 		[ ] PSG noise "Click" artifact, useful for punchy percussion
 		[ ] Fuzzy artifacts like overshoot and noise
-
-	[ ] Export Options dialog
-		[ ] File numbering: digit count, prepend, append
-		[ ] Remove old files?
-		[ ] Convert spaces to "_"
 
 	[ ] Morph envelope (Multiple waveforms per instrument)
 		[ ] Maybe only two, with interpolation between?
@@ -79,6 +85,10 @@ Target: Low priority
 		[ ] Smooth
 
 Done:
+
+	[X] Escape Key Stops all playback
+
+	[/] Instrument instancing (SFZ file with different name but same samples)
 
 	[X] BUG: Some loop points are correct in inspector, but wrong on wave editors (and playback!) after quitting and reloading.
 		[X] Possible solution: Remove envelope loop points, keep only instrument points. (removing variables from envelopes didn't work, but removing UI controls for them seems to have done the trick)

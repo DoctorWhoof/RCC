@@ -102,7 +102,7 @@ func tick_forward():
 				else:
 					position = loop_in
 			else:
-				if position == loop_out: is_done = true
+				if position >= loop_out: is_done = true
 				position = loop_in
 
 
