@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/gui/InstrumentInspector.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/Fix_SpinBox.gd" type="Script" id=2]
 [ext_resource path="res://scripts/gui/Fix_LineEdit.gd" type="Script" id=3]
+[ext_resource path="res://misc/Editor_Theme.tres" type="Theme" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends OptionButton
@@ -37,6 +38,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 4 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -57,8 +59,8 @@ margin_bottom = 1200.0
 rect_min_size = Vector2( 12, 0 )
 
 [node name="VBox" type="VBoxContainer" parent="HBox"]
-margin_left = 16.0
-margin_right = 1584.0
+margin_left = 17.0
+margin_right = 1583.0
 margin_bottom = 1200.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -68,48 +70,48 @@ __meta__ = {
 }
 
 [node name="HBox_Name" type="HBoxContainer" parent="HBox/VBox"]
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_right = 1566.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Name"]
-margin_right = 42.0
-margin_bottom = 24.0
+margin_right = 52.0
+margin_bottom = 26.0
 size_flags_vertical = 1
 text = "Name "
 valign = 1
 
 [node name="LineEdit_name" type="LineEdit" parent="HBox/VBox/HBox_Name"]
-margin_left = 46.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 57.0
+margin_right = 1566.0
+margin_bottom = 26.5
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
 [node name="HBox_Volume" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 32.0
-margin_right = 1568.0
-margin_bottom = 56.0
+margin_top = 34.0
+margin_right = 1566.0
+margin_bottom = 60.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Volume"]
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Volume "
 valign = 1
 
 [node name="SpinBox_volume" type="SpinBox" parent="HBox/VBox/HBox_Volume"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 grow_horizontal = 0
 max_value = 5.0
 step = 0.05
@@ -117,87 +119,91 @@ value = 1.0
 script = ExtResource( 2 )
 
 [node name="HBox_Pan" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 64.0
-margin_right = 1568.0
-margin_bottom = 88.0
+margin_top = 68.0
+margin_right = 1566.0
+margin_bottom = 94.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Pan"]
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Pan"
 valign = 1
 
 [node name="SpinBox_pan" type="SpinBox" parent="HBox/VBox/HBox_Pan"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 min_value = -1.0
 max_value = 1.0
 step = 0.125
 script = ExtResource( 2 )
 
 [node name="HBox_Transpose" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 96.0
-margin_right = 1568.0
-margin_bottom = 120.0
+margin_top = 102.0
+margin_right = 1566.0
+margin_bottom = 128.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Transpose"]
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Transpose Octave"
 valign = 1
 
 [node name="SpinBox_transpose" type="SpinBox" parent="HBox/VBox/HBox_Transpose"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 min_value = -7.0
 max_value = 7.0
 rounded = true
 script = ExtResource( 2 )
 
+[node name="HSeparator" type="HSeparator" parent="HBox/VBox"]
+margin_top = 136.0
+margin_right = 1566.0
+margin_bottom = 152.0
+custom_constants/separation = 16
+
 [node name="Envelopes" type="Label" parent="HBox/VBox"]
-margin_top = 128.0
-margin_right = 1568.0
-margin_bottom = 176.0
-text = "
- Envelopes
-"
+margin_top = 160.0
+margin_right = 1566.0
+margin_bottom = 184.0
+text = "Envelopes:"
 align = 1
 
 [node name="HBox_Length" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 184.0
-margin_right = 1568.0
-margin_bottom = 208.0
+margin_top = 192.0
+margin_right = 1566.0
+margin_bottom = 218.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Length"]
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Length"
 valign = 1
 
 [node name="SpinBox_length" type="SpinBox" parent="HBox/VBox/HBox_Length"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 min_value = 1.0
 max_value = 300.0
 value = 8.0
@@ -205,17 +211,17 @@ rounded = true
 script = ExtResource( 2 )
 
 [node name="HBox_Loop" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 216.0
-margin_right = 1568.0
-margin_bottom = 240.0
+margin_top = 226.0
+margin_right = 1566.0
+margin_bottom = 252.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Loop"]
-margin_right = 31.0
-margin_bottom = 24.0
+margin_right = 41.0
+margin_bottom = 26.0
 size_flags_vertical = 1
 text = "Loop"
 valign = 1
@@ -227,146 +233,150 @@ margin_right = 63.0
 margin_bottom = 24.0
 
 [node name="spacer" type="Control" parent="HBox/VBox/HBox_Loop"]
-margin_left = 35.0
-margin_right = 1359.0
-margin_bottom = 24.0
+margin_left = 46.0
+margin_right = 1311.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_in" type="Label" parent="HBox/VBox/HBox_Loop"]
-margin_left = 1363.0
-margin_right = 1380.0
-margin_bottom = 24.0
+margin_left = 1316.0
+margin_right = 1343.0
+margin_bottom = 26.0
 size_flags_vertical = 1
 text = "In "
 valign = 1
 
 [node name="SpinBox_loop_in" type="SpinBox" parent="HBox/VBox/HBox_Loop"]
-margin_left = 1384.0
-margin_right = 1458.0
-margin_bottom = 24.0
+margin_left = 1348.0
+margin_right = 1433.5
+margin_bottom = 26.5
 max_value = 7.0
 rounded = true
 script = ExtResource( 2 )
 
 [node name="Label_out" type="Label" parent="HBox/VBox/HBox_Loop"]
-margin_left = 1462.0
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_left = 1438.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_vertical = 1
 text = "Out "
 valign = 1
 
 [node name="SpinBox_loop_out" type="SpinBox" parent="HBox/VBox/HBox_Loop"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 max_value = 7.0
 value = 7.0
 rounded = true
 script = ExtResource( 2 )
 
-[node name="Export Settings2" type="Label" parent="HBox/VBox"]
-margin_top = 248.0
-margin_right = 1568.0
-margin_bottom = 296.0
-text = "
- Export settings
-"
+[node name="HSeparator2" type="HSeparator" parent="HBox/VBox"]
+margin_top = 260.0
+margin_right = 1566.0
+margin_bottom = 276.0
+custom_constants/separation = 16
+
+[node name="Export Settings" type="Label" parent="HBox/VBox"]
+margin_top = 284.0
+margin_right = 1566.0
+margin_bottom = 308.0
+text = "Export settings:"
 align = 1
 
 [node name="HBox_Precision" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 304.0
-margin_right = 1568.0
-margin_bottom = 324.0
+margin_top = 316.0
+margin_right = 1566.0
+margin_bottom = 343.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Precision"]
-margin_right = 1535.0
-margin_bottom = 20.0
+margin_right = 1524.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Precision"
 valign = 1
 
 [node name="OptionButton_precision" type="OptionButton" parent="HBox/VBox/HBox_Precision"]
-margin_left = 1539.0
-margin_right = 1568.0
-margin_bottom = 20.0
+margin_left = 1529.0
+margin_right = 1566.5
+margin_bottom = 27.5
 script = SubResource( 1 )
 
 [node name="HBox_MixRate" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 332.0
-margin_right = 1568.0
-margin_bottom = 352.0
+margin_top = 351.0
+margin_right = 1566.0
+margin_bottom = 378.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_MixRate"]
-margin_right = 1535.0
-margin_bottom = 20.0
+margin_right = 1524.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Mix Rate"
 valign = 1
 
 [node name="OptionButton_MixRate" type="OptionButton" parent="HBox/VBox/HBox_MixRate"]
-margin_left = 1539.0
-margin_right = 1568.0
-margin_bottom = 20.0
+margin_left = 1529.0
+margin_right = 1566.5
+margin_bottom = 27.5
 script = SubResource( 2 )
 
 [node name="HBox_Multisample" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 360.0
-margin_right = 1568.0
-margin_bottom = 384.0
-size_flags_horizontal = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="HBox/VBox/HBox_Multisample"]
-margin_right = 1540.0
-margin_bottom = 24.0
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Multi Sample"
-valign = 1
-
-[node name="CheckBox_Multisample" type="CheckBox" parent="HBox/VBox/HBox_Multisample"]
-margin_left = 1544.0
-margin_right = 1568.0
-margin_bottom = 24.0
-pressed = true
-
-[node name="HBox_Interval" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 392.0
-margin_right = 1568.0
+margin_top = 386.0
+margin_right = 1566.0
 margin_bottom = 416.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label" type="Label" parent="HBox/VBox/HBox_Multisample"]
+margin_right = 1531.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Multi Sample"
+valign = 1
+
+[node name="CheckBox_Multisample" type="CheckBox" parent="HBox/VBox/HBox_Multisample"]
+margin_left = 1536.0
+margin_right = 1566.0
+margin_bottom = 30.0
+pressed = true
+
+[node name="HBox_Interval" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 424.0
+margin_right = 1566.0
+margin_bottom = 450.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Label" type="Label" parent="HBox/VBox/HBox_Interval"]
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_right = 1476.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Sample interval"
 valign = 1
 
 [node name="SpinBox_Interval" type="SpinBox" parent="HBox/VBox/HBox_Interval"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 min_value = 1.0
 max_value = 12.0
 value = 1.0
@@ -374,55 +384,111 @@ rounded = true
 script = ExtResource( 2 )
 
 [node name="HBox_OctaveRange" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 424.0
-margin_right = 1568.0
-margin_bottom = 448.0
+margin_top = 458.0
+margin_right = 1566.0
+margin_bottom = 484.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBox/VBox/HBox_OctaveRange"]
-margin_right = 1412.0
-margin_bottom = 24.0
+margin_right = 1386.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Octave Range"
 valign = 1
 
 [node name="SpinBox_rangeMin" type="SpinBox" parent="HBox/VBox/HBox_OctaveRange"]
-margin_left = 1416.0
-margin_right = 1490.0
-margin_bottom = 24.0
+margin_left = 1391.0
+margin_right = 1476.5
+margin_bottom = 26.5
 max_value = 7.0
 rounded = true
 script = ExtResource( 2 )
 
 [node name="SpinBox_rangeMax" type="SpinBox" parent="HBox/VBox/HBox_OctaveRange"]
-margin_left = 1494.0
-margin_right = 1568.0
-margin_bottom = 24.0
+margin_left = 1481.0
+margin_right = 1566.5
+margin_bottom = 26.5
 max_value = 8.0
 value = 8.0
 rounded = true
 script = ExtResource( 2 )
 
 [node name="HBox_Total" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 456.0
-margin_right = 1568.0
-margin_bottom = 470.0
+margin_top = 492.0
+margin_right = 1566.0
+margin_bottom = 516.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_Total" type="Label" parent="HBox/VBox/HBox_Total"]
-margin_right = 1568.0
-margin_bottom = 14.0
+margin_right = 1566.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Total samples"
 valign = 1
+
+[node name="HSeparator3" type="HSeparator" parent="HBox/VBox"]
+margin_top = 524.0
+margin_right = 1566.0
+margin_bottom = 540.0
+custom_constants/separation = 16
+
+[node name="SFZ Mappings" type="Label" parent="HBox/VBox"]
+margin_top = 548.0
+margin_right = 1566.0
+margin_bottom = 572.0
+text = "SFZ Mappings:"
+align = 1
+
+[node name="Panel_Mappings" type="Panel" parent="HBox/VBox"]
+margin_top = 580.0
+margin_right = 1566.0
+margin_bottom = 644.0
+rect_min_size = Vector2( 0, 64 )
+
+[node name="Label" type="Label" parent="HBox/VBox/Panel_Mappings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "To be done"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator4" type="HSeparator" parent="HBox/VBox"]
+margin_top = 652.0
+margin_right = 1566.0
+margin_bottom = 668.0
+custom_constants/separation = 16
+
+[node name="Current Note" type="Label" parent="HBox/VBox"]
+visible = false
+margin_top = 604.0
+margin_right = 1566.0
+margin_bottom = 628.0
+text = "Current Note:"
+align = 1
+
+[node name="Panel" type="Panel" parent="HBox/VBox"]
+visible = false
+margin_top = 636.0
+margin_right = 1566.0
+margin_bottom = 700.0
+rect_min_size = Vector2( 0, 64 )
+
+[node name="Label" type="Label" parent="HBox/VBox/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "C4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Spacer_Right" type="Control" parent="HBox"]
 margin_left = 1588.0
