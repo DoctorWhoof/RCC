@@ -579,7 +579,7 @@ margin_bottom = 805.0
 [node name="Spacer" type="Control" parent="HBox/VBox"]
 margin_top = 620.0
 margin_right = 1568.0
-margin_bottom = 1161.0
+margin_bottom = 1200.0
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -611,6 +611,7 @@ __meta__ = {
 }
 
 [node name="Current Note" type="Label" parent="HBox/VBox"]
+visible = false
 margin_top = 1169.0
 margin_right = 1568.0
 margin_bottom = 1200.0
