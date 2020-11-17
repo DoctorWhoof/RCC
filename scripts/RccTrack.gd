@@ -50,7 +50,7 @@ func _physics_process(_delta):
 		if playback.get_frames_available() > samples_per_tick:
 			if not instrument.at_end():
 				#Instrument being played, get waveform
-				buffer = Generator.rcc_fill_buffer(note, instrument, false, tick_rate)
+				buffer = Generator.rcc_fill_buffer(note, instrument, instrument.mix_rate, false, tick_rate)
 			else:
 				#Silence
 				buffer = []

@@ -2,6 +2,7 @@ extends Control
 class_name EnvelopeEditor, "res://textures/editor.png"
 
 signal envelope_changed(env)
+signal edit_finished(env)
 
 export(Resource) var envelope
 export(DynamicFont) var font
@@ -63,6 +64,7 @@ func _gui_input(event:InputEvent):
 			last_pos = mouse_to_waveform(event.position.x, event.position.y)
 			refresh(true)
 			emit_signal("envelope_changed",envelope)
+			emit_signal("edit_finished", envelope)
 	elif event is InputEventMouseMotion:
 		if pressed:
 			mouse_to_waveform(event.position.x, event.position.y)

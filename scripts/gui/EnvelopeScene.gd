@@ -8,6 +8,7 @@ enum Role {
 signal envelope_changed(env)
 
 export(Role) var envelope_type
+export var hidden := false
 
 onready var presets := $VBoxContainer/HBoxContainer_Tools/presets
 onready var editor := $VBoxContainer/editor
@@ -69,10 +70,10 @@ func _ready():
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 
-	editor.envelope.generate_preset(editor.envelope.shape, 32)
+	editor.envelope.generate_preset(editor.envelope.shape, true, 32)
 	editor.refresh(false)
 	#Just relay the signal to outside nodes
-	editor.connect( "envelope_changed", self, "_envelope_changed")
+	editor.connect( "edit_finished", self, "_envelope_changed")
 
 	#Connect all the UI elements
 	presets.connect("item_selected", self, "_preset_selected" )
@@ -125,6 +126,7 @@ func _preset_selected(index:int):
 	loop.pressed = editor.envelope.loop
 	editor.refresh(false)
 	presets.selected = index
+	emit_signal("envelope_changed", editor.envelope)
 
 
 func _change_min(value:float):
@@ -159,12 +161,12 @@ func _change_release(state:bool):
 func _on_main_instrument_selected(instrument):
 	if instrument:
 		match envelope_type:
-			Role.wave: editor.envelope = instrument.wave_envelope
-			Role.pitch: editor.envelope = instrument.pitch_envelope
-			Role.note: editor.envelope = instrument.note_envelope
-			Role.volume: editor.envelope = instrument.volume_envelope
-			Role.noise: editor.envelope = instrument.noise_envelope
-			Role.morph: editor.envelope = instrument.morph_envelope
+			Role.wave: editor.envelope = instrument.wave_envelope.duplicate()
+			Role.pitch: editor.envelope = instrument.pitch_envelope.duplicate()
+			Role.note: editor.envelope = instrument.note_envelope.duplicate()
+			Role.volume: editor.envelope = instrument.volume_envelope.duplicate()
+			Role.noise: editor.envelope = instrument.noise_envelope.duplicate()
+			Role.morph: editor.envelope = instrument.morph_envelope.duplicate()
 		_refresh_controls()
 #		editor.refresh(false)
 

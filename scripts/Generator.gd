@@ -1,8 +1,8 @@
 extends Node
 
-static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame_rate:int	)->Array:
-	var length :int= instrument.mix_rate/frame_rate
-	var increment := get_pitch_increment(instrument, note)
+static func rcc_fill_buffer(note:int, instrument:RccInstrument, mix_rate:int, mono:bool, frame_rate:int	)->Array:
+	var length :int= mix_rate/frame_rate
+	var increment := get_pitch_increment(instrument, mix_rate, note)
 	var out_right := (instrument.pan+1.0)/2.0
 	var out_left := (instrument.pan-1.0)/-2.0
 	var normalized_value := instrument.previous_normalized_value
@@ -12,7 +12,7 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 	var first_flip := false
 
 	instrument.commit_envelopes()
-	increment=get_pitch_increment(instrument, note)
+	increment=get_pitch_increment(instrument, mix_rate, note)
 
 	#This is the loop that fills in the array to be returned
 	while length > 0:
@@ -29,7 +29,7 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 			#If this is the first flip in this tick, store how many samples it took to get here
 			if not first_flip:
 				instrument.commit_in_offset = instrument.current_sample
-				instrument.current_wavelength = get_note_length(instrument,note)
+				instrument.current_wavelength = get_note_length(instrument, mix_rate, note)
 				first_flip = true
 			#Always acquire commit_out_offset, since I just want to keep the latest
 			instrument.commit_out_offset = instrument.current_sample
@@ -78,18 +78,18 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mono:bool, frame
 
 
 #Helper function for rcc_fill_buffer. It's used in two places in that function.
-static func get_pitch_increment(instrument:RccInstrument, note:int)->int:
-	var increment = instrument.wave_envelope.length()/get_note_length(instrument, note)
+static func get_pitch_increment(instrument:RccInstrument, mix_rate:int, note:int)->int:
+	var increment = instrument.wave_envelope.length()/get_note_length(instrument, mix_rate, note)
 	return increment
 
 
 #number of samples for current note
-static func get_note_length(instrument:RccInstrument, note:int)->float:
+static func get_note_length(instrument:RccInstrument, mix_rate:int, note:int)->float:
 	var pitch_offset:float = instrument.pitch_envelope.normalized()
 	var note_offset:float = instrument.note_envelope.current() + (instrument.transpose*12) + pitch_offset
 	var multiplier:= pow(1.059463094359, note+note_offset-1)
 	var frequency:= (261.625565300 * multiplier) #C4 times multiplier
-	return( (1.0/frequency)*instrument.mix_rate )
+	return( (1.0/frequency)*mix_rate )
 
 
 #For SCC wavetables, use array with size=32, amplitude from-16 to 16 (32 5bit samples)

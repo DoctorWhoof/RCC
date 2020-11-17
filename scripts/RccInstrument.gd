@@ -12,6 +12,7 @@ export var loop_in := 0
 export var loop_out := 7
 export var sustain := true
 
+export var scheme := ExportStyle.Baked
 export var mix_rate := 44100
 export var half_precision := false
 export var range_min := 2
@@ -19,11 +20,18 @@ export var range_max := 6
 export var sample_interval := 3
 export var multi_sample := true
 
-export var analog_attenuation := 0.998
-export var analog_noise := 0.001
+export var vibrato := false
+export var vibrato_fade := false
+export var vibrato_depth := 8
+export var vibrato_rate := 8
+
+export var analog_attenuation := 0.996
+export var analog_noise := 0.01
 export var analog_spike := 0.05
 export var analog_spike_attenuation := 0.85
-export var filter_size := 2
+export var filter_size := 5
+
+export(Dictionary)var mappings
 
 export(Resource) var wave_envelope
 export(Resource) var pitch_envelope
@@ -31,6 +39,8 @@ export(Resource) var note_envelope
 export(Resource) var volume_envelope
 export(Resource) var noise_envelope
 export(Resource) var morph_envelope
+
+
 
 #internal playback state, managed by rcc_track
 var column := 0.0

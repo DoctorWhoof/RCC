@@ -47,10 +47,9 @@ text = " min "
 ]]
 margin_left = 128.0
 margin_right = 202.0
-margin_bottom = 24.0
+margin_bottom = 40.0
 rect_clip_content = true
-size_flags_horizontal = 13
-size_flags_vertical = 0
+size_flags_vertical = 3
 min_value = -128.0
 max_value = 0.0
 value = -16.0
@@ -71,11 +70,10 @@ text = " max "
 ]]
 margin_left = 245.0
 margin_right = 319.0
-margin_bottom = 24.0
+margin_bottom = 40.0
 rect_clip_content = true
 focus_next = NodePath("../../editor")
-size_flags_horizontal = 13
-size_flags_vertical = 0
+size_flags_vertical = 3
 max_value = 128.0
 value = 16.0
 rounded = true

@@ -18,43 +18,75 @@ Keys:
 
 Target: 1.0 Release
 
-	[ ] Export Options dialog
-			[ ] File numbering: digit count, prepend, append
-			[ ] Remove old files?
-			[ ] Convert spaces to "_"
-			[ ] Override precision and sample rate
-			[ ] Override min/max sample interval
+	[X] Add "Default Export Style" per instrument.
+		[X] Add override export style to Export Options Dialog: No override means per instrument settings, can be overridden to "baked" or "minimal".
 
-	[ ] SFZ Export modes:
+	[ ] Regenerate Auto Vibrato's Pitch envelope whenever instrument's loop points or envelope size change
+
+	[X] Apparently .XM envelopes can only have a few points... let's focus on .IT instead (alternative: optimized envelopes. Needs testing). .IT is the only tracker format that allows pitch envelopes, anyway.
+
+	[ ] Think about what to do about Pitch envelopes.
+		- Hide them, for Tracker format compatibility?
+		- Have the UI communicate that it's being driven by auto-vibrato?
+
+	[X] Export Options dialog
+			[X] File numbering:
+				[X] Digit count
+				[X] None
+				[X] Prepend
+				[X] Append
+			[X] Remove old files?
+			[X] Convert spaces to "_"
+			[X] Override precision and sample rate
+			[/] Should wave export also include numbering?
+			[/] Override min/max sample interval
+
+	[X] Replace Pitch Envelope with Vibrato Controls for OpenMPT compatibility
+
+	[.] SFZ Export modes:
 		[X] Full: RCC Envelopes are baked into the output wave files for maximum accuracy, at the expense of file sizes.
-		[ ] Minimal: Tiny, single loop, single wave files with sfz envelopes. RCC Envelopes need to be represented in the UI with lines connecting the start of each column, i.e. each point will be separated by at least one column. Only the first column in noise envelopes is used (i.e. The entire sample is either noise or tone). Not accurate, but results in much smaller file sizes.
+		[.] Minimal: Tiny, single loop, single wave files with sfz envelopes. RCC Envelopes need to be represented in the UI with lines connecting the start of each column, i.e. each point will be separated by at least one column. Only the first column in noise envelopes is used (i.e. The entire sample is either noise or tone). Not accurate, but results in much smaller file sizes.
 			- Using arbitrary envelopes may be an OpenMPT specific feature, since Renoise or Polyphone didn't seem to work with it.
 			- Update: egN opcodes are in SFZ V2, which not all apps support. OpenMPT's implementation seems correct?
-		[ ] Maybe an export option in the inspector? If not, separate export menu entries.
+
+	[X] Test higher mix rate (88.2Khz) in OpenMPT
+
+	[ ] BUG: pasting envelopes needs to respect min/max values
+
+	[.] Undo system, probably keeping duplicates of the instrument resources in memory
+		- Partially working! (envelopes edits only). Figure out an undo system for anything, not just envelopes - probably using project copies?
+		- There's a Godot bug with deep-duplicating resources that's getting in the way. I could:
+			- Wait for Godot 4.0 or use project.duplicate(true) for each undo step, or
+			- Create a system to copy all project's instruments on each undo step, to be able to undo instrument moving/adding/removing.
+
+	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
+
+	[.] Envelope Edit: Copy and Paste
+
+	[ ] Shortcuts
+		[ ] Shortcut tool tips
+
+	[.] Instrument inspector improvements:
+		[.] Add Instrument comment text box
+		[.] Add Current note and octave box at the bottom for user feedback.
+		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI?
+
+	[ ] App Icon
+
+	[X] OpenMPT SFZ Export Fixes:
+		[X] Volume envelopes are getting cut-off at the bottom. Maybe it's non-linear?
+		[X] Notes seem a semitone too high 
+
+Target: Low priority
+
+	[ ] Optimize sfz envelopes (remove redundant points)
 
 	[ ] Allow multiple instrument selection
 		[ ] Multi instrument inspection
 		[ ] Multi Instrument export
 
-	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
-
-	[.] Envelope Edit: Copy and Paste
-	
 	[ ] SFZ Remapping - Each RCC instrument can be exported as multiple SFZ files with different indices and names (all copies point to the same wave files, which stay named as the original). This will be useful when creating a General Midi library.
-
-	[ ] Shortcuts
-		[ ] Shortcut tool tips
-
-	[ ] Instrument inspector improvements:
-		[ ] Add Instrument comment text box
-		[ ] Add Current note and octave box at the bottom for user feedback.
-		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI
-
-	[ ] Undo system, probably keeping duplicates of the instrument resources in memory
-
-	[ ] App Icon
-
-Target: Low priority
+		[ ] Alternate UI: GM Mapper, where each pre-filled GM Name can be assigned one of the project's instruments
 
 	[ ] Export Settings: If single sample, pick the exported note
 
@@ -201,14 +233,4 @@ Done:
 		[X] Export all instruments to .wav or .sfz
 
 	[X] Raise middle octave to C4 (to allow lower pitched notes)
-
--------------------------------------------------------------------------------
-
-Extra:
-
-	Test import in Open MPT
-		[ ] Loop not working in on-shot?
-
-	Needs instruments:
-		[ ] Bass 
 

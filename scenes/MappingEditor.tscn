@@ -1,0 +1,95 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/gui/MappingEditor.gd" type="Script" id=1]
+[ext_resource path="res://misc/Editor_Theme.tres" type="Theme" id=2]
+[ext_resource path="res://scenes/MappingItem.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/gui/MappingItem.gd" type="Script" id=4]
+
+[node name="MappingEditor" type="ScrollContainer"]
+anchor_left = -8.29887e-05
+anchor_top = 0.000515925
+anchor_right = 0.999917
+anchor_bottom = 1.00052
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox_Children" type="VBoxContainer" parent="."]
+margin_right = 1600.0
+margin_bottom = 236.0
+size_flags_horizontal = 3
+
+[node name="SelfItem" type="HBoxContainer" parent="VBox_Children"]
+margin_right = 1600.0
+margin_bottom = 30.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="VBox_Children/SelfItem"]
+margin_right = 30.0
+margin_bottom = 30.0
+pressed = true
+
+[node name="SpinBox" type="SpinBox" parent="VBox_Children/SelfItem"]
+margin_left = 35.0
+margin_right = 120.5
+margin_bottom = 30.0
+editable = false
+
+[node name="LineEdit" type="LineEdit" parent="VBox_Children/SelfItem"]
+margin_left = 125.0
+margin_right = 1600.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+editable = false
+
+[node name="VBox_Items" type="VBoxContainer" parent="VBox_Children"]
+margin_top = 35.0
+margin_right = 1600.0
+margin_bottom = 205.0
+
+[node name="Mapping_Item" parent="VBox_Children/VBox_Items" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_right = 1600.0
+margin_bottom = 30.0
+
+[node name="Mapping_Item2" parent="VBox_Children/VBox_Items" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 35.0
+margin_right = 1600.0
+margin_bottom = 65.0
+
+[node name="Mapping_Item3" parent="VBox_Children/VBox_Items" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 70.0
+margin_right = 1600.0
+margin_bottom = 100.0
+
+[node name="Mapping_Item4" parent="VBox_Children/VBox_Items" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 105.0
+margin_right = 1600.0
+margin_bottom = 135.0
+
+[node name="Mapping_Item5" parent="VBox_Children/VBox_Items" instance=ExtResource( 3 )]
+anchor_right = 0.0
+margin_top = 140.0
+margin_right = 1600.0
+margin_bottom = 170.0
+
+[node name="HBox_Add" type="HBoxContainer" parent="VBox_Children"]
+margin_top = 210.0
+margin_right = 1600.0
+margin_bottom = 236.0
+
+[node name="Button_add" type="Button" parent="VBox_Children/HBox_Add"]
+margin_right = 1600.0
+margin_bottom = 26.5
+size_flags_horizontal = 3
+text = "Add Mapping"

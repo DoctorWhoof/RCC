@@ -14,6 +14,12 @@ signal range_min_changed(value)
 signal range_max_changed(value)
 signal multisample_changed(is_multisample)
 signal interval_changed(value)
+signal vibrato_changed(value)
+signal vibrato_fade_changed(value)
+signal vibrato_depth_changed(value)
+signal vibrato_rate_changed(value)
+signal scheme_changed(value)
+
 
 onready var name_field := $HBox/VBox/HBox_Name/LineEdit_name
 onready var volume_field := $HBox/VBox/HBox_Volume/SpinBox_volume
@@ -24,6 +30,7 @@ onready var length_field := $HBox/VBox/HBox_Length/SpinBox_length
 onready var in_field := $HBox/VBox/HBox_Loop/SpinBox_loop_in
 onready var out_field := $HBox/VBox/HBox_Loop/SpinBox_loop_out
 
+onready var scheme_button := $HBox/VBox/HBox_Style/OptionButton_scheme
 onready var mixrate_button := $HBox/VBox/HBox_MixRate/OptionButton_MixRate
 onready var precision_button := $HBox/VBox/HBox_Precision/OptionButton_precision
 onready var multisample_check := $HBox/VBox/HBox_Multisample/CheckBox_Multisample
@@ -31,6 +38,11 @@ onready var interval_field := $HBox/VBox/HBox_Interval/SpinBox_Interval
 onready var range_min_field := $HBox/VBox/HBox_OctaveRange/SpinBox_rangeMin
 onready var range_max_field := $HBox/VBox/HBox_OctaveRange/SpinBox_rangeMax
 onready var total_label := $HBox/VBox/HBox_Total/Label_Total
+
+onready var vibrato_check := $HBox/VBox/HBox_Vibrato/CheckBox_vibrato
+onready var fade_check := $HBox/VBox/HBox_Fade/CheckBox_fade
+onready var depth_spin := $HBox/VBox/HBox_Depth/SpinBox_depth
+onready var rate_spin := $HBox/VBox/HBox_Rate/SpinBox_rate
 
 #EXPERIMENTAL: Avoids feedback loops when receiving an "instrument_selected" signal
 var suspend_signals := false
@@ -55,6 +67,22 @@ func _on_SpinBox_transpose_value_changed(value):
 	emit_signal("transpose_changed", value)
 
 
+func _on_OptionButton_scheme_item_selected(index: int) -> void:
+	match index:
+		ExportStyle.Minimal:
+			multisample_check.disabled = true
+			range_max_field.editable = false
+			range_min_field.editable = false
+			interval_field.editable = false
+			total_label.text = "Total samples: 1"
+		ExportStyle.Baked:
+			multisample_check.disabled = false
+			_on_CheckBox_Multisample_toggled(multisample_check.pressed)
+	calculate_total_samples()
+	if suspend_signals: return
+	emit_signal("scheme_changed", index)
+
+
 func _on_OptionButton_precision_item_selected(index):
 	if suspend_signals: return
 	match index:
@@ -65,8 +93,9 @@ func _on_OptionButton_precision_item_selected(index):
 func _on_OptionButton_MixRate_item_selected(index):
 	if suspend_signals: return
 	match index:
-		0: emit_signal("mixrate_changed", 44100)
-		_: emit_signal("mixrate_changed", 22050)
+		0: emit_signal("mixrate_changed", 22050)
+		1: emit_signal("mixrate_changed", 44100)
+		2: emit_signal("mixrate_changed", 88200)
 
 
 func _on_SpinBox_length_value_changed(value):
@@ -120,15 +149,35 @@ func _on_SpinBox_Interval_value_changed(value):
 	calculate_total_samples()
 
 
+func _on_CheckBox_vibrato_toggled(button_pressed: bool) -> void:
+	if suspend_signals: return
+	emit_signal("vibrato_changed", button_pressed)
+
+
+func _on_CheckBox_fade_toggled(button_pressed: bool) -> void:
+	if suspend_signals: return
+	emit_signal("vibrato_fade_changed", button_pressed)
+
+
+func _on_SpinBox_depth_value_changed(value: float) -> void:
+	if suspend_signals: return
+	emit_signal("vibrato_depth_changed", value)
+
+
+func _on_SpinBox_rate_value_changed(value: float) -> void:
+	if suspend_signals: return
+	emit_signal("vibrato_rate_changed")
+
+
 func calculate_total_samples():
 	var total:= 1
-	if multisample_check.pressed:
+	if multisample_check.pressed and not scheme_button.selected==ExportStyle.Minimal:
 		total = ((range_max_field.value-range_min_field.value+1)*12)/interval_field.value
 
 	total_label.text = "Total samples: "+str(total)
 
 
-func _on_main_instrument_selected(instrument):
+func _on_main_instrument_selected(instrument:RccInstrument):
 #	print(instrument.name,", ",instrument.loop_in,", ",instrument.loop_out)
 	if instrument:
 		suspend_signals = true
@@ -143,11 +192,23 @@ func _on_main_instrument_selected(instrument):
 		range_min_field.value=instrument.range_min
 		range_max_field.value=instrument.range_max
 		interval_field.value=instrument.sample_interval
-		calculate_total_samples()
+
+		vibrato_check.pressed = instrument.vibrato
+		fade_check.pressed = instrument.vibrato_fade
+		depth_spin.value = instrument.vibrato_depth
+		rate_spin.value = instrument.vibrato_rate
+
+		scheme_button.selected = instrument.scheme
+		_on_OptionButton_scheme_item_selected(instrument.scheme)
+#		calculate_total_samples()
+
 		match instrument.mix_rate:
-			44100: mixrate_button.selected = 0
-			_: mixrate_button.selected = 1
+			22050: mixrate_button.selected = 0
+			44100: mixrate_button.selected = 1
+			88200: mixrate_button.selected = 2
 		match instrument.half_precision:
 			false: precision_button.selected = 0
 			_: precision_button.selected = 1
 		suspend_signals=false
+
+

@@ -10,7 +10,7 @@ export var max_tracks:= 1
 export var latency:= 0.05    #In seconds
 export(Resource) var project = Project.new()
 var tracks:= []
-#var mix_rate = 44100
+
 
 func _enter_tree():
 	for n in range(max_tracks):

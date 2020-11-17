@@ -115,11 +115,6 @@ func tick_forward():
 		next = data[position]
 
 
-#func is_done():
-#	if position >= data.size()-1: return true
-#	return false
-
-
 #Needs to be called to "apply" the next value to the current. Used by
 #RCC tracks to prevent clicking when applying the envelope
 func commit_value():
@@ -130,11 +125,19 @@ func current()->float:
 	return value
 
 
+#returns the currently commited value
 func normalized(linear:=false, power:=2.0)->float:
-	var result:= value/max_value
+	var amplitude:float = max_value
+	if max_value == 0: amplitude = abs(min_value)
+	var result:= value/amplitude
 	if not linear:
 		result = pow(result, power)
 	return result
+
+
+#Returns the immediate value, ignoring the need to commit the value
+func normalized_sample(pos:int)->float:
+	return data[pos]/max_value
 
 
 func length()->int:
@@ -198,77 +201,85 @@ func clip_max():
 			if data[n]>max_value: data[n]=max_value
 
 
-func generate_preset(index:int, length:int):
+func generate_preset(index:int, use_loop:bool, length:int=-1, amplitude:float=-1):
 	is_edited=false
-	data.clear()
-#	data.resize(length)
-	set_length(length)
 	shape=index
-	loop = false
+
+	if length>-1: set_length(length)
+
+	if amplitude<0: amplitude=max_value
+
+	var temp_data = data.duplicate()
+
+	var loop_length:= data.size()
+	if use_loop: loop_length = loop_out - loop_in + 1
+
 	match index:
-		Waveform.square: data = Generator.array_square(data.size(), min_value, max_value, 0.5, true)
-		Waveform.pulse25: data = Generator.array_square(data.size(), min_value, max_value, 0.25, true)
-		Waveform.pulse10: data = Generator.array_square(data.size(), min_value, max_value, 0.1, true)
-		Waveform.triangle:
-			min_value = -max_value
-			data = Generator.array_triangle(data.size(), min_value, max_value, true)
-		Waveform.sawtooth: data = Generator.array_sawtooth(data.size(), min_value, max_value, true)
-		Waveform.flat: data = Generator.array_flat(data.size(),default_value, true)
+		Waveform.square: temp_data = Generator.array_square(loop_length, -amplitude, amplitude, 0.5, true)
+		Waveform.pulse25: temp_data = Generator.array_square(loop_length, -amplitude, amplitude, 0.25, true)
+		Waveform.pulse10: temp_data = Generator.array_square(loop_length, -amplitude, amplitude, 0.1, true)
+		Waveform.triangle: temp_data = Generator.array_triangle(loop_length, -amplitude, amplitude, true)
+		Waveform.sawtooth: temp_data = Generator.array_sawtooth(loop_length, -amplitude, amplitude, true)
+		Waveform.flat: temp_data = Generator.array_flat(loop_length,default_value, true)
 		Waveform.sine:
-			min_value = -max_value
-			data = Generator.array_sine(data.size(), min_value, max_value, true)
-		Waveform.noise: data = Generator.array_noise(data.size(), min_value, max_value, true)
+			temp_data = Generator.array_sine(loop_length, -amplitude, amplitude, true)
+		Waveform.noise: temp_data = Generator.array_noise(loop_length, -amplitude, amplitude, true)
 		Waveform.falloff:
-			data = Generator.array_falloff(data.size(), max_value,true)
+			temp_data = Generator.array_falloff(loop_length, amplitude,true)
 		Waveform.falloff_linear:
-			data = Generator.array_falloff_linear(data.size(), max_value, true)
+			temp_data = Generator.array_falloff_linear(loop_length, amplitude, true)
 		Waveform.noise1bit:
-			data = Generator.array_noise(data.size(), min_value, max_value, true)
-			for n in data.size():
-				if data[n]>=0:
-					data[n]=max_value
+			temp_data = Generator.array_noise(loop_length, -amplitude, amplitude, true)
+			for n in loop_length:
+				if temp_data[n]>=0:
+					temp_data[n]=amplitude
 				else:
-					data[n]=min_value
+					temp_data[n]=-amplitude
 		Waveform.hit_sustain:
-			replace_in_array(data, 0, [10,12,15,12,10,9,8,7,6,5,4,3,2,1,0] )
+			replace_in_array(temp_data, 0, [10,12,15,12,10,9,8,7,6,5,4,3,2,1,0] )
 			max_value = 15
 			min_value = 0
 			loop = false
 			attack = true
 			release = true
 		Waveform.arpeggio:
-			replace_in_array(data, loop_in, [0,12,-12])
+			replace_in_array(temp_data, loop_in, [0,12,-12])
 			max_value = 12
 			min_value = -12
 			loop = true
 			attack = false
 			release = false
 		Waveform.arpeggio_chord:
-			replace_in_array(data, loop_in, [0,5,10])
+			replace_in_array(temp_data, loop_in, [0,5,10])
 			max_value = 12
 			min_value = -12
 			loop = true
 			attack = false
 			release = false
 		Waveform.tremolo:
-			replace_in_array(data, loop_in, [0,1,0,-1])
+			replace_in_array(temp_data, loop_in, [0,1,0,-1])
 			max_value = 12
 			min_value = -12
 			loop = true
 			attack = false
 			release = false
 		Waveform.slide:
-			replace_in_array(data, 0, [0, -4, -8, -12, -16, -20, -24, -28, -32])
+			replace_in_array(temp_data, 0, [0, -4, -8, -12, -16, -20, -24, -28, -32])
 			max_value = 32
 			min_value = -32
 			loop = false
 			attack = false
 			release = false
 		Waveform.bass:
-			replace_in_array(data, 0, [12,0,-8,-16,-24,-32] )
+			replace_in_array(temp_data, 0, [12,0,-8,-16,-24,-32] )
 			max_value = 32
 			min_value = -32
 			loop = false
 			attack = false
 			release = false
-		_: data = Generator.array_flat(data.size(),default_value, true)
+		_: temp_data = Generator.array_flat(loop_length,default_value, true)
+	if use_loop:
+		for n in range(loop_in, loop_out+1):
+			data[n]=temp_data[n-loop_in]
+	else:
+		data = temp_data

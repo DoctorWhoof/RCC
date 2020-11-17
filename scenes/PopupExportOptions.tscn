@@ -1,0 +1,395 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://misc/Editor_Theme.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/gui/PopupExportOptions.gd" type="Script" id=2]
+[ext_resource path="res://misc/Style_buttongroup.tres" type="ButtonGroup" id=3]
+[ext_resource path="res://misc/Numbering_buttongroup.tres" type="ButtonGroup" id=4]
+[ext_resource path="res://scripts/gui/Option_Precision.gd" type="Script" id=5]
+[ext_resource path="res://scripts/gui/Option_MixRate.gd" type="Script" id=6]
+
+[node name="Popup_ExportOptions" type="PopupDialog"]
+visible = true
+margin_left = -363.0
+margin_right = 363.0
+margin_bottom = 848.0
+theme = ExtResource( 1 )
+popup_exclusive = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 14.0
+margin_right = -16.0
+margin_bottom = -16.0
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Style" type="Label" parent="VBoxContainer"]
+margin_right = 694.0
+margin_bottom = 24.0
+text = "Export Style"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox_Scheme" type="CheckBox" parent="VBoxContainer"]
+margin_top = 44.0
+margin_right = 694.0
+margin_bottom = 74.0
+text = "Override Instrument's Export Scheme"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 94.0
+margin_right = 694.0
+margin_bottom = 366.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBox_1" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+margin_right = 344.0
+margin_bottom = 272.0
+size_flags_horizontal = 3
+
+[node name="CheckBox_Baked" type="CheckBox" parent="VBoxContainer/HBoxContainer/VBox_1"]
+margin_right = 344.0
+margin_bottom = 30.0
+pressed = true
+group = ExtResource( 3 )
+text = "Bake Envelopes into Wave Files"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBox_1"]
+margin_top = 35.0
+margin_right = 344.0
+margin_bottom = 272.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/line_separation = 8
+text = "Wave files are exported with \"baked in\" envelopes. This ensures maximum accuracy when instruments are used in 3rd party software, but can result in much larger files.
+
+This option should always used when exporting sound effects."
+
+[node name="VBox_2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 349.0
+margin_right = 694.0
+margin_bottom = 272.0
+size_flags_horizontal = 3
+
+[node name="CheckBox_Minimal" type="CheckBox" parent="VBoxContainer/HBoxContainer/VBox_2"]
+margin_right = 345.0
+margin_bottom = 30.0
+group = ExtResource( 3 )
+text = "Wavetable + SFZ Envelopes"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/VBox_2"]
+margin_top = 35.0
+margin_right = 345.0
+margin_bottom = 272.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/line_separation = 8
+text = "Wave file contain a single loop of the wavetable, and the envelopes are defined in the .sfz file. This results in much smaller files, but is less accurate and the playback may vary in each application.
+
+Resulting instruments require SFZ V2 Support."
+
+[node name="Options" type="Label" parent="VBoxContainer"]
+margin_top = 386.0
+margin_right = 694.0
+margin_bottom = 410.0
+text = "Intrument Options"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox_Precision" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 430.0
+margin_right = 694.0
+margin_bottom = 460.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox_Precision" type="CheckBox" parent="VBoxContainer/HBox_Precision"]
+margin_right = 30.0
+margin_bottom = 30.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBox_Precision"]
+margin_left = 35.0
+margin_top = 3.0
+margin_right = 164.0
+margin_bottom = 27.0
+text = "Override Precision"
+
+[node name="Option_Precision" type="OptionButton" parent="VBoxContainer/HBox_Precision"]
+margin_left = 169.0
+margin_right = 206.5
+margin_bottom = 30.0
+script = ExtResource( 5 )
+
+[node name="HBox_Rate" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 480.0
+margin_right = 694.0
+margin_bottom = 510.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox_Rate" type="CheckBox" parent="VBoxContainer/HBox_Rate"]
+margin_right = 30.0
+margin_bottom = 30.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBox_Rate"]
+margin_left = 35.0
+margin_top = 3.0
+margin_right = 181.0
+margin_bottom = 27.0
+text = "Override Sample rate"
+
+[node name="Option_Rate" type="OptionButton" parent="VBoxContainer/HBox_Rate"]
+margin_left = 186.0
+margin_right = 223.5
+margin_bottom = 30.0
+script = ExtResource( 6 )
+
+[node name="Options2" type="Label" parent="VBoxContainer"]
+margin_top = 530.0
+margin_right = 694.0
+margin_bottom = 554.0
+text = "File Options"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox_Numbers" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 574.0
+margin_right = 694.0
+margin_bottom = 604.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBox_Numbers"]
+margin_top = 3.0
+margin_right = 112.0
+margin_bottom = 27.0
+text = "File Numbering:"
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 117.0
+margin_right = 187.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="CheckBox_None" type="CheckBox" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 192.0
+margin_right = 261.0
+margin_bottom = 30.0
+group = ExtResource( 4 )
+text = "None"
+
+[node name="CheckBox_Prepend" type="CheckBox" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 266.0
+margin_right = 354.0
+margin_bottom = 30.0
+pressed = true
+group = ExtResource( 4 )
+text = "Prepend"
+
+[node name="CheckBox_Append" type="CheckBox" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 359.0
+margin_right = 443.0
+margin_bottom = 30.0
+group = ExtResource( 4 )
+text = "Append"
+
+[node name="Spacer2" type="Control" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 448.0
+margin_right = 518.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+
+[node name="Label4" type="Label" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 523.0
+margin_top = 3.0
+margin_right = 604.0
+margin_bottom = 27.0
+text = "Digit Count"
+
+[node name="SpinBox_Digits" type="SpinBox" parent="VBoxContainer/HBox_Numbers"]
+margin_left = 609.0
+margin_right = 694.5
+margin_bottom = 30.0
+min_value = 1.0
+max_value = 6.0
+value = 3.0
+rounded = true
+
+[node name="HBox_Spaces" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 624.0
+margin_right = 694.0
+margin_bottom = 654.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBox_Spaces"]
+margin_top = 3.0
+margin_right = 209.0
+margin_bottom = 27.0
+text = "Convert Spaces to Underscores"
+
+[node name="CheckBox_Spaces" type="CheckBox" parent="VBoxContainer/HBox_Spaces"]
+margin_left = 214.0
+margin_right = 244.0
+margin_bottom = 30.0
+pressed = true
+
+[node name="HBox_OldFiles" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 674.0
+margin_right = 694.0
+margin_bottom = 704.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBox_OldFiles"]
+margin_top = 3.0
+margin_right = 154.0
+margin_bottom = 27.0
+text = "Remove Old Wav Files"
+
+[node name="CheckBox_OldFiles" type="CheckBox" parent="VBoxContainer/HBox_OldFiles"]
+margin_left = 159.0
+margin_right = 189.0
+margin_bottom = 30.0
+pressed = true
+
+[node name="HBox_Path" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 724.0
+margin_right = 694.0
+margin_bottom = 750.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBox_Path"]
+margin_top = 1.0
+margin_right = 82.0
+margin_bottom = 25.0
+text = "Export Path"
+
+[node name="LineEdit_Path" type="LineEdit" parent="VBoxContainer/HBox_Path"]
+margin_left = 87.0
+margin_right = 652.0
+margin_bottom = 26.5
+size_flags_horizontal = 3
+editable = false
+
+[node name="Button_Path" type="Button" parent="VBoxContainer/HBox_Path"]
+margin_left = 657.0
+margin_right = 694.5
+margin_bottom = 26.5
+text = " ... "
+
+[node name="HBox_Buttons" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 770.0
+margin_right = 694.0
+margin_bottom = 818.0
+size_flags_horizontal = 3
+
+[node name="Button_Cancel" type="Button" parent="VBoxContainer/HBox_Buttons"]
+margin_right = 344.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 48 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Cancel"
+
+[node name="Button_Export" type="Button" parent="VBoxContainer/HBox_Buttons"]
+margin_left = 349.0
+margin_right = 694.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 0, 48 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Export"
+
+[node name="Popup_Progress" type="PopupDialog" parent="."]
+margin_left = -190.0
+margin_top = 408.0
+margin_right = 916.0
+margin_bottom = 536.0
+popup_exclusive = true
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="ProgressBar" parent="Popup_Progress"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -64.0
+margin_right = -16.0
+margin_bottom = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Popup_Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 8.0
+margin_right = -24.0
+margin_bottom = -96.0
+text = "Exporting in progress. Please wait."
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="Popup_Progress"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 32.0
+margin_right = -24.0
+margin_bottom = -72.0
+align = 1
+valign = 1
+
+[node name="FileDialog" type="FileDialog" parent="."]
+anchor_left = 0.000993881
+anchor_right = 0.000993881
+margin_left = -172.0
+margin_top = 89.0
+margin_right = 899.0
+margin_bottom = 739.0
+rect_min_size = Vector2( 250, 87.5 )
+window_title = "Open a Directory"
+resizable = true
+mode = 2
+access = 2
+current_dir = "/Users/leo/Documents/Code/Godot/RCC"
+current_path = "/Users/leo/Documents/Code/Godot/RCC/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="toggled" from="VBoxContainer/CheckBox_Scheme" to="." method="_on_CheckBox_Scheme_toggled"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBox_1/CheckBox_Baked" to="." method="_on_CheckBox_Baked_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBox_2/CheckBox_Minimal" to="." method="_on_CheckBox_Minimal_pressed"]
+[connection signal="toggled" from="VBoxContainer/HBox_Precision/CheckBox_Precision" to="." method="_on_CheckBox_Precision_toggled"]
+[connection signal="item_selected" from="VBoxContainer/HBox_Precision/Option_Precision" to="." method="_on_Option_Precision_item_selected"]
+[connection signal="toggled" from="VBoxContainer/HBox_Rate/CheckBox_Rate" to="." method="_on_CheckBox_Rate_toggled"]
+[connection signal="item_selected" from="VBoxContainer/HBox_Rate/Option_Rate" to="." method="_on_Option_Rate_item_selected"]
+[connection signal="pressed" from="VBoxContainer/HBox_Numbers/CheckBox_None" to="." method="_on_CheckBox_None_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox_Numbers/CheckBox_Prepend" to="." method="_on_CheckBox_Prepend_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox_Numbers/CheckBox_Append" to="." method="_on_CheckBox_Append_pressed"]
+[connection signal="value_changed" from="VBoxContainer/HBox_Numbers/SpinBox_Digits" to="." method="_on_SpinBox_Digits_value_changed"]
+[connection signal="toggled" from="VBoxContainer/HBox_Spaces/CheckBox_Spaces" to="." method="_on_CheckBox_Spaces_toggled"]
+[connection signal="toggled" from="VBoxContainer/HBox_OldFiles/CheckBox_OldFiles" to="." method="_on_CheckBox_OldFiles_toggled"]
+[connection signal="pressed" from="VBoxContainer/HBox_Path/Button_Path" to="." method="_on_Button_Path_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox_Buttons/Button_Cancel" to="." method="_on_Button_Cancel_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox_Buttons/Button_Export" to="." method="_on_Button_Export_pressed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_FileDialog_dir_selected"]

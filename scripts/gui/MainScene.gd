@@ -1,22 +1,21 @@
 extends Control
 
-enum ExportMode { SingleWave, SingleSFZ, AllWaves, AllSFZs }
-
 signal instrument_list_changed(instrument_list, selected)
 signal instrument_selected(instrument)
 signal file_exported()
 
 export(NodePath) var rcc_path
+export var max_undo_levels := 20
+
 var rcc :Rcc
 var key_jazz_track:= 0
-var _export_mode = ExportMode.SingleWave
+
+var _undo_stack := []
 
 onready var _save_dialog := $FileDialogs/FileDialog_Save
 onready var _load_dialog := $FileDialogs/FileDialog_Load
 onready var _export_dialog := $FileDialogs/FileDialog_Export
-onready var _progress_popup := $FileDialogs/Popup_Progress
-onready var _progress_bar := $FileDialogs/Popup_Progress/Bar
-onready var _progress_text := $FileDialogs/Popup_Progress/Label2
+onready var _export_options_popup := $FileDialogs/Popup_ExportOptions
 
 
 func _enter_tree():
@@ -28,13 +27,14 @@ func _ready():
 	var window_size := OS.get_window_size()
 	OS.set_window_position(Vector2((screen_size.x*0.5)-(window_size.x*0.5), 0))
 
+	_undo_stack.resize(max_undo_levels)
+
 	var session = ResourceLoader.load("user://session.tres")
 	if session:
 		print("Loading session file.")
 		rcc.project = session
 		_load_dialog.current_dir = rcc.project.path.get_base_dir()
 		_save_dialog.current_dir = rcc.project.path.get_base_dir()
-		_export_dialog.current_dir = rcc.project.export_path
 	else:
 		print("Session file not found, creating new one.")
 		rcc.project.create_instrument(Envelope.Waveform.square,0)
@@ -53,32 +53,66 @@ func _save_session():
 	if err: print("Error saving session file: ",err)
 
 
+func undo_push():
+	_undo_stack.push_back( rcc.project.get_selected().duplicate() )
+#	_undo_stack.push_back( rcc.project.duplicate() )
+#	print("storing undo")
+	if _undo_stack.size()>max_undo_levels:
+#		print("Trimming undo stack")
+		_undo_stack.pop_front()
+
+
+func undo_pull():
+	var undo_intrument = _undo_stack.pop_back()
+#	var undo_project = _undo_stack.pop_back()
+	if undo_intrument:
+#	if undo_project:
+		print("retrieving undo")
+		rcc.project.instruments[rcc.project.selected_index] = undo_intrument.duplicate()
+#		rcc.project = undo_project.duplicate()
+		rcc.tracks[key_jazz_track].instrument = rcc.project.get_selected()
+		emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("undo"):
+		undo_pull()
+#	elif event.is_action_pressed("redo"):
+#		undo_
+
+
 func _on_Wavetable_envelope_changed(env):
 	if not rcc.project.empty():
-		rcc.project.get_selected().wave_envelope = env
+		undo_push()
+		rcc.project.get_selected().wave_envelope = env.duplicate()
 
 
 func _on_Pitch_envelope_changed(env):
 	if not rcc.project.empty():
-		rcc.project.get_selected().pitch_envelope = env
+		undo_push()
+		rcc.project.get_selected().pitch_envelope = env.duplicate()
 
 
 func _on_Note_envelope_changed(env):
 	if not rcc.project.empty():
-		rcc.project.get_selected().note_envelope = env
+		undo_push()
+		rcc.project.get_selected().note_envelope = env.duplicate()
 
 
 func _on_Volume_envelope_changed(env):
 	if not rcc.project.empty():
-		rcc.project.get_selected().volume_envelope = env
+		undo_push()
+		rcc.project.get_selected().volume_envelope = env.duplicate()
 		rcc.tracks[key_jazz_track].stop_note()
 
 
 func _on_Noise_envelope_changed(env):
+	undo_push()
 	pass
 
 
 func _on_Morph_envelope_changed(env):
+	undo_push()
 	pass
 
 
@@ -106,71 +140,134 @@ func _on_InstrumentList_item_selected(index):
 
 
 func _on_InstrumentInspector_name_changed(inst_name):
+	undo_push()
 	rcc.project.get_selected().name = inst_name
 	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_pan_changed(pan):
+	undo_push()
 	rcc.project.get_selected().pan = pan
 	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_transpose_changed(transpose):
+	undo_push()
 	rcc.project.get_selected().transpose = transpose
 	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_volume_changed(vol):
+	undo_push()
 	rcc.project.get_selected().volume = vol
 	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
+func _on_InstrumentInspector_scheme_changed(value) -> void:
+	undo_push()
+	rcc.project.get_selected().scheme = value
+	emit_signal("instrument_selected", rcc.project.get_selected())
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+
 func _on_InstrumentInspector_mixrate_changed(rate):
+	undo_push()
 	rcc.project.get_selected().mix_rate = rate
 	rcc.tracks[key_jazz_track].reset_mix_rate()
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+	emit_signal("instrument_selected", rcc.project.get_selected())
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_precision_changed(is_half_precision):
+	undo_push()
 	rcc.project.get_selected().half_precision = is_half_precision
-	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+	emit_signal("instrument_selected", rcc.project.get_selected())
+#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_length_changed(value):
+	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(value, inst.loop_in, inst.loop_out)
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_loop_in_changed(value):
+	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(inst.length, value, inst.loop_out)
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_loop_out_changed(value):
+	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(inst.length, inst.loop_in, value)
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_range_max_changed(value):
+	undo_push()
 	rcc.project.get_selected().range_max = value
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_range_min_changed(value):
+	undo_push()
 	rcc.project.get_selected().range_min = value
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_multisample_changed(is_multisample):
+	undo_push()
 	rcc.project.get_selected().multi_sample = is_multisample
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_interval_changed(value):
+	undo_push()
 	rcc.project.get_selected().sample_interval = value
+	emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func _on_InstrumentInspector_vibrato_changed(value) -> void:
+	undo_push()
+	var inst:RccInstrument = rcc.project.get_selected()
+	inst.vibrato = value
+	update_auto_vibrato(inst)
+	emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func _on_InstrumentInspector_vibrato_depth_changed(value) -> void:
+	undo_push()
+	var inst:RccInstrument = rcc.project.get_selected()
+	inst.vibrato_depth = value
+	update_auto_vibrato(inst)
+	emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func update_auto_vibrato(inst:RccInstrument):
+	if inst.vibrato:
+		var height:float = (inst.vibrato_depth / inst.pitch_envelope.max_value) * inst.pitch_envelope.max_value
+		inst.pitch_envelope.generate_preset(Envelope.Waveform.sine, true, -1, height)
+		inst.pitch_envelope.loop = true
+		inst.pitch_envelope.attack = false
+		inst.pitch_envelope.release = false
+	else:
+		inst.pitch_envelope.generate_preset(Envelope.Waveform.flat, false, -1, 0)
+		inst.pitch_envelope.loop = false
+		inst.pitch_envelope.attack = false
+		inst.pitch_envelope.release = false
+
+
+func _on_InstrumentInspector_vibrato_fade_changed(value) -> void:
+	undo_push()
+	rcc.project.get_selected().vibrato_fade = value
+	emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func _on_InstrumentInspector_vibrato_rate_changed(value) -> void:
+	undo_push()
+	rcc.project.get_selected().vibrato_rate = value
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
@@ -235,8 +332,8 @@ func _on_Menu_Project_item_pressed(index):
 	match index:
 		0: #New
 			rcc.project.clear()
-			rcc.project.path=""
-			_on_Button_add_pressed()
+#			rcc.project.path=""
+#			_on_Button_add_pressed()
 			print("Project Cleared")
 		1: #Load
 			_load_dialog.popup()
@@ -249,26 +346,25 @@ func _on_Menu_Project_item_pressed(index):
 				_save_dialog.popup()
 		3: #Save As
 			_save_dialog.popup()
-		4: #Quit
+		4: #Export
+			_export_options_popup.popup()
+		5: #Quit
 			_save_session()
 			get_tree().quit()
 			print("Quit: Auto saving session")
 
 
 func _on_Menu_Export_item_pressed(index):
+	_export_options_popup.rcc_node = rcc
 	match index:
 		0: #Selected to WAV
-			_export_mode = ExportMode.SingleWave
-			_export_dialog.popup()
+			_export_options_popup.open(ExportMode.SingleWave)
 		1: #Selected to SFZ
-			_export_mode = ExportMode.SingleSFZ
-			_export_dialog.popup()
+			_export_options_popup.open(ExportMode.SingleSFZ)
 		2: #All to WAV
-			_export_mode = ExportMode.AllWaves
-			_export_dialog.popup()
+			_export_options_popup.open(ExportMode.AllWaves)
 		3: #All to SFZ
-			_export_mode = ExportMode.AllSFZs
-			_export_dialog.popup()
+			_export_options_popup.open(ExportMode.AllSFZs)
 
 
 func _on_FileDialog_Save_file_selected(path):
@@ -294,41 +390,4 @@ func _on_FileDialog_Load_file_selected(path):
 			_save_dialog.current_dir = rcc.project.path.get_base_dir()
 			print("save dir:", _save_dialog.current_dir)
 			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
-
-
-func _on_FileDialog_Export_dir_selected(dir):
-	#Without these "yield" lines, I can't actually see the File window disappear and the progress bar
-	#appear BEFORE the files have actually been exported. They introduce a 1 frame delay between each action.
-	yield(get_tree(),"idle_frame")
-	rcc.project.export_path = dir
-	_progress_popup.popup()
-	_progress_bar.value = 0
-	_export_dialog.hide()
-	match _export_mode:
-		ExportMode.SingleWave:
-			Export.to_wave(rcc.project.get_selected(), dir, 0, false)
-			print("Exported selected to WAV at '", dir,"'")
-		ExportMode.SingleSFZ:
-			Export.to_sfz(rcc.project.get_selected(), dir)
-			print("Exported selected to SFZ at '", dir,"'")
-		ExportMode.AllWaves:
-			var n :float= 0
-			for inst in rcc.project.instruments:
-				yield(get_tree(),"idle_frame")
-				Export.to_wave(inst, dir, 0, false)
-				_progress_bar.value = (n/rcc.project.instruments.size())*100
-				_progress_text.text = inst.name
-				n+=1
-			print("Exported all instruments to single WAV files at ", dir)
-		ExportMode.AllSFZs:
-			var n :float= 0
-			for inst in rcc.project.instruments:
-				yield(get_tree(),"idle_frame")
-				Export.to_sfz(inst, dir, n)
-				_progress_bar.value = (n/rcc.project.instruments.size())*100
-				_progress_text.text = inst.name
-				n+=1
-			print("Exported all instruments to SFZ files at ", dir)
-	_progress_popup.hide()
-
 
