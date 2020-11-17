@@ -7,6 +7,6 @@ Retro Creative Chip
 
 Check out the rcc_todo.txt file for a comprehensive list of needed features.
 
-Currently compiles on Windows 10 and MacOS Catalina using Godot 3.2.3.
+Currently compiles on Windows 10 and MacOS Big Sur using Godot 3.2.3.
 
 <img src="./_screenshots/Screen Shot 2020-11-16 at 11.07.30 PM.png" width="1824" />
