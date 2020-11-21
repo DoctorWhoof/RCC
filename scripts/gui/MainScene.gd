@@ -107,13 +107,17 @@ func _on_Volume_envelope_changed(env):
 
 
 func _on_Noise_envelope_changed(env):
-	undo_push()
-	pass
+	if not rcc.project.empty():
+		undo_push()
+		rcc.project.get_selected().noise_envelope = env.duplicate()
+		rcc.tracks[key_jazz_track].stop_note()
 
 
 func _on_Morph_envelope_changed(env):
-	undo_push()
-	pass
+	if not rcc.project.empty():
+		undo_push()
+		rcc.project.get_selected().morph_envelope = env.duplicate()
+		rcc.tracks[key_jazz_track].stop_note()
 
 
 func _on_Piano_note_played(note, octave):

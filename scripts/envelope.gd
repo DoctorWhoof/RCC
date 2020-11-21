@@ -4,7 +4,8 @@ class_name Envelope
 enum Waveform {
 	custom, square, pulse25, pulse10, triangle, sawtooth, sine, noise, noise1bit, flat,
 	falloff, falloff_linear, echo, hit_sustain,
-	arpeggio, arpeggio_chord, tremolo, slide, bass
+	arpeggio, arpeggio_chord, tremolo, slide, bass,
+	chime1, chime2, chime3, harmonic_sine, harmonic_triangle, harmonic_saw
 }
 
 export(Waveform) var shape := Waveform.flat
@@ -277,9 +278,99 @@ func generate_preset(index:int, use_loop:bool, length:int=-1, amplitude:float=-1
 			loop = false
 			attack = false
 			release = false
-		_: temp_data = Generator.array_flat(loop_length,default_value, true)
+		Waveform.chime1:
+			set_length(64)
+			loop_length = data.size()
+			var square_len := loop_length/4
+			var sine_len := loop_length/8
+			var tri_len := loop_length
+			loop_out = 63
+			var square = Generator.array_square(square_len, -amplitude/8, amplitude/8, 0.5, true)
+			var sine = Generator.array_sine(sine_len, -amplitude/6, amplitude/6, true)
+			var tri = Generator.array_sine(tri_len, -amplitude/4, amplitude/4, true)
+			for n in range(data.size()):
+				data[n]=square[n%square_len] + sine[n%sine_len] + tri[n]
+			return
+		Waveform.chime2:
+			set_length(64)
+			loop_length = data.size()
+			var square_len := loop_length/4
+			var sine_len := loop_length
+			var tri_len := loop_length/8
+			loop_out = 63
+			var square = Generator.array_square(square_len, -amplitude/4, amplitude/4, 0.5, true)
+			var sine = Generator.array_sine(sine_len, -amplitude/2, amplitude/2, true)
+			var tri = Generator.array_triangle(tri_len, -amplitude/4, amplitude/4, true)
+			for n in range(data.size()):
+				data[n]=square[n%square_len] + sine[n%sine_len] + tri[n%tri_len]
+			return
+		Waveform.chime3:
+			set_length(64)
+			loop_length = data.size()
+			var len_a := loop_length
+			var len_b := loop_length/4
+			var len_c := loop_length/8
+			var len_d := loop_length/16
+			loop_out = 63
+			var sine_a = Generator.array_sine(len_a, -amplitude/2, amplitude/2, true)
+			var sine_b = Generator.array_sine(len_b, -amplitude/4, amplitude/4, true)
+			var sine_c = Generator.array_square(len_c, -amplitude/8, amplitude/8, 0.25, true)
+			var sine_d = Generator.array_sawtooth(len_d, -amplitude/8, amplitude/8, true)
+			for n in range(data.size()):
+				data[n]=sine_a[n%len_a] + sine_b[n%len_b] + sine_c[n%len_c] + sine_d[n%len_d]
+			return
+		Waveform.harmonic_sine:
+			set_length(64)
+			loop_length = data.size()
+			var len_a := loop_length
+			var len_b := loop_length/4
+			var len_c := loop_length/8
+			var len_d := loop_length/16
+			loop_out = 63
+			var sine_a = Generator.array_sine(len_a, -amplitude/4, amplitude/4, true)
+			var sine_b = Generator.array_sine(len_b, -amplitude/4, amplitude/4, true)
+			var sine_c = Generator.array_sine(len_c, -amplitude/8, amplitude/8, true)
+			var sine_d = Generator.array_sine(len_d, -amplitude/12, amplitude/12, true)
+			for n in range(data.size()):
+				data[n]=sine_a[n%len_a] + sine_b[n%len_b] + sine_c[n%len_c] + sine_d[n%len_d]
+			return
+		Waveform.harmonic_triangle:
+			set_length(32)
+			loop_length = data.size()
+			var len_a := loop_length
+			var len_b := loop_length/4
+			var len_c := loop_length/8
+			var len_d := loop_length/16
+			loop_out = 31
+			var sine_a = Generator.array_triangle(len_a, -amplitude/2, amplitude/2, true)
+			var sine_b = Generator.array_triangle(len_b, -amplitude/4, amplitude/4, true)
+			var sine_c = Generator.array_triangle(len_c, -amplitude/8, amplitude/8, true)
+			var sine_d = Generator.array_triangle(len_d, -amplitude/12, amplitude/12, true)
+			for n in range(data.size()):
+				data[n]=sine_a[n%len_a] + sine_b[n%len_b] + sine_c[n%len_c] + sine_d[n%len_d]
+			return
+		Waveform.harmonic_saw:
+			set_length(64)
+			loop_length = data.size()
+			var len_a := loop_length
+			var len_b := loop_length/4
+			var len_c := loop_length/8
+			var len_d := loop_length/16
+			loop_out = 63
+			var sine_a = Generator.array_sawtooth(len_a, -amplitude/2, amplitude/2, true)
+			var sine_b = Generator.array_sawtooth(len_b, -amplitude/4, amplitude/4, true)
+			var sine_c = Generator.array_sawtooth(len_c, -amplitude/8, amplitude/8, true)
+			var sine_d = Generator.array_sawtooth(len_d, -amplitude/12, amplitude/12, true)
+			for n in range(data.size()):
+				data[n]=sine_a[n%len_a] + sine_b[n%len_b] + sine_c[n%len_c] + sine_d[n%len_d]
+			return
+		_:
+			temp_data = Generator.array_flat(loop_length,default_value, true)
 	if use_loop:
 		for n in range(loop_in, loop_out+1):
-			data[n]=temp_data[n-loop_in]
+			if n < data.size():
+				data[n]=temp_data[n-loop_in]
+			else:
+				break
 	else:
 		data = temp_data

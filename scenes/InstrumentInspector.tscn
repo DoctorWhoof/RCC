@@ -375,17 +375,52 @@ margin_right = 1568.0
 margin_bottom = 364.0
 custom_constants/separation = 16
 
-[node name="Export Settings" type="Label" parent="HBox/VBox"]
+[node name="PSG" type="Label" parent="HBox/VBox"]
 margin_top = 372.0
 margin_right = 1568.0
 margin_bottom = 386.0
+text = "PSG"
+align = 1
+
+[node name="HBox_psg_volume" type="HBoxContainer" parent="HBox/VBox"]
+margin_top = 394.0
+margin_right = 1568.0
+margin_bottom = 418.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HBox/VBox/HBox_psg_volume"]
+margin_right = 1540.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "PSG volume style"
+valign = 1
+
+[node name="CheckBox_psg_volume" type="CheckBox" parent="HBox/VBox/HBox_psg_volume"]
+margin_left = 1544.0
+margin_right = 1568.0
+margin_bottom = 24.0
+
+[node name="HSeparator6" type="HSeparator" parent="HBox/VBox"]
+margin_top = 426.0
+margin_right = 1568.0
+margin_bottom = 442.0
+custom_constants/separation = 16
+
+[node name="Export Settings" type="Label" parent="HBox/VBox"]
+margin_top = 450.0
+margin_right = 1568.0
+margin_bottom = 464.0
 text = "Export settings:"
 align = 1
 
 [node name="HBox_Style" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 394.0
+margin_top = 472.0
 margin_right = 1568.0
-margin_bottom = 414.0
+margin_bottom = 492.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -406,9 +441,9 @@ margin_bottom = 20.0
 script = ExtResource( 6 )
 
 [node name="HBox_Precision" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 422.0
+margin_top = 500.0
 margin_right = 1568.0
-margin_bottom = 442.0
+margin_bottom = 520.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -429,9 +464,9 @@ margin_bottom = 20.0
 script = SubResource( 1 )
 
 [node name="HBox_MixRate" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 450.0
+margin_top = 528.0
 margin_right = 1568.0
-margin_bottom = 470.0
+margin_bottom = 548.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -452,9 +487,9 @@ margin_bottom = 20.0
 script = ExtResource( 5 )
 
 [node name="HBox_Multisample" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 478.0
+margin_top = 556.0
 margin_right = 1568.0
-margin_bottom = 502.0
+margin_bottom = 580.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -475,9 +510,9 @@ margin_bottom = 24.0
 pressed = true
 
 [node name="HBox_Interval" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 510.0
+margin_top = 588.0
 margin_right = 1568.0
-margin_bottom = 534.0
+margin_bottom = 612.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -502,9 +537,9 @@ rounded = true
 script = ExtResource( 2 )
 
 [node name="HBox_OctaveRange" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 542.0
+margin_top = 620.0
 margin_right = 1568.0
-margin_bottom = 566.0
+margin_bottom = 644.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -536,9 +571,9 @@ rounded = true
 script = ExtResource( 2 )
 
 [node name="HBox_Total" type="HBoxContainer" parent="HBox/VBox"]
-margin_top = 574.0
+margin_top = 652.0
 margin_right = 1568.0
-margin_bottom = 588.0
+margin_bottom = 666.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -553,9 +588,9 @@ text = "Total samples"
 valign = 1
 
 [node name="HSeparator3" type="HSeparator" parent="HBox/VBox"]
-margin_top = 596.0
+margin_top = 674.0
 margin_right = 1568.0
-margin_bottom = 612.0
+margin_bottom = 690.0
 custom_constants/separation = 16
 
 [node name="SFZ Mappings" type="Label" parent="HBox/VBox"]
@@ -577,7 +612,7 @@ margin_right = 1568.0
 margin_bottom = 805.0
 
 [node name="Spacer" type="Control" parent="HBox/VBox"]
-margin_top = 620.0
+margin_top = 698.0
 margin_right = 1568.0
 margin_bottom = 1200.0
 size_flags_vertical = 3

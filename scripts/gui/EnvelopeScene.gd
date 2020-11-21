@@ -27,15 +27,21 @@ func _ready():
 			presets.add_item("Pulse 25", Envelope.Waveform.pulse25)
 			presets.add_item("Pulse 10", Envelope.Waveform.pulse10)
 			presets.add_item("Sine", Envelope.Waveform.sine)
+			presets.add_item("Sine Harmonic", Envelope.Waveform.harmonic_sine)
+			presets.add_item("Chime 1", Envelope.Waveform.chime1)
+			presets.add_item("Chime 2", Envelope.Waveform.chime2)
+			presets.add_item("Chime 3", Envelope.Waveform.chime3)
 			presets.add_item("Triangle", Envelope.Waveform.triangle)
+			presets.add_item("Triangle Harmonic", Envelope.Waveform.harmonic_triangle)
 			presets.add_item("Sawtooth", Envelope.Waveform.sawtooth)
+			presets.add_item("Saw Harmonic", Envelope.Waveform.harmonic_saw)
 			presets.add_item("Noise", Envelope.Waveform.noise)
 			presets.add_item("Noise 1Bit", Envelope.Waveform.noise1bit)
 			presets.add_item("Flat", Envelope.Waveform.flat)
 			for node in get_children_in_group(self,"Control_Loop"):
 				node.visible=false
-			for node in get_children_in_group(self,"Control_Dimensions"):
-				node.visible=false
+#			for node in get_children_in_group(self,"Control_Dimensions"):
+#				node.visible=false
 		Role.volume:
 			presets.add_item("Custom", Envelope.Waveform.custom)
 			presets.add_item("Flat", Envelope.Waveform.flat)
@@ -164,7 +170,7 @@ func _on_main_instrument_selected(instrument):
 			Role.wave: editor.envelope = instrument.wave_envelope.duplicate()
 			Role.pitch: editor.envelope = instrument.pitch_envelope.duplicate()
 			Role.note: editor.envelope = instrument.note_envelope.duplicate()
-			Role.volume: editor.envelope = instrument.volume_envelope.duplicate()
+			Role.volume:	editor.envelope = instrument.volume_envelope.duplicate()
 			Role.noise: editor.envelope = instrument.noise_envelope.duplicate()
 			Role.morph: editor.envelope = instrument.morph_envelope.duplicate()
 		_refresh_controls()

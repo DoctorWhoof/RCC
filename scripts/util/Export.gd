@@ -132,6 +132,14 @@ static func to_sfz(
 	text+="polyphony=1\n"
 	text+="note_polyphony=1\n"
 
+	var loop_mode = "no_loop"
+	match export_style:
+		ExportStyle.Baked:
+			if inst.will_loop(): loop_mode = "loop_sustain"
+		ExportStyle.Minimal:
+			loop_mode = "loop_continuous"
+	text+="loop_mode="+loop_mode+"\n"
+
 	if inst.vibrato:
 		var frequency_multiplier := 1.1
 		var vibrato_depth:float = ((inst.vibrato_depth*0.667)/inst.pitch_envelope.max_value)*200
@@ -177,13 +185,13 @@ static func sfz_region(
 
 	if export_style == ExportStyle.Minimal:
 		text +="pitch_keycenter="+str(note+49-(inst.transpose*12))+"\n"
-		text+="loop_mode=loop_continuous\n"
-		text+="loop_type=forward\n"
+#		text+="loop_mode=loop_continuous\n"
+#		text+="loop_type=forward\n"
 	else:
 		text +="pitch_keycenter="+str(note+48)+"\n"
-		var loop_mode = "one_shot"
-		if inst.will_loop(): loop_mode = "loop_sustain"
-		text+="loop_mode="+loop_mode+"\n"
+#		var loop_mode = "one_shot"
+#		if inst.will_loop(): loop_mode = "loop_sustain"
+#		text+="loop_mode="+loop_mode+"\n"
 
 	if inst.will_loop():
 		text +="loop_start="+str(loop_in)+"\n"
@@ -251,7 +259,7 @@ static func envelope_text(inst:RccInstrument, env:Envelope, eg_text:String, tick
 			if (value != last) or (is_loop_in) or (is_loop_out):
 				var slope:float = atan2(value-last,time)
 				if n>0 and not is_loop_out:
-					if is_similar(previous_point[2], slope, 0.01):
+					if is_similar(previous_point[2], slope, 0.001):
 						time += points.back()[0]
 						points.pop_back()
 				points.append([time, value, slope])

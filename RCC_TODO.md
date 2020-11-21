@@ -20,6 +20,10 @@ Target: 1.0 Release
 
 	[ ] App Icon
 
+	[ ] Duplicating instruments doesn't duplicate all new instrument features (i.e. export scheme)
+
+	[ ] Hide Multi-sample related controls when Minimal Export Scheme is selected 
+
 	[ ] Regenerate Auto Vibrato's Pitch envelope whenever instrument's loop points or envelope size change
 
 	[ ] BUG: pasting envelopes needs to respect min/max values
@@ -76,6 +80,20 @@ Target: 1.0 Release
 	[X] OpenMPT SFZ Export Fixes:
 		[X] Volume envelopes are getting cut-off at the bottom. Maybe it's non-linear?
 		[X] Notes seem a semitone too high 
+
+	[X] BUG: Loop is wrong when importing baked sfz into OpenMPT. Try writing the loop mode into the group? (Solution: "no_loop" value for non-looping waves, instead of "one_shot")
+
+
+-------------------------------------------------------------------------------
+
+Target: 1.1 Release
+
+	[ ]General clean up:
+		[ ] Script and Class names (Like "ExportStyle" to "Scheme", etc.)
+		[ ] Remove unnecessary/unused files
+		[ ] Code comments
+
+-------------------------------------------------------------------------------
 
 Target: Low priority
 
