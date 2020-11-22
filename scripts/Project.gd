@@ -75,29 +75,12 @@ func create_instrument(waveform:int, index:int):
 	var n := instruments.size()
 	var inst := RccInstrument.new()
 
-	inst.wave_envelope.min_value=wavetable_min
-	inst.wave_envelope.max_value=wavetable_max
-	inst.wave_envelope.generate_preset(waveform, false, wavetable_length)
-
-	inst.volume_envelope.min_value=volume_min
-	inst.volume_envelope.max_value=volume_max
-	inst.volume_envelope.generate_preset(Envelope.Waveform.hit_sustain, false, inst.length)
-
-	inst.pitch_envelope.min_value=pitch_min
-	inst.pitch_envelope.max_value=pitch_max
-	inst.pitch_envelope.generate_preset(Envelope.Waveform.flat, false, inst.length)
-
-	inst.note_envelope.min_value=note_min
-	inst.note_envelope.max_value=note_max
-	inst.note_envelope.generate_preset(Envelope.Waveform.flat, false, inst.length)
-
-	inst.noise_envelope.min_value=noise_min
-	inst.noise_envelope.max_value=noise_max
-	inst.noise_envelope.generate_preset(Envelope.Waveform.flat, false, inst.length)
-
-	inst.morph_envelope.min_value=morph_min
-	inst.morph_envelope.max_value=morph_max
-	inst.morph_envelope.generate_preset(Envelope.Waveform.flat, false, inst.length)
+	inst.wave_envelope = EnvelopePresets.generate(waveform, false, wavetable_length, wavetable_min, wavetable_max)
+	inst.volume_envelope = EnvelopePresets.generate(Envelope.Waveform.hit_sustain, false, inst.length, volume_min, volume_max)
+	inst.pitch_envelope = EnvelopePresets.generate(Envelope.Waveform.flat, false, inst.length, pitch_min, pitch_max)
+	inst.note_envelope = EnvelopePresets.generate(Envelope.Waveform.flat, false, inst.length, note_min, note_max)
+	inst.noise_envelope = EnvelopePresets.generate(Envelope.Waveform.flat, false, inst.length, noise_min, noise_max)
+	inst.morph_envelope = EnvelopePresets.generate(Envelope.Waveform.flat, false, inst.length, morph_min, morph_max)
 
 	inst.name = "Instrument "+str(n)
 	instruments.insert(index, inst)

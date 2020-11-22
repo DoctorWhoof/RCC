@@ -240,6 +240,7 @@ static func envelope_text(inst:RccInstrument, env:Envelope, eg_text:String, tick
 		if not env.empty():
 			inst.commit_envelopes()
 			ticks_since_last += 1
+
 			var value:float = env.normalized(true)
 			var time := tick_duration * ticks_since_last
 			var previous_point = points.back()
@@ -256,7 +257,8 @@ static func envelope_text(inst:RccInstrument, env:Envelope, eg_text:String, tick
 				loop_out = points.size()
 
 			if n == 0: time = 0
-			if (value != last) or (is_loop_in) or (is_loop_out):
+			if n == 1: value = points[0][1]
+			if (value != last) or (is_loop_in) or (is_loop_out) or (n==1):
 				var slope:float = atan2(value-last,time)
 				if n>0 and not is_loop_out:
 					if is_similar(previous_point[2], slope, 0.001):

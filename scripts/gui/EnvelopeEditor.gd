@@ -127,6 +127,9 @@ func _draw():
 			if skip:
 				draw_line(Vector2(pos.x, topleft.y), Vector2(pos.x, rect_margin.y+topleft.y), light_grid_color)
 
+	#Center line
+	draw_line(Vector2(rect_size.x/2, topleft.y), Vector2(rect_size.x/2, rect_margin.y+topleft.y), dark_grid_color)
+
 	#Y Subgrid
 #	var inc_y := rect_margin.y*_sub_grid_step.y
 #	var y:= inc_y

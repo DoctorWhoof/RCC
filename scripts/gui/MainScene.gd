@@ -84,39 +84,39 @@ func _input(event: InputEvent) -> void:
 func _on_Wavetable_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().wave_envelope = env.duplicate()
+		rcc.project.get_selected().wave_envelope = env#.duplicate()
 
 
 func _on_Pitch_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().pitch_envelope = env.duplicate()
+		rcc.project.get_selected().pitch_envelope = env#.duplicate()
 
 
 func _on_Note_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().note_envelope = env.duplicate()
+		rcc.project.get_selected().note_envelope = env#.duplicate()
 
 
 func _on_Volume_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().volume_envelope = env.duplicate()
+		rcc.project.get_selected().volume_envelope = env#.duplicate()
 		rcc.tracks[key_jazz_track].stop_note()
 
 
 func _on_Noise_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().noise_envelope = env.duplicate()
+		rcc.project.get_selected().noise_envelope = env#.duplicate()
 		rcc.tracks[key_jazz_track].stop_note()
 
 
 func _on_Morph_envelope_changed(env):
 	if not rcc.project.empty():
 		undo_push()
-		rcc.project.get_selected().morph_envelope = env.duplicate()
+		rcc.project.get_selected().morph_envelope = env#.duplicate()
 		rcc.tracks[key_jazz_track].stop_note()
 
 
@@ -192,6 +192,7 @@ func _on_InstrumentInspector_length_changed(value):
 	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(value, inst.loop_in, inst.loop_out)
+	update_auto_vibrato()
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
@@ -199,6 +200,7 @@ func _on_InstrumentInspector_loop_in_changed(value):
 	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(inst.length, value, inst.loop_out)
+	update_auto_vibrato()
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
@@ -206,6 +208,7 @@ func _on_InstrumentInspector_loop_out_changed(value):
 	undo_push()
 	var inst = rcc.project.get_selected()
 	inst.set_envelope_size(inst.length, inst.loop_in, value)
+	update_auto_vibrato()
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
@@ -235,32 +238,52 @@ func _on_InstrumentInspector_interval_changed(value):
 
 func _on_InstrumentInspector_vibrato_changed(value) -> void:
 	undo_push()
-	var inst:RccInstrument = rcc.project.get_selected()
-	inst.vibrato = value
-	update_auto_vibrato(inst)
+	rcc.project.get_selected().vibrato = value
+	update_auto_vibrato()
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
 func _on_InstrumentInspector_vibrato_depth_changed(value) -> void:
 	undo_push()
-	var inst:RccInstrument = rcc.project.get_selected()
-	inst.vibrato_depth = value
-	update_auto_vibrato(inst)
+	rcc.project.get_selected().vibrato_depth = value
+	update_auto_vibrato()
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
-func update_auto_vibrato(inst:RccInstrument):
+func update_auto_vibrato():
+	var inst:RccInstrument = rcc.project.get_selected()
+	var env:Envelope = inst.pitch_envelope
+	var new_env:Envelope
 	if inst.vibrato:
-		var height:float = (inst.vibrato_depth / inst.pitch_envelope.max_value) * inst.pitch_envelope.max_value
-		inst.pitch_envelope.generate_preset(Envelope.Waveform.sine, true, -1, height)
-		inst.pitch_envelope.loop = true
-		inst.pitch_envelope.attack = false
-		inst.pitch_envelope.release = false
+		var height:float = (inst.vibrato_depth / env.max_value) * env.max_value
+		print("vibrato:",height)
+		new_env = EnvelopePresets.generate(
+			Envelope.Waveform.sine,
+			true, env.length(),
+			env.min_value,
+			env.max_value,
+			height,
+			inst.loop_in,
+			inst.loop_out
+		)
+		new_env.loop = true
+		new_env.attack = false
+		new_env.release = false
 	else:
-		inst.pitch_envelope.generate_preset(Envelope.Waveform.flat, false, -1, 0)
-		inst.pitch_envelope.loop = false
-		inst.pitch_envelope.attack = false
-		inst.pitch_envelope.release = false
+		new_env = EnvelopePresets.generate(
+			Envelope.Waveform.flat,
+			false,
+			env.length(),
+			env.min_value,
+			env.max_value,
+			0,
+			inst.loop_in,
+			inst.loop_out
+		)
+		new_env.loop = false
+		new_env.attack = false
+		new_env.release = false
+	rcc.project.get_selected().pitch_envelope = new_env
 
 
 func _on_InstrumentInspector_vibrato_fade_changed(value) -> void:

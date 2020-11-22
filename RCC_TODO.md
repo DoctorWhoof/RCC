@@ -22,11 +22,22 @@ Target: 1.0 Release
 
 	[ ] Duplicating instruments doesn't duplicate all new instrument features (i.e. export scheme)
 
-	[ ] Hide Multi-sample related controls when Minimal Export Scheme is selected 
-
-	[ ] Regenerate Auto Vibrato's Pitch envelope whenever instrument's loop points or envelope size change
+	[ ] Move Undo "push" and "pull" functionality into an Undo singleton, so that it's available from any editor, not just the main scene. 
 
 	[ ] BUG: pasting envelopes needs to respect min/max values
+
+	[ ] Hide Multi-sample related controls when Minimal Export Scheme is selected 
+
+	[ ] Shortcuts
+			[ ] Shortcut tool tips
+
+	[ ] Rename classes and variables called "ExportStyle" and "scheme" to "ExportScheme" and "export_scheme", including in UI for consistency
+
+	[X] Envelope filters? Having trouble matching Quarth sounds...
+
+	[X] Amplify filter needs to clamp value
+
+	[X] Regenerate Auto Vibrato's Pitch envelope whenever instrument's loop points or envelope size change
 
 	[.] Undo system, probably keeping duplicates of the instrument resources in memory
 		- Partially working! (envelopes edits only). Figure out an undo system for anything, not just envelopes - probably using project copies?
@@ -34,12 +45,7 @@ Target: 1.0 Release
 			- Wait for Godot 4.0 or use project.duplicate(true) for each undo step, or
 			- Create a system to copy all project's instruments on each undo step, to be able to undo instrument moving/adding/removing.
 
-	[ ] BUG: "SCC Bass Distorted" Loop points are wrong. Disabling loop for now.
-
 	[.] Envelope Edit: Copy and Paste
-
-	[ ] Shortcuts
-		[ ] Shortcut tool tips
 
 	[.] Instrument inspector improvements:
 		[.] Add Instrument comment text box
@@ -97,6 +103,8 @@ Target: 1.1 Release
 
 Target: Low priority
 
+	[ ] BUG: "SCC Bass Distorted" detected loop points are wrong when exporting to baked sfz. Disabling loop for now.
+
 	[ ] Optimize sfz envelopes (remove redundant points)
 
 	[ ] Allow multiple instrument selection
@@ -130,9 +138,9 @@ Target: Low priority
 		[ ] Selection, filters affect selection only unless nothing is selected
 		[ ] Offset left, right
 		[ ] Mirror H and V
-		[ ] Add Noise
-		[ ] Volume + -
-		[ ] Smooth
+		[.] Add Noise
+		[.] Volume + -
+		[.] Smooth
 
 Done:
 

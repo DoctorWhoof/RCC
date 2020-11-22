@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/gui/EnvelopeEditor.gd"
 }, {
+"base": "Reference",
+"class": "EnvelopePresets",
+"language": "GDScript",
+"path": "res://scripts/util/EnvelopePresets.gd"
+}, {
 "base": "Control",
 "class": "EnvelopeScene",
 "language": "GDScript",
@@ -107,6 +112,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Envelope": "",
 "EnvelopeEditor": "res://textures/editor.png",
+"EnvelopePresets": "",
 "EnvelopeScene": "res://textures/envelope.png",
 "Export": "",
 "ExportMode": "",
