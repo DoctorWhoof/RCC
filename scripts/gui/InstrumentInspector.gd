@@ -47,6 +47,10 @@ onready var rate_spin := $HBox/VBox/HBox_Rate/SpinBox_rate
 
 onready var psg_volume_check := $HBox/VBox/HBox_psg_volume/CheckBox_psg_volume
 
+onready var hbox_multisample := $HBox/VBox/HBox_Multisample
+onready var hbox_interval := $HBox/VBox/HBox_Interval
+onready var hbox_range := $HBox/VBox/HBox_OctaveRange
+
 #EXPERIMENTAL: Avoids feedback loops when receiving an "instrument_selected" signal
 var suspend_signals := false
 
@@ -73,13 +77,19 @@ func _on_SpinBox_transpose_value_changed(value):
 func _on_OptionButton_scheme_item_selected(index: int) -> void:
 	match index:
 		ExportStyle.Minimal:
-			multisample_check.disabled = true
+#			multisample_check.disabled = true
 			range_max_field.editable = false
 			range_min_field.editable = false
 			interval_field.editable = false
 			total_label.text = "Total samples: 1"
+			hbox_multisample.visible = false
+			hbox_interval.visible = false
+			hbox_range.visible = false
 		ExportStyle.Baked:
-			multisample_check.disabled = false
+#			multisample_check.disabled = false
+			hbox_multisample.visible = true
+			hbox_interval.visible = true
+			hbox_range.visible = true
 			_on_CheckBox_Multisample_toggled(multisample_check.pressed)
 	calculate_total_samples()
 	if suspend_signals: return

@@ -12,7 +12,7 @@ export var loop_in := 0
 export var loop_out := 7
 export var sustain := true
 
-export var scheme := ExportStyle.Baked
+export var scheme := ExportStyle.Minimal
 export var mix_rate := 44100
 export var half_precision := false
 export var range_min := 2
