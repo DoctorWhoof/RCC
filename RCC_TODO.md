@@ -20,8 +20,6 @@ Target: 1.0 Release
 
 	[ ] App Icon
 
-	[ ] Duplicating instruments doesn't duplicate all new instrument features (i.e. export scheme)
-
 	[ ] Move Undo "push" and "pull" functionality into an Undo singleton, so that it's available from any editor, not just the main scene. 
 
 	[ ] BUG: pasting envelopes needs to respect min/max values
@@ -32,6 +30,8 @@ Target: 1.0 Release
 			[ ] Shortcut tool tips
 
 	[ ] Rename classes and variables called "ExportStyle" and "scheme" to "ExportScheme" and "export_scheme", including in UI for consistency
+
+	[X] Duplicating instruments doesn't duplicate all new instrument features (i.e. export scheme)
 
 	[X] Envelope filters? Having trouble matching Quarth sounds...
 

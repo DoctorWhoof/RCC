@@ -326,18 +326,32 @@ func _on_Button_duplicate_pressed():
 	new_inst.volume = inst.volume
 	new_inst.pan = inst.pan
 	new_inst.transpose = inst.transpose
+
 	new_inst.length = inst.length
 	new_inst.loop_in = inst.loop_in
 	new_inst.loop_out = inst.loop_out
+
+	new_inst.vibrato = inst.vibrato
+	new_inst.vibrato_depth = inst.vibrato_depth
+	new_inst.psg_volume = inst.psg_volume
+
+	new_inst.scheme = inst.scheme
+	new_inst.mix_rate = inst.mix_rate
+	new_inst.half_precision = inst.half_precision
 	new_inst.sample_interval = inst.sample_interval
 	new_inst.range_min = inst.range_min
 	new_inst.range_max = inst.range_max
 	new_inst.multi_sample = inst.multi_sample
+
+
+
 	new_inst.wave_envelope = inst.wave_envelope.duplicate()
 	new_inst.pitch_envelope = inst.pitch_envelope.duplicate()
 	new_inst.volume_envelope = inst.volume_envelope.duplicate()
 	new_inst.noise_envelope = inst.noise_envelope.duplicate()
 	new_inst.morph_envelope = inst.morph_envelope.duplicate()
+
+
 
 	rcc.project.selected_index+=1
 	rcc.project.insert(rcc.project.selected_index, new_inst)
@@ -363,8 +377,8 @@ func _on_Menu_Project_item_pressed(index):
 	match index:
 		0: #New
 			rcc.project.clear()
-#			rcc.project.path=""
-#			_on_Button_add_pressed()
+			_on_InstrumentList_item_selected(rcc.project.selected_index)
+			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 			print("Project Cleared")
 		1: #Load
 			_load_dialog.popup()
@@ -377,8 +391,6 @@ func _on_Menu_Project_item_pressed(index):
 				_save_dialog.popup()
 		3: #Save As
 			_save_dialog.popup()
-		4: #Export
-			_export_options_popup.popup()
 		5: #Quit
 			_save_session()
 			get_tree().quit()
