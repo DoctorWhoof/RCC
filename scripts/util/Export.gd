@@ -347,9 +347,18 @@ static func to_wave_minimal(
 	for n in range(0,sample_length):
 		var column:int = n/column_length
 		var value:float = inst.wave_envelope.normalized_sample(column)*0.9
-		if value != previous_value: out_level = 1.0
-		var noise := (randf()-0.5)*inst.analog_noise
-		data.append((value*out_level)+noise)
+
+		if value != previous_value:
+			out_level = 1.0
+
+		var noise := ((randf()-0.5)*inst.analog_noise ) * out_level
+
+		var final := (value*out_level)+noise
+
+		if inst.psg_volume:
+			if final < 0: final *= 0.05
+
+		data.append(final)
 		previous_value = value
 		out_level *= inst.analog_attenuation
 

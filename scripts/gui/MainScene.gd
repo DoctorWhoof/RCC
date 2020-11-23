@@ -171,21 +171,19 @@ func _on_InstrumentInspector_scheme_changed(value) -> void:
 	undo_push()
 	rcc.project.get_selected().scheme = value
 	emit_signal("instrument_selected", rcc.project.get_selected())
-#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+
 
 func _on_InstrumentInspector_mixrate_changed(rate):
 	undo_push()
 	rcc.project.get_selected().mix_rate = rate
 	rcc.tracks[key_jazz_track].reset_mix_rate()
 	emit_signal("instrument_selected", rcc.project.get_selected())
-#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_precision_changed(is_half_precision):
 	undo_push()
 	rcc.project.get_selected().half_precision = is_half_precision
 	emit_signal("instrument_selected", rcc.project.get_selected())
-#	emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
 
 
 func _on_InstrumentInspector_length_changed(value):
@@ -295,6 +293,12 @@ func _on_InstrumentInspector_vibrato_fade_changed(value) -> void:
 func _on_InstrumentInspector_vibrato_rate_changed(value) -> void:
 	undo_push()
 	rcc.project.get_selected().vibrato_rate = value
+	emit_signal("instrument_selected", rcc.project.get_selected())
+
+
+func _on_InstrumentInspector_psg_volume_changed(value) -> void:
+	undo_push()
+	rcc.project.get_selected().psg_volume = value
 	emit_signal("instrument_selected", rcc.project.get_selected())
 
 
@@ -417,4 +421,7 @@ func _on_FileDialog_Load_file_selected(path):
 			_save_dialog.current_dir = rcc.project.path.get_base_dir()
 			print("save dir:", _save_dialog.current_dir)
 			emit_signal("instrument_list_changed", rcc.project.instruments, rcc.project.selected_index)
+
+
+
 

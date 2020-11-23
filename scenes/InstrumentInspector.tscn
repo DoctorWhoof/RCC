@@ -669,6 +669,7 @@ rect_min_size = Vector2( 12, 0 )
 [connection signal="toggled" from="HBox/VBox/HBox_Fade/CheckBox_fade" to="." method="_on_CheckBox_fade_toggled"]
 [connection signal="value_changed" from="HBox/VBox/HBox_Depth/SpinBox_depth" to="." method="_on_SpinBox_depth_value_changed"]
 [connection signal="value_changed" from="HBox/VBox/HBox_Rate/SpinBox_rate" to="." method="_on_SpinBox_rate_value_changed"]
+[connection signal="toggled" from="HBox/VBox/HBox_psg_volume/CheckBox_psg_volume" to="." method="_on_CheckBox_psg_volume_toggled"]
 [connection signal="item_selected" from="HBox/VBox/HBox_Style/OptionButton_scheme" to="." method="_on_OptionButton_scheme_item_selected"]
 [connection signal="item_selected" from="HBox/VBox/HBox_Precision/OptionButton_precision" to="." method="_on_OptionButton_precision_item_selected"]
 [connection signal="item_selected" from="HBox/VBox/HBox_MixRate/OptionButton_MixRate" to="." method="_on_OptionButton_MixRate_item_selected"]

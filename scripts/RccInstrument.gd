@@ -19,6 +19,7 @@ export var range_min := 2
 export var range_max := 6
 export var sample_interval := 3
 export var multi_sample := true
+export var psg_volume := false
 
 export var vibrato := false
 export var vibrato_fade := false

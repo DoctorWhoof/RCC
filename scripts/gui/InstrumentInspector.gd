@@ -19,6 +19,7 @@ signal vibrato_fade_changed(value)
 signal vibrato_depth_changed(value)
 signal vibrato_rate_changed(value)
 signal scheme_changed(value)
+signal psg_volume_changed(value)
 
 
 onready var name_field := $HBox/VBox/HBox_Name/LineEdit_name
@@ -43,6 +44,8 @@ onready var vibrato_check := $HBox/VBox/HBox_Vibrato/CheckBox_vibrato
 onready var fade_check := $HBox/VBox/HBox_Fade/CheckBox_fade
 onready var depth_spin := $HBox/VBox/HBox_Depth/SpinBox_depth
 onready var rate_spin := $HBox/VBox/HBox_Rate/SpinBox_rate
+
+onready var psg_volume_check := $HBox/VBox/HBox_psg_volume/CheckBox_psg_volume
 
 #EXPERIMENTAL: Avoids feedback loops when receiving an "instrument_selected" signal
 var suspend_signals := false
@@ -169,6 +172,11 @@ func _on_SpinBox_rate_value_changed(value: float) -> void:
 	emit_signal("vibrato_rate_changed")
 
 
+func _on_CheckBox_psg_volume_toggled(button_pressed: bool) -> void:
+	if suspend_signals: return
+	emit_signal("psg_volume_changed", button_pressed)
+
+
 func calculate_total_samples():
 	var total:= 1
 	if multisample_check.pressed and not scheme_button.selected==ExportStyle.Minimal:
@@ -198,6 +206,8 @@ func _on_main_instrument_selected(instrument:RccInstrument):
 		depth_spin.value = instrument.vibrato_depth
 		rate_spin.value = instrument.vibrato_rate
 
+		psg_volume_check.pressed = instrument.psg_volume
+
 		scheme_button.selected = instrument.scheme
 		_on_OptionButton_scheme_item_selected(instrument.scheme)
 #		calculate_total_samples()
@@ -210,5 +220,8 @@ func _on_main_instrument_selected(instrument:RccInstrument):
 			false: precision_button.selected = 0
 			_: precision_button.selected = 1
 		suspend_signals=false
+
+
+
 
 

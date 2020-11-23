@@ -36,9 +36,6 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mix_rate:int, mo
 
 		#New column detection. If column is the same, value gradually fades using analog_attentuation
 		if int(instrument.column) != int(instrument.previous_column):
-			#Commit values on column change
-#			instrument.commit_envelopes()
-#			increment=get_pitch_increment(instrument, note)
 			value = tentative_value
 			#New actual value on column means we calculate the final normalized value with volume envelope attenuation, etc.
 			if value != instrument.previous_value:
@@ -63,6 +60,9 @@ static func rcc_fill_buffer(note:int, instrument:RccInstrument, mix_rate:int, mo
 		var noise_env :float =  instrument.noise_envelope.normalized()
 		var noise_level:float = ((randf()*2.0)-1.0)*instrument.volume_envelope.normalized()
 		level = (level*(1.0-noise_env))+(noise_level*noise_env)
+
+		if instrument.psg_volume:
+			if level < 0: level *= 0.05
 
 		#Append array with mono or stereo data
 		if mono:
