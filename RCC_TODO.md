@@ -18,14 +18,16 @@ Keys:
 
 Target: 1.0 Release
 
-	[ ] App Icon
-
 	[ ] Move Undo "push" and "pull" functionality into an Undo singleton, so that it's available from any editor, not just the main scene. 
 
 	[ ] BUG: pasting envelopes needs to respect min/max values
 
 	[ ] Shortcuts
 			[ ] Shortcut tool tips
+
+	[ ] Fix envelope presets generation (respect existing loop points, length, max/min values for most types of envelopes - but not all!)
+
+	[X] App Icon
 
 	[X] Hide Multi-sample related controls when Minimal Export Scheme is selected 
 

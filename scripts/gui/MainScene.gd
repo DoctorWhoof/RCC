@@ -343,15 +343,11 @@ func _on_Button_duplicate_pressed():
 	new_inst.range_max = inst.range_max
 	new_inst.multi_sample = inst.multi_sample
 
-
-
 	new_inst.wave_envelope = inst.wave_envelope.duplicate()
 	new_inst.pitch_envelope = inst.pitch_envelope.duplicate()
 	new_inst.volume_envelope = inst.volume_envelope.duplicate()
 	new_inst.noise_envelope = inst.noise_envelope.duplicate()
 	new_inst.morph_envelope = inst.morph_envelope.duplicate()
-
-
 
 	rcc.project.selected_index+=1
 	rcc.project.insert(rcc.project.selected_index, new_inst)

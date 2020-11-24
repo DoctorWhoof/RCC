@@ -138,6 +138,7 @@ config/name="RCC"
 run/main_scene="res://scenes/_main_.tscn"
 run/low_processor_mode=true
 run/low_processor_mode_sleep_usec=10000
+config/icon="res://textures/app_icon.png"
 
 [audio]
 
