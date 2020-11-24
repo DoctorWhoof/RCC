@@ -24,18 +24,16 @@ Target: 1.0 Release
 
 	[ ] BUG: pasting envelopes needs to respect min/max values
 
-	[ ] Hide Multi-sample related controls when Minimal Export Scheme is selected 
-
 	[ ] Shortcuts
 			[ ] Shortcut tool tips
 
-	[ ] Rename classes and variables called "ExportStyle" and "scheme" to "ExportScheme" and "export_scheme", including in UI for consistency
+	[X] Hide Multi-sample related controls when Minimal Export Scheme is selected 
 
 	[X] Duplicating instruments doesn't duplicate all new instrument features (i.e. export scheme)
 
 	[X] Envelope filters? Having trouble matching Quarth sounds...
 
-	[X] Amplify filter needs to clamp value
+	[X] Edit Filters need to clamp values
 
 	[X] Regenerate Auto Vibrato's Pitch envelope whenever instrument's loop points or envelope size change
 
@@ -105,7 +103,7 @@ Target: Low priority
 
 	[ ] BUG: "SCC Bass Distorted" detected loop points are wrong when exporting to baked sfz. Disabling loop for now.
 
-	[ ] Optimize sfz envelopes (remove redundant points)
+	[ ] Rename classes and variables called "ExportStyle" and "scheme" to "ExportScheme" and "export_scheme", including in UI for consistency
 
 	[ ] Allow multiple instrument selection
 		[ ] Multi instrument inspection
@@ -141,6 +139,8 @@ Target: Low priority
 		[.] Add Noise
 		[.] Volume + -
 		[.] Smooth
+
+	[X] Optimize sfz envelopes (remove redundant points)
 
 Done:
 
