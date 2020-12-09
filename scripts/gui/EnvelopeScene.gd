@@ -147,16 +147,18 @@ func _preset_selected(index:int):
 func generate_envelope(index:int):
 	var loop_in = -1
 	var loop_out = -1
+	var length = 20
 	if editor.envelope:
 		loop_in = editor.envelope.loop_in
 		loop_out = editor.envelope.loop_out
+		length = editor.envelope.length()
 	match envelope_type:
-		Role.wave: editor.envelope = EnvelopePresets.generate(index, false, 32, -127, 127, -1, -1, -1)
-		Role.volume: editor.envelope = EnvelopePresets.generate(index, false, 32, 0, 15, -1, loop_in, loop_out)
-		Role.note: editor.envelope = EnvelopePresets.generate(index, false, 32, -31, 31, -1, loop_in, loop_out)
-		Role.pitch: editor.envelope = EnvelopePresets.generate(index, false, 32, -15, 15, -1, loop_in, loop_out)
-		Role.noise: editor.envelope = EnvelopePresets.generate(index, false, 32, 0, 15, -1, loop_in, loop_out)
-		Role.morph: editor.envelope = EnvelopePresets.generate(index, false, 32, -15, 15, -1,loop_in, loop_out)
+		Role.wave: editor.envelope = EnvelopePresets.generate(index, false, length, -127, 127, -1, -1, -1)
+		Role.volume: editor.envelope = EnvelopePresets.generate(index, false, length, 0, 15, -1, loop_in, loop_out)
+		Role.note: editor.envelope = EnvelopePresets.generate(index, false, length, -31, 31, -1, loop_in, loop_out)
+		Role.pitch: editor.envelope = EnvelopePresets.generate(index, false, length, -15, 15, -1, loop_in, loop_out)
+		Role.noise: editor.envelope = EnvelopePresets.generate(index, false, length, 0, 15, -1, loop_in, loop_out)
+		Role.morph: editor.envelope = EnvelopePresets.generate(index, false, length, -15, 15, -1,loop_in, loop_out)
 
 
 func _change_min(value:float):

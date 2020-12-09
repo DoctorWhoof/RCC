@@ -344,6 +344,7 @@ func _on_Button_duplicate_pressed():
 	new_inst.multi_sample = inst.multi_sample
 
 	new_inst.wave_envelope = inst.wave_envelope.duplicate()
+	new_inst.note_envelope = inst.note_envelope.duplicate()
 	new_inst.pitch_envelope = inst.pitch_envelope.duplicate()
 	new_inst.volume_envelope = inst.volume_envelope.duplicate()
 	new_inst.noise_envelope = inst.noise_envelope.duplicate()

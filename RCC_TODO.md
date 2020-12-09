@@ -20,12 +20,19 @@ Target: 1.0 Release
 
 	[ ] Move Undo "push" and "pull" functionality into an Undo singleton, so that it's available from any editor, not just the main scene. 
 
-	[ ] BUG: pasting envelopes needs to respect min/max values
-
 	[ ] Shortcuts
 			[ ] Shortcut tool tips
 
-	[ ] Fix envelope presets generation (respect existing loop points, length, max/min values for most types of envelopes - but not all!)
+	[.] Envelope Edit: Copy and Paste
+			[?] BUG: pasting envelopes needs to respect min/max values
+				- Does it?
+
+	[.] Instrument inspector improvements:
+		[.] Add Instrument comment text box
+		[.] Add Current note and octave box at the bottom for user feedback.
+		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI?
+
+	[?] Fix envelope presets generation (respect existing loop points, length, max/min values for most types of envelopes - but not all!)
 
 	[X] App Icon
 
@@ -44,13 +51,6 @@ Target: 1.0 Release
 		- There's a Godot bug with deep-duplicating resources that's getting in the way. I could:
 			- Wait for Godot 4.0 or use project.duplicate(true) for each undo step, or
 			- Create a system to copy all project's instruments on each undo step, to be able to undo instrument moving/adding/removing.
-
-	[.] Envelope Edit: Copy and Paste
-
-	[.] Instrument inspector improvements:
-		[.] Add Instrument comment text box
-		[.] Add Current note and octave box at the bottom for user feedback.
-		[ ] Transpose note (0 to 11). Maybe use a single value internally and 	"break it" into note and octave in the UI?
 
 	[X] Add "Default Export Style" per instrument.
 		[X] Add override export style to Export Options Dialog: No override means per instrument settings, can be overridden to "baked" or "minimal".
@@ -104,8 +104,6 @@ Target: 1.1 Release
 Target: Low priority
 
 	[ ] BUG: "SCC Bass Distorted" detected loop points are wrong when exporting to baked sfz. Disabling loop for now.
-
-	[ ] Rename classes and variables called "ExportStyle" and "scheme" to "ExportScheme" and "export_scheme", including in UI for consistency
 
 	[ ] Allow multiple instrument selection
 		[ ] Multi instrument inspection
